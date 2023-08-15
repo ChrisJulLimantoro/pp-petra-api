@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Repositories{{ classDirectory }};
+
+use App\Models{{ classDirectory }}\{{ class }};
+use App\Repositories\BaseRepository;
+
+class {{ class }}Repository extends BaseRepository
+{
+    public function __construct({{ class }} $model)
+    {
+        parent::__construct($model);
+    }
+
+    /*
+        Add new repositories
+        OR
+        Override existing repository here...
+    */
+}

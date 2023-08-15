@@ -1,12 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\test;
 
+use App\Models\ModelUtils;
+use App\Repositories\test\StudentRepository;
+use App\Services\test\StudentService;
+use App\Http\Resources\test\StudentResource;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class templateModel extends Model
+
+class Student extends Model
 {
     use HasFactory;
     use HasUuids;
@@ -57,7 +62,7 @@ abstract class templateModel extends Model
 
     public function controller()
     {
-        return null;
+        return 'App\Http\Controllers\test\StudentController';
     }
 
     /**
@@ -67,7 +72,7 @@ abstract class templateModel extends Model
      */
     public function service()
     {
-        return null;
+        return new StudentService($this);
     }
 
     /**
@@ -77,7 +82,7 @@ abstract class templateModel extends Model
      */
     public function repository()
     {
-        return null;
+        return new StudentRepository($this);
     }
 
     /**
@@ -88,7 +93,7 @@ abstract class templateModel extends Model
 
     public function resource()
     {
-        return null;
+        return new StudentResource($this);
     }
 
     /**
