@@ -1,3 +1,4 @@
+# ignored
 /.phpunit.cache
 /node_modules
 /public/build
@@ -17,3 +18,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# not ignored
+!/vendor/Routing/RouteCollection.php
+!/vendor/Routing/RouteCollectionInterface.php

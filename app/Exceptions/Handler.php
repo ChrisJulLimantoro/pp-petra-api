@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use App\Utils\HttpResponse;
 
 class Handler extends ExceptionHandler
 {
@@ -12,6 +13,7 @@ class Handler extends ExceptionHandler
      *
      * @var array<int, string>
      */
+    use HttpResponse;
     protected $dontFlash = [
         'current_password',
         'password',
@@ -27,4 +29,14 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    /**
+     * Convert an authentication exception into an unauthenticated response.
+     */
+    
+    protected function unauthenticated($request, \Illuminate\Auth\AuthenticationException $exception)
+    {
+        return $this->error('Unauthenticated',401);
+    }
+
 }
