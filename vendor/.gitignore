@@ -1,5 +1,17 @@
-# gitignore for vendor 
 *
-# not ignored 
-!*/laravel
 !.gitignore
+
+
+
+!laravel/
+laravel/*
+!laravel/framework/
+laravel/framework/*
+!laravel/framework/src/
+laravel/framework/src/*
+!laravel/framework/src/Illuminate/
+laravel/framework/src/Illuminate/*
+!laravel/framework/src/Illuminate/Routing/
+laravel/framework/src/Illuminate/Routing/*
+!laravel/framework/src/Illuminate/Routing/RouteCollection.php
+!laravel/framework/src/Illuminate/Routing/RouteCollectionInterface.php
