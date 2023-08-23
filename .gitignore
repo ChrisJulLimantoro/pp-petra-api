@@ -17,8 +17,3 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-
-vendor/*
-# not ignored
-!vendor/laravel/framework/src/Illuminate/Routing/RouteCollection.php
-!vendor/laravel/framework/src/Illuminate/Routing/RouteCollectionInterface.php
