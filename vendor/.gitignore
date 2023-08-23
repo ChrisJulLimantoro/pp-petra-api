@@ -1,0 +1,5 @@
+# gitignore for vendor 
+*
+# not ignored 
+!*/laravel
+!.gitignore
