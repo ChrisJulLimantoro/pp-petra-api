@@ -20,5 +20,5 @@ yarn-error.log
 
 /vendor
 # not ignored
-!/vendor/Routing/RouteCollection.php
-!/vendor/Routing/RouteCollectionInterface.php
+!/vendor/laravel/src/Illuminate/Routing/RouteCollection.php
+!/vendor/laravel/src/Illuminate/Routing/RouteCollectionInterface.php
