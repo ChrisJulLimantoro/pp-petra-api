@@ -5,7 +5,6 @@
 /public/hot
 /public/storage
 /storage/*.key
-/vendor
 .env
 .env.backup
 .env.production
@@ -19,6 +18,7 @@ yarn-error.log
 /.idea
 /.vscode
 
+/vendor
 # not ignored
 !/vendor/Routing/RouteCollection.php
 !/vendor/Routing/RouteCollectionInterface.php
