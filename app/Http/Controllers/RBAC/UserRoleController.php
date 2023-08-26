@@ -5,16 +5,24 @@ namespace App\Http\Controllers\RBAC;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
+use App\Utils\HttpResponse;
+use App\Utils\HttpResponseCode;
+use Illuminate\Support\Facades\Validator;
 
 class UserRoleController extends Controller {
+    use HttpResponse;
     /**
      * Display a listing of the resource.
      *
-     * @param  \App\Models\User  $user
-     * @return \App\Models\User  $user
+     * @return \App\Models\UserRole  $userRole
      */
-    public function index(User $user) {
+    public function index() {
+        return UserRole::with('role','user')->get();
+    }
+
+    public function getByUser(User $user) {
         return $user->load('roles');
     }
 
@@ -26,15 +34,30 @@ class UserRoleController extends Controller {
      * @return \App\Models\User  $user
      */
     public function store(Request $request, User $user) {
-        $data = $request->validate([
-            'role_id' => 'required|integer',
+        $data = $request->only(['role_id']);
+        $validate = Validator::make($data, 
+        [
+            'role_id' => 'required|uuid',
+        ],
+        [
+            'role_id.required' => 'Role is required',
+            'role_id.uuid' => 'Role is not valid',
         ]);
-        $role = Role::find($data['role_id']);
-        if (! $user->roles()->find($data['role_id'])) {
-            $user->roles()->attach($role);
-        }
 
-        return $user->load('roles');
+        foreach ($validate->errors()->all() as $error) {
+            return $this->error($error, HttpResponseCode::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        $role = Role::find($data['role_id']);
+        if ($user->roles()->find($data['role_id'])) {
+            return $this->error('User already has this role', HttpResponseCode::HTTP_CONFLICT);
+        }
+        UserRole::create(
+            [
+                'user_id' => $user->id,
+                'role_id' => $role->id,
+            ]
+        );
+        return $this->success($user->load('roles'), HttpResponseCode::HTTP_CREATED);
     }
 
     /**
@@ -44,9 +67,18 @@ class UserRoleController extends Controller {
      * @param  \App\Models\Role  $role
      * @return \App\Models\User  $user
      */
-    public function destroy(User $user, Role $role) {
-        $user->roles()->detach($role);
+    // public function destroy(User $user, Role $role) {
+    //     $user->roles()->detach($role);
 
-        return $user->load('roles');
+    //     return $this->success($user->load('roles'), HttpResponseCode::HTTP_OK);
+    // }
+    public function destroy(UserRole $userRole) {
+        if(!$userRole){
+            return $this->error('User Role not found', HttpResponseCode::HTTP_NOT_FOUND);
+        }
+
+        $userRole->delete();
+
+        return $this->success(['message' => 'User Role Deleted!'], HttpResponseCode::HTTP_OK);
     }
 }

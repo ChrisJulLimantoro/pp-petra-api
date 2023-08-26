@@ -13,9 +13,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('role_routes', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Role::class)->constrained();
-            $table->string('routes');
+            $table->uuid('id')->primary();
+            $table->uuid('role_id');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->string('route');
+            $table->string('method');
+            $table->string('name');
+            $table->unique(['role_id', 'route', 'method']);
             $table->timestamps();
         });
     }

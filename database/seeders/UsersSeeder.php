@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -22,9 +23,11 @@ class UsersSeeder extends Seeder {
 
         $user = User::create([
             'email' => 'admin@hydra.project',
-            'password' => Hash::make('hydra'),
             'name' => 'Hydra Admin',
         ]);
-        $user->roles()->attach(Role::where('slug', 'admin')->first());
+        UserRole::create([
+            'user_id' => $user->id,
+            'role_id' => Role::where('slug', 'admin')->first()->id,
+        ]);
     }
 }
