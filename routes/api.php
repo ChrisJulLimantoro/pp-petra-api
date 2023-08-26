@@ -25,7 +25,7 @@ use App\Http\Controllers\RBAC\RoleRoutesController;
 // Route::get('hydra/version', [HydraController::class, 'version']);
 
 Route::apiResource('users', UserController::class)->except(['edit', 'create', 'store', 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::post('users', [UserController::class, 'store']);
+Route::post('users', [UserController::class, 'store'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::match(['put','post','patch'],'users/{user}', [UserController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::get('me', [UserController::class, 'me'])->middleware('auth:sanctum');
 Route::post('login', [UserController::class, 'login']);
