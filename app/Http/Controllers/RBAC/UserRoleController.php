@@ -81,4 +81,14 @@ class UserRoleController extends Controller {
 
         return $this->success(['message' => 'User Role Deleted!'], HttpResponseCode::HTTP_OK);
     }
+
+    public function unassignRole(User $user, Role $role) {
+        $unassigned = $user->roles()->detach($role->id);
+
+        if (!$unassigned) {
+            return $this->error('Role unassignment failed!', HttpResponseCode::HTTP_NOT_FOUND);
+        }
+
+        return $this->success('Role unassigned Successfully!', HttpResponseCode::HTTP_OK);
+    }
 }

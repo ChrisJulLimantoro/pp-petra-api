@@ -33,6 +33,7 @@ Route::post('login', [UserController::class, 'login']);
 Route::apiResource('roles', RoleController::class)->except(['create', 'edit'])->middleware(['auth:sanctum', 'ability:admin,super-admin,user']);
 Route::apiResource('user-roles', UserRoleController::class)->except(['create','store' ,'edit', 'show', 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::post('user-roles/{user}', [UserRoleController::class, 'store'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::delete('users/{user}/roles/{role}', [UserRoleController::class, 'unassignRole'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 // equal as Get User By Id karena udah dapet role juga dri sana
 // Route::get('user-roles/{user}', [UserRoleController::class, 'getByUser'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::apiResource('role-routes', RoleRoutesController::class)->except(['create', 'edit', 'show', 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
