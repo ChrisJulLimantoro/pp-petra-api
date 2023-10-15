@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use App\Models\ModelUtils;
-use App\Repositories\RoomRepository;
-use App\Services\RoomService;
-use App\Http\Resources\RoomResource;
+use App\Repositories\AssistantRepository;
+use App\Services\AssistantService;
+use App\Http\Resources\AssistantResource;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Room extends Model
+class Assistant extends Model
 {
     use HasFactory;
     use HasUuids;
@@ -21,7 +21,10 @@ class Room extends Model
      *
      * @var array
      */
-    protected $fillable=['name','code','capacity']; 
+    protected $fillable=[
+        'room_id',
+        'description',
+    ]; 
 
     /**
      * Rules that applied in this model
@@ -31,9 +34,8 @@ class Room extends Model
     public static function validationRules()
     {
         return [
-            'name' => 'required',
-            'code' => 'required',
-            'capacity' => 'required|numeric',
+            'room_id' => 'uuid|exists:rooms,id',
+            'description' => 'required|string',
         ];
     }
 
@@ -45,10 +47,10 @@ class Room extends Model
     public static function validationMessages()
     {
         return [
-            'name.required' => 'room name is required!',
-            'code.required' => 'room code is required!',
-            'capacity.required' => 'room capacity is required!',
-            'capacity.numeric' => 'room capacity must be a number!',
+            'room_id.uuid' => 'Room must be uuid!',
+            'room_id.exists' => 'Room must be exists!',
+            'description.required' => 'Description is required!',
+            'description.string' => 'Description must be string!',
         ];
     }
 
@@ -60,9 +62,8 @@ class Room extends Model
     public function resourceData($request)
     {
         return ModelUtils::filterNullValues([
-            'name' => $request['name'],
-            'code' => $request['code'],
-            'capacity' => $request['capacity'],
+            'room_id' => $request->room_id,
+            'description' => $request->description,
         ]);
     }
 
@@ -75,7 +76,7 @@ class Room extends Model
 
     public function controller()
     {
-        return 'App\Http\Controllers\RoomController';
+        return 'App\Http\Controllers\AssistantController';
     }
 
     /**
@@ -85,7 +86,7 @@ class Room extends Model
      */
     public function service()
     {
-        return new RoomService($this);
+        return new AssistantService($this);
     }
 
     /**
@@ -95,7 +96,7 @@ class Room extends Model
      */
     public function repository()
     {
-        return new RoomRepository($this);
+        return new AssistantRepository($this);
     }
 
     /**
@@ -106,7 +107,7 @@ class Room extends Model
 
     public function resource()
     {
-        return new RoomResource($this);
+        return new AssistantResource($this);
     }
 
     /**
@@ -116,16 +117,12 @@ class Room extends Model
     */
     public function relations()
     {
-        return ['practicums','assistants'];
+        return ['room'];
     }
 
-    public function practicums()
+    public function room()
     {
-        return $this->hasMany(Practicum::class,'room_id','id');
+        return $this->belongsTo(Room::class,'room_id','id');
     }
 
-    public function assistants()
-    {
-        return $this->hasMany(Assistant::class,'room_id','id');
-    }
 }

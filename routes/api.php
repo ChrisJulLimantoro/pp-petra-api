@@ -55,3 +55,7 @@ Route::apiResource('practicums', PracticumController::class)->except(['create', 
 Route::put('practicums/{practicum}', [PracticumController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('practicums/{practicum}', [PracticumController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 
+// Assistants
+Route::apiResource('assistants', AssistantController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::put('assistants/{assistant}', [AssistantController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::patch('assistants/{assistant}', [AssistantController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
