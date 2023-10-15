@@ -64,3 +64,10 @@ Route::patch('assistants/{assistant}', [AssistantController::class, 'updateParti
 Route::apiResource('assistant-practicums', AssistantPracticumController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::put('assistant-practicums/{assistant_practicum}', [AssistantPracticumController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('assistant-practicums/{assistant_practicum}', [AssistantPracticumController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+
+// Students
+Route::apiResource('students', StudentController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::put('students/{student}', [StudentController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::patch('students/{student}', [StudentController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+
+// Student Practicums

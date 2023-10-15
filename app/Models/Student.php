@@ -21,7 +21,13 @@ class Student extends Model
      *
      * @var array
      */
-    protected $fillable; 
+    protected $fillable=[
+        'program',
+        'semester',
+        'prs',
+        'ipk',
+        'ips'
+    ]; 
 
     /**
      * Rules that applied in this model
@@ -30,7 +36,13 @@ class Student extends Model
      */
     public static function validationRules()
     {
-        return [];
+        return [
+            'program' => 'required|string',
+            'semester' => 'required|integer',
+            'prs' => 'required|json',
+            'ipk' => 'required|integer',
+            'ips' => 'required|integer',
+        ];
     }
 
     /**
@@ -40,7 +52,18 @@ class Student extends Model
      */
     public static function validationMessages()
     {
-        return [];
+        return [
+            'program.required' => 'Program is required!',
+            'program.string' => 'Program must be string!',
+            'semester.required' => 'Semester is required!',
+            'semester.integer' => 'Semester must be integer!',
+            'prs.required' => 'Prs is required!',
+            'prs.json' => 'Prs must be json!',
+            'ipk.required' => 'Ipk is required!',
+            'ipk.integer' => 'Ipk must be integer!',
+            'ips.required' => 'Ips is required!',
+            'ips.integer' => 'Ips must be integer!',
+        ];
     }
 
     /**
@@ -50,7 +73,13 @@ class Student extends Model
      */
     public function resourceData($request)
     {
-        return ModelUtils::filterNullValues([]);
+        return ModelUtils::filterNullValues([
+            'program' => $request['program'],
+            'semester' => $request['semester'],
+            'prs' => $request['prs'],
+            'ipk' => $request['ipk'],
+            'ips' => $request['ips'],
+        ]);
     }
 
 
@@ -103,7 +132,11 @@ class Student extends Model
     */
     public function relations()
     {
-        return [];
+        return ['user'];
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

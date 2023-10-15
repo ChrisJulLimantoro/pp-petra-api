@@ -117,7 +117,7 @@ class Assistant extends Model
     */
     public function relations()
     {
-        return ['room'];
+        return ['room','user'];
     }
 
     public function room()
@@ -125,4 +125,8 @@ class Assistant extends Model
         return $this->belongsTo(Room::class,'room_id','id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 }
