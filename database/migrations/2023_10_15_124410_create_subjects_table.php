@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('sks');
             $table->integer('semester');
             $table->integer('duration');
+            $table->string('program');
             $table->timestamps();
             $table->softDeletes();
         });

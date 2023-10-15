@@ -43,6 +43,7 @@ class Subject extends Model
             'sks' => 'required|integer',
             'semester' => 'required|integer',
             'duration' => 'required|integer',
+            'program' => 'required|string',
         ];
     }
 
@@ -65,6 +66,8 @@ class Subject extends Model
             'semester.integer' => 'Semester must be integer!',
             'duration.required' => 'Duration is required!',
             'duration.integer' => 'Duration must be integer!',
+            'program.required' => 'Program is required!',
+            'program.string' => 'Program must be string!',
         ];
     }
 
@@ -81,6 +84,7 @@ class Subject extends Model
             'sks' => $request['sks'],
             'semester' => $request['semester'],
             'duration' => $request['duration'],
+            'program' => $request['program'],
         ]);
     }
 
