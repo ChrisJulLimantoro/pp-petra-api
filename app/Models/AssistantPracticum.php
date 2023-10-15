@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Assistant;
 use App\Models\ModelUtils;
+use App\Models\Practicum;
 use App\Repositories\AssistantPracticumRepository;
 use App\Services\AssistantPracticumService;
 use App\Http\Resources\AssistantPracticumResource;

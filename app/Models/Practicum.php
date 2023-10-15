@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\AssistantPracticum;
 use App\Models\ModelUtils;
+use App\Models\Room;
+use App\Models\StudentPracticum;
+use App\Models\Subject;
 use App\Repositories\PracticumRepository;
 use App\Services\PracticumService;
 use App\Http\Resources\PracticumResource;
@@ -135,7 +139,7 @@ class Practicum extends Model
     */
     public function relations()
     {
-        return ['subject', 'room'];
+        return ['subject', 'room','assistantPracticum','studentPracticum'];
     }
 
     public function subject()
@@ -147,4 +151,13 @@ class Practicum extends Model
         return $this->belongsTo(Room::class,'room_id','id');
     }
 
+    public function assistantPracticum()
+    {
+        return $this->hasMany(AssistantPracticum::class,'practicum_id','id');
+    }
+
+    public function studentPracticum()
+    {
+        return $this->hasMany(StudentPracticum::class,'practicum_id','id');
+    }
 }

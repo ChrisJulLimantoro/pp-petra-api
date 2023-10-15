@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\AssistantPracticum;
 use App\Models\ModelUtils;
+use App\Models\Room;
+use App\Models\User;
 use App\Repositories\AssistantRepository;
 use App\Services\AssistantService;
 use App\Http\Resources\AssistantResource;
@@ -117,7 +120,7 @@ class Assistant extends Model
     */
     public function relations()
     {
-        return ['room','user'];
+        return ['room','user','assistant_practicum'];
     }
 
     public function room()
@@ -128,5 +131,10 @@ class Assistant extends Model
     public function user()
     {
         return $this->belongsTo(User::class,'user_id','id');
+    }
+
+    public function assistant_practicum()
+    {
+        return $this->hasMany(AssistantPracticum::class,'assistant_id','id');
     }
 }

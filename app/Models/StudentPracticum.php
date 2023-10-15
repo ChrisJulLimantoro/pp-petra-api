@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\ModelUtils;
+use App\Models\Practicum;
+use App\Models\Student;
 use App\Repositories\StudentPracticumRepository;
 use App\Services\StudentPracticumService;
 use App\Http\Resources\StudentPracticumResource;
@@ -139,12 +141,12 @@ class StudentPracticum extends Model
 
     public function student()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Student::class,'student_id','id');
     }
 
     public function practicum()
     {
-        return $this->belongsTo(Practicum::class);
+        return $this->belongsTo(Practicum::class,'practicum_id','id');
     }
 
 }

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Assistant;
 use App\Models\ModelUtils;
+use App\Models\Practicum;
 use App\Repositories\RoomRepository;
 use App\Services\RoomService;
 use App\Http\Resources\RoomResource;

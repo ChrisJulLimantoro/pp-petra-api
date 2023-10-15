@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\ModelUtils;
+use App\Models\StudentPracticum;
+use App\Models\User;
 use App\Repositories\StudentRepository;
 use App\Services\StudentService;
 use App\Http\Resources\StudentResource;
@@ -132,11 +134,16 @@ class Student extends Model
     */
     public function relations()
     {
-        return ['user'];
+        return ['user','student_practicums'];
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+    
+    public function practicums()
+    {
+        return $this->hasMany(StudentPracticum::class,'student_id','id');
     }
 }

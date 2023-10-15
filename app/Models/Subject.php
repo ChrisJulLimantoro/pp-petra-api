@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\ModelUtils;
+use App\Models\Practicum;
 use App\Repositories\SubjectRepository;
 use App\Services\SubjectService;
 use App\Http\Resources\SubjectResource;
@@ -133,7 +134,12 @@ class Subject extends Model
     */
     public function relations()
     {
-        return [];
+        return ['practicums'];
+    }
+
+    public function practicums()
+    {
+        return $this->hasMany(Practicum::class,'subject_id','id');
     }
 
 }
