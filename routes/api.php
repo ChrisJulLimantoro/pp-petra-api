@@ -6,6 +6,7 @@ use App\Http\Controllers\RBAC\RoleController;
 use App\Http\Controllers\RBAC\UserController;
 use App\Http\Controllers\RBAC\UserRoleController;
 use App\Http\Controllers\RBAC\RoleRoutesController;
+use App\Http\Controllers\RoomController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,6 +39,13 @@ Route::delete('users/{user}/roles/{role}', [UserRoleController::class, 'unassign
 // Route::get('user-roles/{user}', [UserRoleController::class, 'getByUser'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::apiResource('role-routes', RoleRoutesController::class)->except(['create', 'edit', 'show', 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::match(['put','post','patch'],'role-routes/{role_route}', [RoleRoutesController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::get('test', function(){
-    return response()->json(['message' => 'Hello World!'], 200);
-})->middleware(['auth:sanctum', 'ability:admin']);
+
+// Rooms
+Route::apiResource('rooms', RoomController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::put('rooms/{room}', [RoomController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::patch('rooms/{room}', [RoomController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+
+// Subjects
+Route::apiResource('subjects', SubjectController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::put('subjects/{subject}', [SubjectController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::patch('subjects/{subject}', [SubjectController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
