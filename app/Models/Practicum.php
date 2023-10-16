@@ -31,6 +31,8 @@ class Practicum extends Model
         'quota',
         'subject_id',
         'room_id',
+        'day',
+        'time'
     ]; 
 
     /**
@@ -46,6 +48,8 @@ class Practicum extends Model
             'quota' => 'required|integer',
             'subject_id' => 'required|uuid|exists:subjects,id',
             'room_id' => 'required|uuid|exists:rooms,id',
+            'day' => 'required|integer',
+            'time' => 'required|integer',
         ];
     }
 
@@ -70,6 +74,10 @@ class Practicum extends Model
             'room_id.required' => 'Room is required!',
             'room_id.uuid' => 'Room must be uuid!',
             'room_id.exists' => 'Room not found!',
+            'day.required' => 'Day is required!',
+            'day.integer' => 'Day must be integer!',
+            'time.required' => 'Time is required!',
+            'time.integer' => 'Time must be integer!',
         ];
     }
 
@@ -86,6 +94,8 @@ class Practicum extends Model
             'quota' => $request['quota'],
             'subject_id' => $request['subject_id'],
             'room_id' => $request['room_id'],
+            'day' => $request['day'],
+            'time' => $request['time'],
         ]);
     }
 

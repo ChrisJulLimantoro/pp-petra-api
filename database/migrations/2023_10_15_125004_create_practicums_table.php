@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('code');
             $table->integer('quota');
+            $table->integer('day');
+            $table->integer('time');
             $table->timestamps();
             $table->softDeletes();
 
