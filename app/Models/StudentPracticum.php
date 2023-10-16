@@ -27,6 +27,7 @@ class StudentPracticum extends Model
         'student_id',
         'practicum_id',
         'attempt',
+        'choice',
         'accepted',
         'rejected_reason',
     ]; 
@@ -42,6 +43,7 @@ class StudentPracticum extends Model
             'student_id' => 'required|uuid|exists:students,id',
             'practicum_id' => 'required|uuid|exists:practicums,id',
             'attempt' => 'required|integer',
+            'choice' => 'required|integer',
             'accepted' => 'required|integer|in:0,1,2',
             'rejected_reason' => 'string',
         ];
@@ -63,6 +65,8 @@ class StudentPracticum extends Model
             'practicum_id.exists' => 'Practicum must be exists!',
             'attempt.required' => 'Attempt is required!',
             'attempt.integer' => 'Attempt must be integer!',
+            'choice.required' => 'Choice is required!',
+            'choice.integer' => 'Choice must be integer!',
             'accepted.required' => 'Accepted is required!',
             'accepted.integer' => 'Accepted must be integer!',
             'accepted.in' => 'Accepted must be 0, 1, or 2!',
@@ -81,6 +85,7 @@ class StudentPracticum extends Model
             'student_id' => $request['student_id'],
             'practicum_id' => $request['practicum_id'],
             'attempt' => $request['attempt'],
+            'choice' => $request['choice'],
             'accepted' => $request['accepted'],
             'rejected_reason' => $request['rejected_reason'],
         ]);

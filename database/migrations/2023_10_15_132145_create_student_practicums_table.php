@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('student_id');
             $table->uuid('practicum_id');
             $table->integer('attempt');
+            $table->integer('choice')->comment('choice of practicum class');
             $table->integer('accepted')->default(0)->comment('0: waiting, 1: accepted, 2: rejected');
             $table->string('rejected_reason')->nullable();
             $table->timestamps();

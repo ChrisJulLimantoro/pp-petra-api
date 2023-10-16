@@ -20,6 +20,13 @@ class Assistant extends Model
     use HasUuids;
 
     /**
+     * The attributes of primary key
+     * 
+     * @var string
+     */
+    protected $primaryKey = 'user_id';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
