@@ -101,6 +101,7 @@ class UserController extends Controller {
         return $this->success([
             'token' => $plainTextToken,
             'id' => $user->id,
+            'email' => $user->email
         ], HttpResponseCode::HTTP_OK);
     }
 
