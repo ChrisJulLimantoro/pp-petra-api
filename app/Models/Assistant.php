@@ -32,6 +32,7 @@ class Assistant extends Model
      * @var array
      */
     protected $fillable=[
+        'user_id',
         'room_id',
         'description',
     ]; 
@@ -44,8 +45,9 @@ class Assistant extends Model
     public static function validationRules()
     {
         return [
+            'user_id' => 'required|uuid|exists:users,id|unique:assistants,user_id',
             'room_id' => 'uuid|exists:rooms,id',
-            'description' => 'required|string',
+            'description' => 'string',
         ];
     }
 
@@ -57,9 +59,12 @@ class Assistant extends Model
     public static function validationMessages()
     {
         return [
+            'user_id.required' => 'User must be filled!',
+            'user_id.uuid' => 'User must be uuid!',
+            'user_id.exists' => 'User must be exists!',
+            'user_id.unique' => 'User already exists as assistant!',
             'room_id.uuid' => 'Room must be uuid!',
             'room_id.exists' => 'Room must be exists!',
-            'description.required' => 'Description is required!',
             'description.string' => 'Description must be string!',
         ];
     }
@@ -72,6 +77,7 @@ class Assistant extends Model
     public function resourceData($request)
     {
         return ModelUtils::filterNullValues([
+            'user_id' => $request->user_id,
             'room_id' => $request->room_id,
             'description' => $request->description,
         ]);

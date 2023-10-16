@@ -31,6 +31,7 @@ class Student extends Model
      * @var array
      */
     protected $fillable=[
+        'user_id',
         'program',
         'semester',
         'prs',
@@ -46,6 +47,7 @@ class Student extends Model
     public static function validationRules()
     {
         return [
+            'user_id' => 'required|uuid|exists:users,id|unique:students,user_id', // 'unique:students,user_id' means that the user_id must be unique in students table
             'program' => 'required|string',
             'semester' => 'required|integer',
             'prs' => 'required|json',
@@ -62,6 +64,10 @@ class Student extends Model
     public static function validationMessages()
     {
         return [
+            'user_id.required' => 'User must be filled!',
+            'user_id.uuid' => 'User must be uuid!',
+            'user_id.exists' => 'User must be exists!',
+            'user_id.unique' => 'User already exists as student!',
             'program.required' => 'Program is required!',
             'program.string' => 'Program must be string!',
             'semester.required' => 'Semester is required!',
@@ -83,6 +89,7 @@ class Student extends Model
     public function resourceData($request)
     {
         return ModelUtils::filterNullValues([
+            'user_id' => $request['user_id'],
             'program' => $request['program'],
             'semester' => $request['semester'],
             'prs' => $request['prs'],
