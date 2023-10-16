@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->uuid('user_id')->primary();
-            $table->string('program');
+            $table->string('program')->comment('i=>infor,s=>sib,d=>dsa');
             $table->string('semester');
             $table->json('prs');
             $table->decimal('ipk');

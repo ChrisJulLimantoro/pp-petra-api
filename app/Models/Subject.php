@@ -39,7 +39,7 @@ class Subject extends Model
     {
         return [
             'name' => 'required|string',
-            'code' => 'required|string|max:8',
+            'code' => 'required|string|max:8|unique:subjects,code',
             'sks' => 'required|integer',
             'semester' => 'required|integer',
             'duration' => 'required|integer',
@@ -60,6 +60,7 @@ class Subject extends Model
             'code.required' => 'Code is required!',
             'code.string' => 'Code must be string!',
             'code.max' => 'Code must be max 8 characters!',
+            'code.unique' => 'Code must be unique!',
             'sks.required' => 'Sks is required!',
             'sks.integer' => 'Sks must be integer!',
             'semester.required' => 'Semester is required!',

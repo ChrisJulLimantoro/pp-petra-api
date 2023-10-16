@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name', 100);
-            $table->string('code', 10);
+            $table->string('code', 10)->unique();
             $table->integer('sks');
             $table->integer('semester');
             $table->integer('duration');
-            $table->string('program');
+            $table->string('program')->comment('i=>infor,s=>sib,d=>dsa if the program is for all so it will be write isd');
             $table->timestamps();
             $table->softDeletes();
         });
