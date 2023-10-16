@@ -126,7 +126,7 @@ class AssistantPracticum extends Model
 
     public function assistant()
     {
-        return $this->belongsTo(Assistant::class,'assistant_id','id');
+        return $this->belongsTo(Assistant::class,'assistant_id','user_id');
     }
 
     public function practicum()
