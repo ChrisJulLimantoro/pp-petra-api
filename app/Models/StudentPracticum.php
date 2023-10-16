@@ -44,7 +44,7 @@ class StudentPracticum extends Model
             'practicum_id' => 'required|uuid|exists:practicums,id',
             'attempt' => 'required|integer',
             'choice' => 'required|integer',
-            'accepted' => 'required|integer|in:0,1,2',
+            'accepted' => 'integer|in:0,1,2',
             'rejected_reason' => 'string',
         ];
     }
