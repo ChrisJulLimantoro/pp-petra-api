@@ -40,7 +40,7 @@ class StudentPracticum extends Model
     public static function validationRules()
     {
         return [
-            'student_id' => 'required|uuid|exists:students,id',
+            'student_id' => 'required|uuid|exists:students,user_id',
             'practicum_id' => 'required|uuid|exists:practicums,id',
             'attempt' => 'required|integer',
             'choice' => 'required|integer',

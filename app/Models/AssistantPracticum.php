@@ -36,7 +36,7 @@ class AssistantPracticum extends Model
     public static function validationRules()
     {
         return [
-            'assistant_id' => 'required|uuid|exists:assistants,id',
+            'assistant_id' => 'required|uuid|exists:assistants,user_id',
             'practicum_id' => 'required|uuid|exists:practicums,id',
         ];
     }
