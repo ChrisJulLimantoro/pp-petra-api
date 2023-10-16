@@ -28,6 +28,7 @@ class Subject extends Model
         'sks',
         'semester',
         'duration',
+        'program'
     ]; 
 
     /**
