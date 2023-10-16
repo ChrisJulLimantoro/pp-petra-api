@@ -148,7 +148,7 @@ class Student extends Model
     */
     public function relations()
     {
-        return ['user','student_practicums'];
+        return ['user','practicums'];
     }
 
     public function user()
