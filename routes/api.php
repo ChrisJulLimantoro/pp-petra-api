@@ -1,6 +1,11 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\AssistantController;
+use App\Http\Controllers\AssistantPracticumController;
+use App\Http\Controllers\PracticumController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentPracticumController;
+use App\Http\Controllers\SubjectController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RBAC\RoleController;
 use App\Http\Controllers\RBAC\UserController;
