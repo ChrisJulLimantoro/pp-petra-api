@@ -50,9 +50,9 @@ class Student extends Model
             'user_id' => 'required|uuid|exists:users,id|unique:students,user_id', // 'unique:students,user_id' means that the user_id must be unique in students table
             'program' => 'required|string',
             'semester' => 'required|integer',
-            'prs' => 'required|json',
-            'ipk' => 'required|numeric',
-            'ips' => 'required|numeric',
+            'prs' => 'json',
+            'ipk' => 'numeric',
+            'ips' => 'numeric',
         ];
     }
 
@@ -72,11 +72,8 @@ class Student extends Model
             'program.string' => 'Program must be string!',
             'semester.required' => 'Semester is required!',
             'semester.integer' => 'Semester must be integer!',
-            'prs.required' => 'Prs is required!',
             'prs.json' => 'Prs must be json!',
-            'ipk.required' => 'Ipk is required!',
             'ipk.numeric' => 'Ipk must be numeric!',
-            'ips.required' => 'Ips is required!',
             'ips.numeric' => 'Ips must be numeric!',
         ];
     }

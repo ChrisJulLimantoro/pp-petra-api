@@ -15,9 +15,9 @@ return new class extends Migration
             $table->uuid('user_id')->primary();
             $table->string('program')->comment('i=>infor,s=>sib,d=>dsa');
             $table->string('semester');
-            $table->json('prs');
-            $table->decimal('ipk');
-            $table->decimal('ips');
+            $table->json('prs')->nullable();
+            $table->decimal('ipk')->default(0);
+            $table->decimal('ips')->default(0);
             $table->timestamps();
             $table->softDeletes();
 
