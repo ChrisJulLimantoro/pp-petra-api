@@ -51,8 +51,8 @@ class Student extends Model
             'program' => 'required|string',
             'semester' => 'required|integer',
             'prs' => 'required|json',
-            'ipk' => 'required|integer',
-            'ips' => 'required|integer',
+            'ipk' => 'required|numeric',
+            'ips' => 'required|numeric',
         ];
     }
 
@@ -75,9 +75,9 @@ class Student extends Model
             'prs.required' => 'Prs is required!',
             'prs.json' => 'Prs must be json!',
             'ipk.required' => 'Ipk is required!',
-            'ipk.integer' => 'Ipk must be integer!',
+            'ipk.numeric' => 'Ipk must be numeric!',
             'ips.required' => 'Ips is required!',
-            'ips.integer' => 'Ips must be integer!',
+            'ips.numeric' => 'Ips must be numeric!',
         ];
     }
 
