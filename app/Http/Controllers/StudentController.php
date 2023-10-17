@@ -17,4 +17,9 @@ class StudentController extends BaseController
         OR
         Override existing controller here...
     */
+    public function getAvailableSchedule($id)
+    {
+        $data = $this->service->getAvailableSchedule($id);
+        return $this->success($data);
+    }
 }

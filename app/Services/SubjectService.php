@@ -17,4 +17,13 @@ class SubjectService extends BaseService
         OR
         Override existing service here...
     */
+
+    public function getCodes()
+    {
+        return $this->repository->getCodes();
+    }
+    public function getPracticumByCode($code)
+    {
+        return $this->repository->getPracticumByCode($code);
+    }
 }

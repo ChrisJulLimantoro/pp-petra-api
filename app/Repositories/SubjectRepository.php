@@ -17,4 +17,22 @@ class SubjectRepository extends BaseRepository
         OR
         Override existing repository here...
     */
+
+    public function getCodes()
+    {
+        return $this->model->all()->pluck('code')->toArray();
+    }
+    public function getPracticumByCode($code)
+    {
+        $subject = $this->model->load('practicums')->where('code', $code)->first();
+        $practicums = $subject->practicums->toArray();
+        $prac = [];
+        foreach($practicums as $p){
+            $arr= [];
+            $arr = $p;
+            $arr['duration'] = $subject->duration;
+            $prac[] = $arr;
+        }
+        return $prac;
+    }
 }
