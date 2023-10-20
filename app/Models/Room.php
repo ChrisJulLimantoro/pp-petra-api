@@ -34,7 +34,7 @@ class Room extends Model
     {
         return [
             'name' => 'required',
-            'code' => 'required|unique:rooms,code',
+            'code' => 'required|unique:rooms,code|exclue:rooms,code',
             'capacity' => 'required|numeric',
         ];
     }
