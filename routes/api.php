@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AssistantController;
 use App\Http\Controllers\AssistantPracticumController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\PracticumController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentPracticumController;
@@ -80,3 +81,8 @@ Route::get('students/{student}/available-schedules',[StudentController::class, '
 Route::apiResource('student-practicums', StudentPracticumController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::put('student-practicums/{student_practicum}', [StudentPracticumController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('student-practicums/{student_practicum}', [StudentPracticumController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+
+// Events
+Route::apiResource('events', EventController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::put('events/{event}', [EventController::class,'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::patch('events/{event}',[EventController::class,'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);

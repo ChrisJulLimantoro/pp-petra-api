@@ -45,7 +45,7 @@ class Practicum extends Model
         return [
             'code' => 'required|string|max:8',
             'name' => 'required|string',
-            'quota' => 'required|integer',
+            'quota' => 'required|integer|quota_within_capacity:room_id',
             'subject_id' => 'required|uuid|exists:subjects,id',
             'room_id' => 'required|uuid|exists:rooms,id',
             'day' => 'required|integer',
@@ -68,6 +68,7 @@ class Practicum extends Model
             'name.string' => 'Name must be string!',
             'quota.required' => 'Quota is required!',
             'quota.integer' => 'Quota must be integer!',
+            'quota.quota_within_capacity' => 'Quota must be within capacity of the room!',
             'subject_id.required' => 'Subject is required!',
             'subject_id.uuid' => 'Subject must be uuid!',
             'subject_id.exists' => 'Subject not found!',

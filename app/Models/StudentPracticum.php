@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Event;
 use App\Models\ModelUtils;
 use App\Models\Practicum;
 use App\Models\Student;
@@ -42,7 +43,7 @@ class StudentPracticum extends Model
         return [
             'student_id' => 'required|uuid|exists:students,user_id',
             'practicum_id' => 'required|uuid|exists:practicums,id',
-            'attempt' => 'required|integer',
+            'event_id' => 'required|uuid|exists:events,id',
             'choice' => 'required|integer',
             'accepted' => 'integer|in:0,1,2',
             'rejected_reason' => 'string',
@@ -84,7 +85,7 @@ class StudentPracticum extends Model
         return ModelUtils::filterNullValues([
             'student_id' => $request['student_id'],
             'practicum_id' => $request['practicum_id'],
-            'attempt' => $request['attempt'],
+            'event' => $request['event'],
             'choice' => $request['choice'],
             'accepted' => $request['accepted'],
             'rejected_reason' => $request['rejected_reason'],
@@ -141,7 +142,7 @@ class StudentPracticum extends Model
     */
     public function relations()
     {
-        return ['student','practicum'];
+        return ['student','practicum','event'];
     }
 
     public function student()
@@ -152,6 +153,10 @@ class StudentPracticum extends Model
     public function practicum()
     {
         return $this->belongsTo(Practicum::class,'practicum_id','id');
+    }
+    public function event()
+    {
+        return $this->belongsTo(Event::class,'event_id','id');
     }
 
 }
