@@ -22,7 +22,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Validator::extend('quota_within_capacity',function($attribute,$value,$parameters, $validator) {
-            $room = Room::find($parameters[0]);
+            $roomId = data_get($validator->getData(), $parameters[0]);
+            $room = Room::find($roomId);
 
             return $room && $value <= $room->capacity;
         });
