@@ -18,8 +18,8 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('assistant_id')->references('user_id')->on('assistants');
-            $table->foreign('practicum_id')->references('id')->on('practicums');
+            $table->foreign('assistant_id')->references('user_id')->on('assistants')->onDelete('cascade');
+            $table->foreign('practicum_id')->references('id')->on('practicums')->onDelete('cascade');
         });
     }
 
