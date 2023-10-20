@@ -36,8 +36,8 @@ class RoleController extends Controller {
             'name.required' => 'Name is required',
             'slug.required' => 'Slug is required',
         ]);
-        foreach ($validate->errors()->all() as $error) {
-            return $this->error($error, HttpResponseCode::HTTP_UNPROCESSABLE_ENTITY);
+        if ($validate->fails()) {
+            return $this->error($validate->errors(), HttpResponseCode::HTTP_UNPROCESSABLE_ENTITY);
         }
         $existing = Role::where('slug', $data['slug'])->first();
 
