@@ -20,13 +20,11 @@ class BaseRepository
 
     public function getAll($filterParams = [])
     {
-        $this->model = $this->model->with($this->model->relations());
-
         if (!empty($filterParams)) {
-            $this->model = $this->model->where($filterParams);
+            return $this->model->with($this->model->relations())->where($filterParams)->get();
         }
 
-        return $this->model->get();
+        return $this->model->with($this->model->relations())->get();
     }
 
     public function getAllWithPagination($count, $filterParams = [])
@@ -86,9 +84,7 @@ class BaseRepository
 
     public function getById($id)
     {
-        $this->model = $this->model->with($this->model->relations());
-
-        return $this->model->findOrfail($id);
+        return $this->model->with($this->model->relations())->findOrfail($id);
     }
 
     public function create($data)

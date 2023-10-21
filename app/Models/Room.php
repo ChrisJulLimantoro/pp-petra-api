@@ -11,6 +11,7 @@ use App\Http\Resources\RoomResource;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 
 
 class Room extends Model
@@ -34,7 +35,7 @@ class Room extends Model
     {
         return [
             'name' => 'required',
-            'code' => 'required|unique:rooms,code|exclue:rooms,code',
+            'code' => 'required|unique:rooms,code',
             'capacity' => 'required|numeric',
         ];
     }

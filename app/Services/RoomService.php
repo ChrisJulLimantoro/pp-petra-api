@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Room;
+use App\Repositories\RoomRepository;
 use App\Services\BaseService;
 
 class RoomService extends BaseService
@@ -17,4 +18,12 @@ class RoomService extends BaseService
         OR
         Override existing service here...
     */
+
+    public function cekCode($code,$id)
+    {
+        // dd($code,$id);
+        $room = $this->repository->getById($id)->toArray();
+        
+        return $room['code'] == $code;
+    }
 }
