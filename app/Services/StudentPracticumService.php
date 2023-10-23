@@ -17,4 +17,9 @@ class StudentPracticumService extends BaseService
         OR
         Override existing service here...
     */
+
+    public function getByStudentId($student_id)
+    {
+        return $this->repository->getByStudentId($student_id)->toArray();
+    }
 }
