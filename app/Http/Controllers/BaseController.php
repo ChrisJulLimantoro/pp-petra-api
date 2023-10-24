@@ -114,7 +114,7 @@ class BaseController extends Controller
 
         return $this->success(
             null,
-            HttpResponseCode::HTTP_NO_CONTENT
+            200
         );
     }
 }
