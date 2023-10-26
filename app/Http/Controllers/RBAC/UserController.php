@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\RBAC;
 
 use App\Http\Controllers\Controller;
+use App\Models\Event;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserRole;
@@ -10,11 +11,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\Exceptions\MissingAbilityException;
+use App\Services\EventService;
 use App\Utils\HttpResponse;
 use App\Utils\HttpResponseCode;
 
 class UserController extends Controller {
     use HttpResponse;
+
+    private $eventService;
+    public function __construct()
+    {
+        $this->eventService = new EventService(new Event());
+    }
 
     /**
      * Display a listing of the resource.
@@ -98,10 +106,15 @@ class UserController extends Controller {
 
         $plainTextToken = $user->createToken('hydra-api-token', $roles)->plainTextToken;
 
+        // Get active event for the user
+        $event = $this->eventService->getActiveEvent();
+
         return $this->success([
             'token' => $plainTextToken,
             'id' => $user->id,
-            'email' => $user->email
+            'email' => $user->email,
+            'event_id' => $event->id,
+            'event_name' => $event->name
         ], HttpResponseCode::HTTP_OK);
     }
 

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Event;
 use App\Services\BaseService;
+use Illuminate\Support\Carbon;
 
 class EventService extends BaseService
 {
@@ -17,4 +18,16 @@ class EventService extends BaseService
         OR
         Override existing service here...
     */
+
+    public function getActiveEvent()
+    {
+        $events = $this->repository->getActiveEvent();
+        $time = Carbon::now();
+        $time->toString();
+        foreach ($events as $e){
+            if(Carbon::createFromFormat('Y-m-d',$e->start_date)->isPast()){
+                return $e;
+            }
+        }
+    }
 }

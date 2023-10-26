@@ -17,4 +17,9 @@ class EventRepository extends BaseRepository
         OR
         Override existing repository here...
     */
+
+    public function getActiveEvent()
+    {
+        return $this->model->where('status',1)->orderBy('start_date')->get();
+    }
 }
