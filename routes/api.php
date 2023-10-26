@@ -50,6 +50,7 @@ Route::match(['put','post','patch'],'role-routes/{role_route}', [RoleRoutesContr
 Route::apiResource('rooms', RoomController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::put('rooms/{room}', [RoomController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('rooms/{room}', [RoomController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::get('rooms-practicums',[RoomController::class,'getPracticum'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 
 // Subjects
 Route::apiResource('subjects', SubjectController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);

@@ -28,6 +28,13 @@ class Event extends Model
         'end_date',
     ]; 
 
+        /**
+     * The attributes that should be hidden for arrays.
+     * 
+     * @var array
+     */
+    protected $hidden = ['created_at','updated_at','deleted_at'];
+
     /**
      * Rules that applied in this model
      *

@@ -40,4 +40,8 @@ class RoomController extends BaseController
 
         return $this->success($res);
     }
+
+    public function getPracticum(){
+        return $this->service->getPracticum();
+    }
 }

@@ -40,6 +40,13 @@ class Student extends Model
     ]; 
 
     /**
+     * The attributes that should be hidden for arrays.
+     * 
+     * @var array
+     */
+    protected $hidden = ['created_at','updated_at','deleted_at'];
+
+    /**
      * Rules that applied in this model
      *
      * @var array

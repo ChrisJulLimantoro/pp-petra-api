@@ -26,4 +26,9 @@ class RoomService extends BaseService
         
         return $room['code'] == $code;
     }
+
+    public function getPracticum()
+    {
+        return $this->repository->getPracticum();
+    }
 }
