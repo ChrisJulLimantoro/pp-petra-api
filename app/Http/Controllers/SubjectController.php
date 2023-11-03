@@ -17,4 +17,7 @@ class SubjectController extends BaseController
         OR
         Override existing controller here...
     */
+    public function getCondition(){
+        return $this->success($this->service->getCondition());
+    }
 }

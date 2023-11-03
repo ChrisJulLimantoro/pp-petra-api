@@ -119,4 +119,11 @@ class BaseRepository
     {
         $model->delete();
     }
+
+    public function getSelectedColumn($columns = ['*'],$condition = []){
+        if($condition != []){
+            return $this->model->setEagerLoads($columns)->where($condition)->get();
+        }
+        return $this->model->select($columns)->get();
+    }
 }

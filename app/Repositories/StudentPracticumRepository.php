@@ -33,4 +33,12 @@ class StudentPracticumRepository extends BaseRepository
         ->pluck('practicum.subject_id')
         ->toArray();
     }
+
+    public function countCondition($sub_id)
+    {
+        return $this->model
+        ->whereHas('practicum', function ($query) use ($sub_id) {
+            $query->where('subject_id', $sub_id);
+        })->count();
+    }
 }

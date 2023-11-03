@@ -57,6 +57,7 @@ Route::get('rooms-practicums',[RoomController::class,'getPracticum'])->middlewar
 Route::apiResource('subjects', SubjectController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::put('subjects/{subject}', [SubjectController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('subjects/{subject}', [SubjectController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::get('subjects-get-condition',[SubjectController::class, 'getCondition'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 
 // Practicums
 Route::apiResource('practicums', PracticumController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
