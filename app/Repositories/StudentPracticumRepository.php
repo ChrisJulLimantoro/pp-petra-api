@@ -22,4 +22,15 @@ class StudentPracticumRepository extends BaseRepository
     {
         return $this->model->with('practicum')->where('student_id',$student_id)->get();
     }
+
+    public function getByEventStudentId($student_id,$event_id)
+    {
+        return $this->model
+        ->with('practicum')
+        ->where('student_id',$student_id)
+        ->where('event_id',$event_id)
+        ->get()
+        ->pluck('practicum.subject_id')
+        ->toArray();
+    }
 }

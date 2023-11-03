@@ -24,7 +24,7 @@ class SubjectRepository extends BaseRepository
     }
     public function getPracticumByCode($code)
     {
-        $subject = $this->model->load('practicums')->where('code', $code)->first();
+        $subject = $this->model->with(['practicums','practicums.room'])->where('code', $code)->first();
         $practicums = $subject->practicums->toArray();
         $prac = [];
         foreach($practicums as $p){

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Student;
+use App\Models\StudentPracticum;
 use App\Models\Subject;
 use App\Services\BaseService;
 use App\Services\SubjectService;
@@ -10,10 +11,12 @@ use App\Services\SubjectService;
 class StudentService extends BaseService
 {
     private $SubjectService;
+    private $studentPracticum;
     public function __construct(Student $model)
     {
         parent::__construct($model);
         $this->SubjectService = new SubjectService(new Subject());
+        $this->studentPracticum = new StudentPracticum();
     }
 
     /*
@@ -22,7 +25,7 @@ class StudentService extends BaseService
         Override existing service here...
     */
 
-    public function getAvailableSchedule($id)
+    public function getAvailableSchedule($id,$event_id)
     {
         // get all the PRS
         $student = $this->getById($id);
@@ -32,12 +35,18 @@ class StudentService extends BaseService
         $subjectCode = $this->SubjectService->getCodes();
 
         $availableSubject = [];
+
+        // get all the data with that event id
+        $picked = $this->studentPracticum->repository()->getByEventStudentId($id,$event_id);
+        // dd($picked);
+
         // get all the available Subject for the student
         foreach($prs as $p){
             if(!in_array($p['code'],$subjectCode)) continue;
             $arr = [];
             $practicums = $this->SubjectService->getPracticumByCode($p['code']);
             foreach($practicums as $pr){
+                if(in_array($pr['subject_id'],$picked)) continue;
                 $available = true;
                 foreach($prs as $s){
                     if($s['day'] == $pr['day']){

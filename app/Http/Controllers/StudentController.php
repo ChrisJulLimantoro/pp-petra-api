@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\BaseController;
 use App\Models\Student;
+use Illuminate\Http\Request;
 
 class StudentController extends BaseController
 {
@@ -17,9 +18,9 @@ class StudentController extends BaseController
         OR
         Override existing controller here...
     */
-    public function getAvailableSchedule($id)
+    public function getAvailableSchedule($id,$event_id)
     {
-        $data = $this->service->getAvailableSchedule($id);
+        $data = $this->service->getAvailableSchedule($id,$event_id);
         return $this->success($data);
     }
 }
