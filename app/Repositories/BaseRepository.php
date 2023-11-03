@@ -122,7 +122,7 @@ class BaseRepository
 
     public function getSelectedColumn($columns = ['*'],$condition = []){
         if($condition != []){
-            return $this->model->setEagerLoads($columns)->where($condition)->get();
+            return $this->model->select($columns)->where($condition)->get();
         }
         return $this->model->select($columns)->get();
     }

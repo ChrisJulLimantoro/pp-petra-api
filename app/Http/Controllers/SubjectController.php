@@ -20,4 +20,9 @@ class SubjectController extends BaseController
     public function getCondition(){
         return $this->success($this->service->getCondition());
     }
+
+    public function getUnapplied($subject)
+    {
+        return $this->success($this->service->getUnapplied($subject));
+    }
 }

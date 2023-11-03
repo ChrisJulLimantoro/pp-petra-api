@@ -58,4 +58,18 @@ class SubjectService extends BaseService
 
         return $data;
     }
+    public function getUnapplied($subject)
+    {
+        // get subject by id
+        $subject = $this->repository->getSelectedColumn(['code','id','name'],['id' => $subject])->toArray();
+        
+        // get all students PRS
+        $prs = $this->student->repository()->getSelectedColumn(['user_id','prs'])->toArray();
+
+        $data = [];
+        foreach($prs as $loop){
+            $p = json_decode($loop['prs'],true);
+            $code = array_column($p,'code');
+        }
+    }
 }

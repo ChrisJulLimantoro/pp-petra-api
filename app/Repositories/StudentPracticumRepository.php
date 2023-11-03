@@ -37,6 +37,7 @@ class StudentPracticumRepository extends BaseRepository
     public function countCondition($sub_id)
     {
         return $this->model
+        ->where('choice',1)
         ->whereHas('practicum', function ($query) use ($sub_id) {
             $query->where('subject_id', $sub_id);
         })->count();
