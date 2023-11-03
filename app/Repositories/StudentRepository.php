@@ -17,4 +17,10 @@ class StudentRepository extends BaseRepository
         OR
         Override existing repository here...
     */
+
+    public function getSlim(){
+        return $this->model->with('user:id,name')
+        ->select(['user_id','program','semester','prs','ips'])
+        ->get();
+    }
 }

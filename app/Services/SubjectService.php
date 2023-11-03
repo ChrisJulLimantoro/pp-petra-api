@@ -58,18 +58,25 @@ class SubjectService extends BaseService
 
         return $data;
     }
-    public function getUnapplied($subject)
+    public function getUnapplied($subject_id)
     {
         // get subject by id
-        $subject = $this->repository->getSelectedColumn(['code','id','name'],['id' => $subject])->toArray();
-        
+        $subject = $this->repository->getSelectedColumn(['code','id','name'],['id' => $subject_id])->toArray();
+
         // get all students PRS
-        $prs = $this->student->repository()->getSelectedColumn(['user_id','prs'])->toArray();
+        $prs = $this->student->repository()->getSlim()->toArray();
+
+        // get all student application
+        $prac = $this->studentPracticum->repository()->getApply($subject_id)->toArray();
 
         $data = [];
         foreach($prs as $loop){
             $p = json_decode($loop['prs'],true);
             $code = array_column($p,'code');
+            if(!in_array($subject[0]['code'],$code)) continue;
+            if(in_array($loop['user_id'],array_column($prac,'student_id'))) continue;
+            $data[] = $loop;
         }
+        return $data;
     }
 }

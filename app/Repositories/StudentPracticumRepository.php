@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\StudentPracticum;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\DB;
 
 class StudentPracticumRepository extends BaseRepository
 {
@@ -41,5 +42,17 @@ class StudentPracticumRepository extends BaseRepository
         ->whereHas('practicum', function ($query) use ($sub_id) {
             $query->where('subject_id', $sub_id);
         })->count();
+    }
+
+    public function getApply($subject)
+    {
+        return $this->model
+            ->with(['practicum:id,subject_id','practicum.subject:id,code']) // Eager load the 'practicum' relationship
+            ->whereHas('practicum', function ($query) use ($subject) {
+                $query->where('subject_id', $subject);
+            })
+            ->where('choice', 1)
+            ->select('student_id', 'practicum_id')
+            ->get();
     }
 }
