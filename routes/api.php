@@ -91,4 +91,4 @@ Route::put('events/{event}', [EventController::class,'update'])->middleware(['au
 Route::patch('events/{event}',[EventController::class,'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 
 
-Route::post('sendMail',[MailController::class,'sendApply'])->name('testing');
+Route::post('sendMail',[MailController::class,'sendResult'])->name('testing');
