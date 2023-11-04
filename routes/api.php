@@ -94,5 +94,5 @@ Route::apiResource('events', EventController::class)->except(['create', 'edit','
 Route::put('events/{event}', [EventController::class,'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('events/{event}',[EventController::class,'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 
-
-Route::post('sendMail',[MailController::class,'sendResult'])->name('testing');
+// Mail
+Route::post('mails-result/{event_id}',[MailController::class,'sendingResult'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);

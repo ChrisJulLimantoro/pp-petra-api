@@ -28,7 +28,7 @@ class resultMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Rsult of Practicum Application @SAOCP Petra Christian University',
+            subject: 'Result of Practicum Application @SAOCP Petra Christian University',
         );
     }
 

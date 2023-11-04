@@ -162,6 +162,6 @@ class Student extends Model
     
     public function practicums()
     {
-        return $this->hasMany(StudentPracticum::class,'student_id','id');
+        return $this->hasMany(StudentPracticum::class,'student_id','user_id');
     }
 }

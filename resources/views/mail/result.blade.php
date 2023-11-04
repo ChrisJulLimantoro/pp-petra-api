@@ -76,7 +76,7 @@
                         <td>{{ $res['choice'] }}</td>
                         <td>{{ $res['practicum'] }}</td>
                         <td>{{ $res['code'] }}</td>
-                        <td>{{ $res['jadwal'] }}</td>
+                        <td>{{ $res['schedule'] }}</td>
                         <td>{{ $res['status'] }}</td>
                     </tr>
                 @php

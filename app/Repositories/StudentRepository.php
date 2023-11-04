@@ -23,4 +23,14 @@ class StudentRepository extends BaseRepository
         ->select(['user_id','program','semester','prs','ips'])
         ->get();
     }
+
+    public function getResultByStudent($event_id)
+    {
+        return $this->model
+        ->with(['user:id,name,email','practicums.practicum.subject:id,duration'])
+        ->whereHas('practicums',function($query) use ($event_id){
+            $query->where('event_id',$event_id);
+        })
+        ->get();
+    }
 }

@@ -34,4 +34,5 @@ class StudentPracticumController extends BaseController
         }
         return $this->success($this->service->getByStudentId($student_id));
     }
+
 }
