@@ -117,4 +117,20 @@ class BaseController extends Controller
             200
         );
     }
+
+    public function bulkInsert(Request $request)
+    {
+        $data = $request->data;
+        foreach($data as $d){
+            ControllerUtils::validateRequest($this->model, $data);
+        }
+        foreach($data as $d){
+            $this->service->create($d);
+        }
+
+        return $this->success(
+            'Successfully bulk inserted',
+            HttpResponseCode::HTTP_CREATED
+        );
+    }
 }

@@ -96,14 +96,14 @@ class StudentPracticumController extends BaseController
         return $this->success($res);
     }
 
-    public function destory($id)
+    public function destroy($id)
     {
         $data = $this->model->repository()->getById($id);
         // cek if student already validate
         if($this->validate->repository()->exist($data->student_id,$data->event_id)){
             return $this->error('Student already validate',400);
         }
-        
+
         $this->service->delete($id);
 
         return $this->success(
@@ -126,4 +126,22 @@ class StudentPracticumController extends BaseController
         return $this->success($this->service->getByStudentId($student_id));
     }
 
+    public function bulkInsert(Request $request)
+    {
+        $data = $request->data;
+        foreach($data as $d){
+            ControllerUtils::validateRequest($this->model, $data);
+            if($this->validate->repository()->exist($data->student_id,$data->event_id)){
+                return $this->error('There are errors bulk data!',400);
+            }
+        }
+        foreach($data as $d){
+            $this->service->create($d);
+        }
+
+        return $this->success(
+            'Successfully bulk inserted',
+            HttpResponseCode::HTTP_CREATED
+        );
+    }
 }  
