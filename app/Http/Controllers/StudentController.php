@@ -38,11 +38,21 @@ class StudentController extends BaseController
             // validator
             $valid = Validator::make($d,[
                 'email' => 'required|email',
-                'name' => 'required'
+                'name' => 'required',
+                'ips' => 'required',
+                'ipk' => 'required',
+                'prs' => 'required',
+                'semester' => 'required',
+                'program' => 'required'
             ],[
                 'email.required' => 'Email is required',
                 'email.email' => 'Email is not valid',
-                'name.required' => 'Name is required'
+                'name.required' => 'Name is required',
+                'ips.required' => 'IPS is required',
+                'ipk.required' => 'IPK is required',
+                'prs.required' => 'PRS is required',
+                'semester.required' => 'Semester is required',
+                'program.required' => 'Program is required'
             ]);
             if($valid->fails()){
                 return $this->error($valid->errors(),400);
