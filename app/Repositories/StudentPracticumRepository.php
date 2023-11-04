@@ -44,6 +44,24 @@ class StudentPracticumRepository extends BaseRepository
         })->count();
     }
 
+    public function countValidated($sub_id)
+    {
+        $data = $this->model
+        ->with('student.validate')
+        ->where('choice',1)
+        ->whereHas('practicum', function ($query) use ($sub_id) {
+            $query->where('subject_id', $sub_id);
+        })
+        ->get()
+        ->toArray();
+
+        $count = 0;
+        foreach($data as $d){
+            if( $d['student']['validate'] != null) $count++;
+        }
+        return $count;
+    }
+
     public function getApply($subject)
     {
         return $this->model

@@ -43,6 +43,7 @@ class SubjectService extends BaseService
         $data = [];
         foreach($subjects as $sub){
             $sub['applied'] = $this->studentPracticum->repository()->countCondition($sub['id']);
+            $sub['validated'] = $this->studentPracticum->repository()->countValidated($sub['id']);
             // count all the student have prs the subject that has practicum
             $count = 0;
             foreach($prs as $p){
