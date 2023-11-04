@@ -130,11 +130,12 @@ class StudentPracticumController extends BaseController
     {
         $data = $request->data;
         foreach($data as $d){
-            ControllerUtils::validateRequest($this->model, $data);
-            if($this->validate->repository()->exist($data->student_id,$data->event_id)){
+            ControllerUtils::validateRequest($this->model, $d);
+            if($this->validate->repository()->exist($d['student_id'],$d['event_id'])){
                 return $this->error('There are errors bulk data!',400);
             }
         }
+
         foreach($data as $d){
             $this->service->create($d);
         }
