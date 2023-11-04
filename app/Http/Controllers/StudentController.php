@@ -103,7 +103,7 @@ class StudentController extends BaseController
                     'program' => $d['program']
                 ]);
             }else{
-                $this->update($user->id,[
+                $this->service->update($user->id,[
                     'ips'=>$d['ips'],
                     'ipk' => $d['ipk'],
                     'prs' => json_encode($d['prs']),
