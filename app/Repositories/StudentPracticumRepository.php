@@ -74,10 +74,13 @@ class StudentPracticumRepository extends BaseRepository
             ->get();
     }
 
-    public function exist($where)
+    public function exist($data)
     {
         return $this->model
-        ->where($where)
+        ->where('student_id',$data['student_id'])
+        ->where('practicum_id',$data['practicum_id'])
+        ->where('event_id',$data['event_id'])
+        ->where('choice',$data['choice'])
         ->get()
         ->count() > 0;
     }

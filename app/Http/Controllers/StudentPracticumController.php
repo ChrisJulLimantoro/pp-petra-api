@@ -131,9 +131,16 @@ class StudentPracticumController extends BaseController
         $data = $request->data;
         foreach($data as $d){
             ControllerUtils::validateRequest($this->model, $d);
+
+            // cek if student already validate
             if($this->validate->repository()->exist($d['student_id'],$d['event_id'])){
                 return $this->error('There are errors bulk data!',400);
             }
+
+            // cek if the same studentPracticum is already there
+            if($this->model->repository()->exist($d)){
+                return $this->error('Student already apply this practicum',400);
+            };
         }
 
         foreach($data as $d){
