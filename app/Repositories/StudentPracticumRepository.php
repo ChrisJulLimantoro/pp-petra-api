@@ -56,4 +56,11 @@ class StudentPracticumRepository extends BaseRepository
             ->get();
     }
 
+    public function exist($where)
+    {
+        return $this->model
+        ->where($where)
+        ->get()
+        ->count() > 0;
+    }
 }

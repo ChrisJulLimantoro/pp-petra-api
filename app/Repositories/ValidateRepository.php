@@ -17,4 +17,13 @@ class ValidateRepository extends BaseRepository
         OR
         Override existing repository here...
     */
+
+    public function exist($student_id,$event_id)
+    {
+        return $this->model
+        ->where('student_id', $student_id)
+        ->where('event_id', $event_id)
+        ->get()
+        ->count() > 0;
+    }
 }
