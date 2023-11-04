@@ -17,4 +17,9 @@ class PracticumController extends BaseController
         OR
         Override existing controller here...
     */
+
+    public function generateResult($subject,$event)
+    {
+        return $this->success($this->service->generateResult($subject,$event));
+    }
 }

@@ -31,4 +31,20 @@ class PracticumRepository extends BaseRepository
             "studentPracticum.student.user:id,name,email"
         ])->findOrFail($id);
     }
+
+    public function getBySubjectEvent($subject_id, $event_id)
+    {
+        $results = DB::table('practicums')
+            ->select('practicums.id','practicums.room_id','practicums.name','practicums.code','practicums.quota','student_practicums.id as student_practicums_id','student_practicums.student_id','student_practicums.choice')
+            ->join('student_practicums', 'practicums.id', '=', 'student_practicums.practicum_id')
+            ->join('students', 'student_practicums.student_id', '=', 'students.user_id')
+            ->where('practicums.subject_id', $subject_id)
+            ->where('student_practicums.event_id', $event_id)
+            ->orderBy('student_practicums.choice', 'asc')
+            ->orderBy('students.ips', 'desc')
+            ->orderBy('students.semester','asc')
+            ->get();
+    
+        return $results;
+    }
 }

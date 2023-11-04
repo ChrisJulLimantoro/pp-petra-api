@@ -55,4 +55,9 @@ class StudentPracticumRepository extends BaseRepository
             ->select('student_id', 'practicum_id')
             ->get();
     }
+
+    public function getBySubject($subject_id,$condition)
+    {
+        return 0;
+    }
 }
