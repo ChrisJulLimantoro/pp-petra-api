@@ -14,6 +14,8 @@ use App\Http\Controllers\RBAC\UserController;
 use App\Http\Controllers\RBAC\UserRoleController;
 use App\Http\Controllers\RBAC\RoleRoutesController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\ValidateController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -93,6 +95,11 @@ Route::get('student-practicums/{student}/by-student',[StudentPracticumController
 Route::apiResource('events', EventController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::put('events/{event}', [EventController::class,'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('events/{event}',[EventController::class,'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+
+// Validates
+Route::apiResource('validate', ValidateController::class)->except(['create','edit','update'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+Route::put('validate/{validate}',[ValidateController::class,'update'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+Route::patch('validate/{validate}',[ValidateController::class,'updatePartial'])->middleware(['auth:sanctum','ability:admin,super-admin']);
 
 // Mail
 Route::post('mails-result/{event_id}',[MailController::class,'sendingResult'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);

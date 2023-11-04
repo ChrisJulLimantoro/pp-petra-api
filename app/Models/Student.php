@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\ModelUtils;
 use App\Models\StudentPracticum;
 use App\Models\User;
+use App\Models\Validate;
 use App\Repositories\StudentRepository;
 use App\Services\StudentService;
 use App\Http\Resources\StudentResource;
@@ -152,7 +153,7 @@ class Student extends Model
     */
     public function relations()
     {
-        return ['user','practicums'];
+        return ['user','practicums','validate'];
     }
 
     public function user()
@@ -163,5 +164,10 @@ class Student extends Model
     public function practicums()
     {
         return $this->hasMany(StudentPracticum::class,'student_id','user_id');
+    }
+
+    public function validate()
+    {
+        return $this->hasMany(Validate::class,'student_id','user_id');
     }
 }
