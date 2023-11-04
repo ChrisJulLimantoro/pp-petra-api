@@ -56,8 +56,4 @@ class StudentPracticumRepository extends BaseRepository
             ->get();
     }
 
-    public function getBySubject($subject_id,$condition)
-    {
-        return 0;
-    }
 }

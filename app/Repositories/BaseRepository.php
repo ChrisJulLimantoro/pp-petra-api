@@ -120,9 +120,16 @@ class BaseRepository
         $model->delete();
     }
 
-    public function getSelectedColumn($columns = ['*'],$condition = []){
+    public function getSelectedColumn($columns = ['*'],$condition = [],$relations=[]){
         if($condition != []){
-            return $this->model->select($columns)->where($condition)->get();
+            if($relations != []){
+                return $this->model->with($relations)->select($columns)->where($condition)->get();
+            }else{
+                return $this->model->select($columns)->where($condition)->get();
+            }
+        }
+        if($relations != []){
+            return $this->model->with($relations)->select($columns)->get();
         }
         return $this->model->select($columns)->get();
     }

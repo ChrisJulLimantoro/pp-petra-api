@@ -47,4 +47,14 @@ class PracticumRepository extends BaseRepository
     
         return $results;
     }
+
+    public function getResult($practicum_id)
+    {
+        return $this->model->with(['studentPracticum.student.user:id,name,email'])
+        ->whereHas('studentPracticum', function ($query) use ($practicum_id) {
+            $query->where(['accepted' => '1 or 3']);
+        })
+        ->where('id',$practicum_id)
+        ->first();
+    }
 }

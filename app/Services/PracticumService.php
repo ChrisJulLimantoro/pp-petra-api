@@ -72,4 +72,9 @@ class PracticumService extends BaseService
         }
         return ['status' => 'success'];
     }
+
+    public function getResult($practicum_id)
+    {
+        return $this->repository->getResult($practicum_id);
+    }
 }
