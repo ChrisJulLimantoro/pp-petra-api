@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\UserRole;
+use App\Utils\HttpResponseCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,6 +18,33 @@ class StudentController extends BaseController
     {
         parent::__construct($model);
         $this->user = new User();
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->only(['email','name','ipk','ips','prs','semester','program']);
+
+        // cek if user exist
+        if($this->user->where('email',$data['email'])->get()->count() == 0){
+            $user = User::create(['email' => $data['email'],'name' => $data['name']]);
+            UserRole::create(['user_id'=>$user->id,'role_id'=>Role::where('slug','user')->first()->id]);
+        }else{
+            $user = User::where('email',$data['email'])->first();
+            // cek if role exist
+            if(UserRole::where('user_id',$user->id)->where('role_id',Role::where('slug','user')->first()->id)->get()->count() == 0){
+                UserRole::create(['user_id'=>$user->id,'role_id'=>Role::where('slug','user')->first()->id]);
+            }
+        }
+
+        $data['user_id'] = $user->id;
+        ControllerUtils::validateRequest($this->model, $data);
+
+        $res = $this->service->create($data);
+
+        return $this->success(
+            $res,
+            HttpResponseCode::HTTP_CREATED
+        );
     }
 
     /*
