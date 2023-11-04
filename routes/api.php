@@ -31,16 +31,19 @@ use App\Http\Controllers\ValidateController;
 //     return $request->user();
 // });
 
-// Route::get('hydra', [HydraController::class, 'hydra']);
-// Route::get('hydra/version', [HydraController::class, 'version']);
 
+// User
 Route::apiResource('users', UserController::class)->except(['edit', 'create', 'store', 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::post('users', [UserController::class, 'store'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::match(['put','post','patch'],'users/{user}', [UserController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::get('me', [UserController::class, 'me'])->middleware('auth:sanctum');
+
+// login
 Route::post('login', [UserController::class, 'login']);
 
+// Roles
 Route::apiResource('roles', RoleController::class)->except(['create', 'edit'])->middleware(['auth:sanctum', 'ability:admin,super-admin,user']);
+
+// User Roles
 Route::apiResource('user-roles', UserRoleController::class)->except(['create','store' ,'edit', 'show', 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::post('user-roles/{user}', [UserRoleController::class, 'store'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::delete('users/{user}/roles/{role}', [UserRoleController::class, 'unassignRole'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
