@@ -156,6 +156,6 @@ class Assistant extends Model
 
     public function assistant_practicum()
     {
-        return $this->hasMany(AssistantPracticum::class,'assistant_id','id');
+        return $this->hasMany(AssistantPracticum::class,'assistant_id','user_id');
     }
 }

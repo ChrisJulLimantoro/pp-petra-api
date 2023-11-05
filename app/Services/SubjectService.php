@@ -5,17 +5,20 @@ namespace App\Services;
 use App\Models\Student;
 use App\Models\StudentPracticum;
 use App\Models\Subject;
+use App\Models\Assistant;
 use App\Services\BaseService;
 
 class SubjectService extends BaseService
 {
     private $student;
     private $studentPracticum;
+    private $assistant;
     public function __construct(Subject $model)
     {
         parent::__construct($model);
         $this->student = new Student();
         $this->studentPracticum = new StudentPracticum();
+        $this->assistant = new Assistant();
     }
 
     /*
@@ -35,15 +38,16 @@ class SubjectService extends BaseService
     public function getCondition()
     {
         // get all subject
-        $subjects = $this->repository->getSelectedColumn(['code','id','name'])->toArray();
+        $subjects = $this->repository->getSelectedColumn(['code','id','name','duration'],[],['practicums.studentPracticum','practicums.assistantPracticum'])->toArray();
 
         // get all students PRS
         $prs = $this->student->repository()->getSelectedColumn(['prs'])->toArray();
 
         $data = [];
         foreach($subjects as $sub){
-            $sub['applied'] = $this->studentPracticum->repository()->countCondition($sub['id']);
-            $sub['validated'] = $this->studentPracticum->repository()->countValidated($sub['id']);
+            $temp = ['id' => $sub['id'],'code' => $sub['code'],'name' => $sub['name']];
+            $temp['applied'] = $this->studentPracticum->repository()->countCondition($sub['id']);
+            $temp['validated'] = $this->studentPracticum->repository()->countValidated($sub['id']);
             // count all the student have prs the subject that has practicum
             $count = 0;
             foreach($prs as $p){
@@ -53,10 +57,42 @@ class SubjectService extends BaseService
                     $count++;
                 }
             }
-            $sub['total'] = $count;
-            $data[] = $sub;
+            foreach($sub['practicums'] as $prac){
+                $countSp1 = 0;
+                $countSp2 = 0;
+                foreach($prac['student_practicum'] as $sp){
+                    if($sp['choice'] == 1){
+                        $countSp1++;
+                    }else{
+                        $countSp2++;
+                    }
+                }
+                $temp['practicums'][] = [
+                    'id' => $prac['id'],
+                    'code' => $prac['code'],
+                    'quota' => $prac['quota'],
+                    'time' => $prac['time'].'-'.($prac['time']+(100*$sub['duration'])),
+                    'day' => $prac['day'],
+                    'students' => [
+                        'choice 1' => $countSp1,
+                        'choice 2' => $countSp2,
+                    ],
+                    'assistants' => [
+                        'total' => count($prac['assistant_practicum']),
+                    ]];
+            }
+            $temp['total'] = $count;
+            $data['subjects'][] = $temp;
         }
-
+        // for assistants Condition
+        $assistants = $this->assistant->repository()->getSelectedColumn(['*'],[],['assistant_practicum','user'])->toArray();
+        
+        foreach($assistants as $as){
+            $temp = ['id' => $as['user_id'],'name' => $as['user']['name'],'email' => $as['user']['email']];
+            $temp['count'] = count($as['assistant_practicum']);
+            $data['assistants'][] = $temp;
+        }
+        array_multisort(array_column($data['assistants'],'count'),SORT_DESC,$data['assistants']);
         return $data;
     }
     public function getUnapplied($subject_id)
