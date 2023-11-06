@@ -17,4 +17,12 @@ class AssistantPracticumRepository extends BaseRepository
         OR
         Override existing repository here...
     */
+
+    public function getById($id){
+        return $this->model->with([
+            "assistant",
+            "assistant.user:id,name,email",
+            "practicum.subject:duration"
+        ])->findOrFail($id);
+    }
 }
