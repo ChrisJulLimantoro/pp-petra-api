@@ -17,7 +17,13 @@ class SubjectRepository extends BaseRepository
         OR
         Override existing repository here...
     */
-
+    public function getById($id){
+        return $this->model->with([
+            "practicums.subject:id,name,duration",
+            "practicums.studentPracticum.student.user:id,name,email",
+            "practicums.assistantPracticum.assistant.user:id,name,email"
+        ])->findOrFail($id);
+    }
     public function getCodes()
     {
         return $this->model->all()->pluck('code')->toArray();
