@@ -27,7 +27,7 @@ class PracticumRepository extends BaseRepository
             "assistantPracticum.assistant:user_id", // Include user_id
             "assistantPracticum.assistant.user:id,name,email",
             "studentPracticum:id,student_id,practicum_id", // Include practicum_id
-            "studentPracticum.student.user:id,name,email"
+            "studentPracticum.student.user:id,name,email,program"
         ])->findOrFail($id);
     }
 
