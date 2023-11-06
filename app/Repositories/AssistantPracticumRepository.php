@@ -22,7 +22,7 @@ class AssistantPracticumRepository extends BaseRepository
         return $this->model->with([
             "assistant",
             "assistant.user:id,name,email",
-            "practicum.subject:duration"
+            "practicum.subject:id,duration"
         ])->findOrFail($id);
     }
 }

@@ -19,6 +19,13 @@ class StudentPracticumRepository extends BaseRepository
         Override existing repository here...
     */
 
+    public function getById($id){
+        return $this->model->with([
+            "student",
+            "student.user:id,name,email",
+            "practicum.subject:id,duration"
+        ])->findOrFail($id);
+    }
     public function getByStudentId($student_id)
     {
         return $this->model->with('practicum')->where('student_id',$student_id)->get();
