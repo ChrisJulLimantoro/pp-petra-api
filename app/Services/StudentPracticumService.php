@@ -22,4 +22,9 @@ class StudentPracticumService extends BaseService
     {
         return $this->repository->getByStudentId($student_id)->toArray();
     }
+
+    public function getLimit()
+    {
+        return $this->repository->getLimit();
+    }
 }

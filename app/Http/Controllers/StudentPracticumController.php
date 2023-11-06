@@ -152,4 +152,9 @@ class StudentPracticumController extends BaseController
             HttpResponseCode::HTTP_CREATED
         );
     }
+    
+    public function getLimit()
+    {
+        return $this->success($this->service->getLimit());
+    }
 }  

@@ -101,6 +101,7 @@ Route::put('student-practicums/{student_practicum}', [StudentPracticumController
 Route::patch('student-practicums/{student_practicum}', [StudentPracticumController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::get('student-practicums/{student}/by-student',[StudentPracticumController::class, 'getByStudentId'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::post('student-practicums-bulk',[StudentPracticumController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+Route::get('student-practicum-nico',[StudentPracticumController::class,'getLimit'])->middleware(['auth:sanctum','ability:admin,super-admin']);
 
 // Events
 Route::apiResource('events', EventController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);

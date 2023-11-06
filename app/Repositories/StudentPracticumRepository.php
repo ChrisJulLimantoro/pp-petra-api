@@ -26,6 +26,17 @@ class StudentPracticumRepository extends BaseRepository
             "practicum.subject:id,duration"
         ])->findOrFail($id);
     }
+
+    public function getLimit(){
+        return $this->model
+        ->select('id','student_id','practicum_id','created_at')
+        ->with([
+            "student:user_id",
+            "student.user:id,name,email",
+            "practicum:id,subject_id,day,time,code,name",
+            "practicum.subject:id,duration"
+        ])->orderBy('created_at','desc')->limit(10)->get();
+    }
     public function getByStudentId($student_id)
     {
         return $this->model->with('practicum')->where('student_id',$student_id)->get();
