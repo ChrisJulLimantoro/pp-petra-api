@@ -18,6 +18,11 @@ class PracticumRepository extends BaseRepository
         OR
         Override existing repository here...
     */
+    public function getKaren()
+    {
+        return $this->model->with(['assistantPracticum:id,practicum_id','subject:id,name,duration'])
+        ->get();
+    }
 
     public function getById($id){
         return $this->model->with([

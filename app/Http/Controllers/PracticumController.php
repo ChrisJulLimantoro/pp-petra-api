@@ -55,4 +55,9 @@ class PracticumController extends BaseController
         }
         return $this->success($this->service->getResult($practicum));
     }
+
+    public function getKaren()
+    {
+        return $this->success($this->service->getKaren());
+    }
 }

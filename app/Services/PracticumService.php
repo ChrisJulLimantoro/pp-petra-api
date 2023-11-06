@@ -21,6 +21,22 @@ class PracticumService extends BaseService
         Override existing service here...
     */
 
+    public function getKaren()
+    {
+        $res = $this->repository->getKaren()->toArray();
+        $data = [];
+        foreach($res as $r){
+            $data[] = [
+                'name' => $r['subject']['name'],
+                'day' => $r['day'],
+                'time' => $r['time'].'-'.($r['time']+($r['subject']['duration']*100)),
+                'code' => $r['code'],
+                'assistants' => count($r['assistant_practicum']),
+                'quota' => ceil($r['quota']/8)
+            ];
+        }
+        return $data;
+    }
     public function generateResult($subject_id,$event_id)
     {
         // get practicum by id and event held on its studentPracticum
