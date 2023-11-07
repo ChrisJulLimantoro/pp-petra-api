@@ -48,6 +48,7 @@ class StudentPracticumRepository extends BaseRepository
         ->with(['practicum:id,subject_id,code,quota,day,time','student:user_id','practicum.subject:id,name,duration','student.user:id,name,email'])
         ->where(['student_id' => $student_id,'event_id' => $event_id])
         ->orderBy('choice','asc')
+        ->orderBy('created_at','asc')
         ->get();
     }
 
