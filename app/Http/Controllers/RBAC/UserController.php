@@ -120,7 +120,8 @@ class UserController extends Controller {
             'email' => $user->email,
             'event_id' => $event->id,
             'event_name' => $event->name,
-            'is_validate' => $is_validate
+            'is_validate' => $is_validate,
+            'roles' => $roles,
         ], HttpResponseCode::HTTP_OK);
     }
 
