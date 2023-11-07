@@ -23,6 +23,7 @@ class ValidateRepository extends BaseRepository
         return $this->model
         ->where('student_id', $student_id)
         ->where('event_id', $event_id)
+        ->where('validate', 1)
         ->get()
         ->count() > 0;
     }

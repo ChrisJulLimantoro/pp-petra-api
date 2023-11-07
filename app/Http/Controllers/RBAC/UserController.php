@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserRole;
+use App\Models\Validate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -19,9 +20,11 @@ class UserController extends Controller {
     use HttpResponse;
 
     private $eventService;
+    private $validate;
     public function __construct()
     {
         $this->eventService = new EventService(new Event());
+        $this->validate = new Validate();
     }
 
     /**
@@ -109,12 +112,15 @@ class UserController extends Controller {
         // Get active event for the user
         $event = $this->eventService->getActiveEvent();
 
+        $is_validate = $this->validate->repository()->exist($user->id,$event->id);
+
         return $this->success([
             'token' => $plainTextToken,
             'id' => $user->id,
             'email' => $user->email,
             'event_id' => $event->id,
-            'event_name' => $event->name
+            'event_name' => $event->name,
+            'is_validate' => $is_validate
         ], HttpResponseCode::HTTP_OK);
     }
 
