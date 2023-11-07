@@ -109,9 +109,9 @@ Route::put('events/{event}', [EventController::class,'update'])->middleware(['au
 Route::patch('events/{event}',[EventController::class,'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 
 // Validates
-Route::apiResource('validate', ValidateController::class)->except(['create','edit','update'])->middleware(['auth:sanctum','ability:admin,super-admin']);
-Route::put('validate/{validate}',[ValidateController::class,'update'])->middleware(['auth:sanctum','ability:admin,super-admin']);
-Route::patch('validate/{validate}',[ValidateController::class,'updatePartial'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+Route::get('validates',[ValidateController::class,'index'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::post('validate/{student_id}/event/{event_id}',[ValidateController::class,'validating'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::put('unvalidate/{student_id}/event/{event_id}',[ValidateController::class,'unvalidate'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 
 // Mail
 Route::post('mails-result/{event_id}',[MailController::class,'sendingResult'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
