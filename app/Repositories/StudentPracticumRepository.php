@@ -42,6 +42,15 @@ class StudentPracticumRepository extends BaseRepository
         return $this->model->with('practicum')->where('student_id',$student_id)->get();
     }
 
+    public function getResultByStudent($student_id,$event_id)
+    {
+        return $this->model->select(['student_id','event_id','practicum_id','choice'])
+        ->with(['practicum:id,subject_id,code,quota,day,time','student:user_id','practicum.subject:id,name,duration','student.user:id,name,email'])
+        ->where(['student_id' => $student_id,'event_id' => $event_id])
+        ->orderBy('choice','asc')
+        ->get();
+    }
+
     public function getByEventStudentId($student_id,$event_id)
     {
         return $this->model
