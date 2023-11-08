@@ -26,7 +26,7 @@ class ValidateService extends BaseService
 
     public function validating($student_id,$event_id)
     {
-        $validate = $this->repository->exist($student_id,$event_id);
+        $validate = $this->repository->existCheck($student_id,$event_id);
         if(!$validate){
             $this->repository->create([
                 'student_id' => $student_id,

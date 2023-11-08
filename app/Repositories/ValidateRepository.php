@@ -28,6 +28,15 @@ class ValidateRepository extends BaseRepository
         ->count() > 0;
     }
 
+    public function existCheck($student_id,$event_id)
+    {
+        return $this->model
+        ->where('student_id', $student_id)
+        ->where('event_id', $event_id)
+        ->get()
+        ->count() > 0;
+    }
+
     public function updateValidate($student_id,$event_id)
     {
         $validate_data = $this->model->where('student_id', $student_id)
