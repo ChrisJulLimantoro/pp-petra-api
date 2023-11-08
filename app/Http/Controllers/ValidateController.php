@@ -32,6 +32,9 @@ class ValidateController extends BaseController
         if($valid->fails()){
             return $this->error($valid->errors()->first(), 422);
         }
+        if($this->model->repository()->exist($student_id,$event_id)){
+            return $this->error('Student has validated', 422);
+        }
         return $this->success($this->service->validating($student_id,$event_id));
     }
 
