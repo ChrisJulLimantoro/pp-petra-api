@@ -112,4 +112,13 @@ class StudentPracticumRepository extends BaseRepository
         ->get()
         ->count() > 0;
     }
+
+    public function checkValid($student_id,$event_id)
+    {
+        return $this->model
+        ->where('student_id',$student_id)
+        ->where('event_id',$event_id)
+        ->get()
+        ->count() > 0;
+    }
 }

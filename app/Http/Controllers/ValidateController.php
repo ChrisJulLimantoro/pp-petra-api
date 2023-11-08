@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\BaseController;
+use App\Models\StudentPracticum;
 use App\Models\Validate;
 use Illuminate\Support\Facades\Validator;
 
 class ValidateController extends BaseController
 {
+    private $studentPracticum;
     public function __construct(Validate $model)
     {
         parent::__construct($model);
+        $this->studentPracticum = new StudentPracticum();
     }
 
     /*
@@ -31,6 +34,9 @@ class ValidateController extends BaseController
         ]);
         if($valid->fails()){
             return $this->error($valid->errors()->first(), 422);
+        }
+        if($this->studentPracticum->repository()->checkValid($student_id,$event_id)){
+            return $this->error('Student has validated', 422);
         }
         if($this->model->repository()->exist($student_id,$event_id)){
             return $this->error('Student has validated', 422);
