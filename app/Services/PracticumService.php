@@ -3,16 +3,19 @@
 namespace App\Services;
 
 use App\Models\Practicum;
+use App\Models\Validate;
 use App\Models\StudentPracticum;
 use App\Services\BaseService;
 
 class PracticumService extends BaseService
 {
     public $studentPracticum;
+    private $validate;
     public function __construct(Practicum $model)
     {
         parent::__construct($model);
         $this->studentPracticum = new StudentPracticum();
+        $this->validate = new Validate();
     }
 
     /*
@@ -56,35 +59,60 @@ class PracticumService extends BaseService
             ];
         }
         $accepted = [];
+        $unvalidate = [];
+        $validate= false;
+        // dd($data);
         // process the everyclass first choice first
-        foreach($data as $data){
+        foreach($data as &$d){
             $count = 0;
-            foreach($data['students'] as $student){
+            foreach($d['students'] as $student){
                 if($student['choice'] == 1){
-                    if($count < $data['quota']){
+                    if(in_array($student['student_id'],$unvalidate)){
+                        continue;
+                    }
+                    if(!$this->validate->repository()->exist($student['student_id'],$event_id)){
+                        $unvalidate[] = $student['student_id'];
+                        continue;
+                    }
+
+                    if($count < $d['quota']){
                         $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 1]);
                         $accepted[] = $student['student_id'];
                         $count++;
                     }else{
                         $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 2]);
                     }
+                    $validate = true;
                 }
             }
-            $data['filled'] = $count;
+            $d['filled'] = $count;
         }
-        
         // process every second first
-        foreach($data as $data){
+        foreach($data as $dt){
             $count = 0;
             if($student['choice'] == 2){
-                if($count < ($data['quota']-$data['filled']) && !in_array($student['student_id'],$accepted)){
+                if(in_array($student['student_id'],$unvalidate)){
+                    continue;
+                }
+                if(!$this->validate->repository()->exist($student['student_id'],$event_id)){
+                    $unvalidate[] = $student['student_id'];
+                    continue;
+                }
+                if($count < ($dt['quota']-$dt['filled']) && !in_array($student['student_id'],$accepted)){
                     $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 3]);
                     $accepted[] = $student['student_id'];   
                     $count++;
                 }else{
                     $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 4]);
                 }
+                $validate = true;
             }
+        }
+        if(!$validate){
+            return [
+                'status' => 'error',
+                'msg' => 'There are an unvalidated student!'
+            ];
         }
         return ['status' => 'success'];
     }
