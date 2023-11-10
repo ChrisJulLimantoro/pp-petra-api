@@ -64,7 +64,7 @@ Route::apiResource('subjects', SubjectController::class)->except(['create', 'edi
 Route::put('subjects/{subject}', [SubjectController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('subjects/{subject}', [SubjectController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::get('subjects-get-condition',[SubjectController::class, 'getCondition'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::get('subjects-get-unapplied/{subject}',[SubjectController::class,'getUnapplied'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+Route::get('subjects-get-detailed-report/{subject}/{event}', [SubjectController::class, 'getDetailedReport'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::post('subjects-bulk',[SubjectController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:admin,super-admin']);
 
 // Practicums

@@ -33,4 +33,11 @@ class StudentRepository extends BaseRepository
         })
         ->get();
     }
+
+    public function getStudentBySubject($code) {
+        return $this->model
+        ->with(['user:id,name,email'])
+        ->where('prs', 'like', '%' . $code . '%')
+        ->get();
+    }
 }

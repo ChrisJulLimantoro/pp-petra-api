@@ -3,22 +3,25 @@
 namespace App\Services;
 
 use App\Models\Student;
-use App\Models\StudentPracticum;
 use App\Models\Subject;
+use App\Models\Validate;
 use App\Models\Assistant;
 use App\Services\BaseService;
+use App\Models\StudentPracticum;
 
 class SubjectService extends BaseService
 {
     private $student;
     private $studentPracticum;
     private $assistant;
+    private $validate;
     public function __construct(Subject $model)
     {
         parent::__construct($model);
         $this->student = new Student();
         $this->studentPracticum = new StudentPracticum();
         $this->assistant = new Assistant();
+        $this->validate = new Validate();
     }
 
     /*
@@ -95,25 +98,71 @@ class SubjectService extends BaseService
         array_multisort(array_column($data['assistants'],'count'),SORT_DESC,$data['assistants']);
         return $data;
     }
-    public function getUnapplied($subject_id)
+    
+    public function getUnapplied($subject_id, $event_id)
     {
         // get subject by id
         $subject = $this->repository->getSelectedColumn(['code','id','name'],['id' => $subject_id])->toArray();
 
-        // get all students PRS
-        $prs = $this->student->repository()->getSlim()->toArray();
+        // get all students that took the subject
+        $students = $this->student->repository()->getStudentBySubject($subject[0]['code'])->toArray();
 
         // get all student application
         $prac = $this->studentPracticum->repository()->getApply($subject_id)->toArray();
 
         $data = [];
-        foreach($prs as $loop){
-            $p = json_decode($loop['prs'],true);
-            $code = array_column($p,'code');
-            if(!in_array($subject[0]['code'],$code)) continue;
-            if(in_array($loop['user_id'],array_column($prac,'student_id'))) continue;
-            $data[] = $loop;
+        foreach($students as $s){
+            if(in_array($s['user_id'],array_column($prac,'student_id'))) continue;
+            $s['program'] = $s['program'] === 'i' ? 'Infor' : ($s['program'] === 's' ? 'SIB' : "DSA");
+            $s['nrp'] = substr($s['user']['email'], 0, 9);
+            $s['name'] = $s['user']['name'];
+            unset($s['user']);
+            $data[] = $s;
         }
         return $data;
+    }
+
+    public function getDetailedReport($subject_id, $event_id) {
+        // get subject by id
+        $subject = $this->repository->getSelectedColumn(['code','id','name'],['id' => $subject_id])->toArray();
+
+        // get all students that took the subject
+        $students = $this->student->repository()->getStudentBySubject($subject[0]['code'])->toArray();
+
+        // dd($students);
+
+        // get student application
+        $studentPracs = $this->studentPracticum->repository()->getApply($subject_id, $event_id, array_column($students, 'user_id'));
+        
+        $applied = [];
+        $unapplied = [];
+        
+        foreach($students as $s) {
+            if ($this->validate->repository()->exist($s['user_id'], $event_id)) $s['status'] = 'Validated';
+            else $s['status'] = 'Applied';
+            
+            $choice1 = $studentPracs->filter(function($sp) use ($s) {
+                return $sp['student_id'] === $s['user_id'] && $sp['choice'] === 1;
+            })->first();
+            $choice2 = $studentPracs->filter(function($sp) use ($s) {
+                return $sp['student_id'] === $s['user_id'] && $sp['choice'] === 2;
+            })->first();
+
+            $s['pilihan_1'] = $choice1 ? $choice1->practicum->code : null;
+            $s['pilihan_2'] = $choice2 ? $choice2->practicum->code : null;
+            $s['nrp'] = substr($s['user']['email'], 0, 9);
+            $s['nama'] = $s['user']['name'];
+            $s['program'] = $s['program'] === 'i' ? 'Infor' : ($s['program'] === 's' ? 'SIB' : "DSA");
+            $s['semester'] = $s['semester'];
+            unset($s['user']);
+
+            if ($choice1) $applied[] = $s;
+            else $unapplied[] = $s;
+        }
+
+        return [
+            'applied' => $applied,
+            'unapplied' => $unapplied,
+        ];
     }
 }

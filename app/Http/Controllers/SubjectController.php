@@ -25,4 +25,8 @@ class SubjectController extends BaseController
     {
         return $this->success($this->service->getUnapplied($subject));
     }
+
+    public function getDetailedReport($subject, $event) {
+        return $this->success($this->service->getDetailedReport($subject, $event));
+    }
 }

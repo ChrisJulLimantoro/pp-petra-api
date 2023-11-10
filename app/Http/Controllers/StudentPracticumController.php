@@ -150,11 +150,11 @@ class StudentPracticumController extends BaseController
         return $this->success(
             'Successfully bulk inserted',
             HttpResponseCode::HTTP_CREATED
-        );
+        );  
     }
     
-    public function getLimit()
+    public function getLimit($limit = 10)
     {
-        return $this->success($this->service->getLimit());
+        return $this->success($this->service->getLimit($limit));
     }
 }  

@@ -27,7 +27,7 @@ class StudentPracticumRepository extends BaseRepository
         ])->findOrFail($id);
     }
 
-    public function getLimit(){
+    public function getLimit($limit){
         return $this->model
         ->select('id','student_id','practicum_id','created_at')
         ->with([
@@ -35,7 +35,7 @@ class StudentPracticumRepository extends BaseRepository
             "student.user:id,name,email",
             "practicum:id,subject_id,day,time,code,name",
             "practicum.subject:id,duration"
-        ])->orderBy('created_at','desc')->limit(10)->get();
+        ])->orderBy('created_at','desc')->limit($limit)->get();
     }
     public function getByStudentId($student_id)
     {
@@ -90,16 +90,25 @@ class StudentPracticumRepository extends BaseRepository
         return $count;
     }
 
-    public function getApply($subject)
+    public function getApply($subject, $event = null, $student = null, $choice = null)
     {
-        return $this->model
-            ->with(['practicum:id,subject_id','practicum.subject:id,code']) // Eager load the 'practicum' relationship
-            ->whereHas('practicum', function ($query) use ($subject) {
-                $query->where('subject_id', $subject);
-            })
-            ->where('choice', 1)
-            ->select('student_id', 'practicum_id')
-            ->get();
+        $q = $this->model
+        ->with([
+            'practicum:id,code,day,time,subject_id',
+            'practicum.subject:id,duration', 
+            'student:user_id,program,semester',
+            'student.user:id,email,name',
+        ])
+        ->select('id', 'student_id', 'practicum_id', 'event_id', 'choice')
+        ->whereHas('practicum', function ($query) use ($subject) {
+            $query->where('subject_id', $subject);
+        });
+
+        if ($event) $q = $q->where('event_id', $event);
+        if ($student) $q = $q->whereIn('student_id', $student);
+        if ($choice) $q = $q->where('choice', $choice);
+
+        return $q->get();
     }
 
     public function exist($data)
