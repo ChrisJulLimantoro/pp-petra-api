@@ -48,18 +48,30 @@ class MailController extends Controller
                     'code'=>$prac['practicum']['code'],
                     'choice' => $prac['choice'],
                 ];
+                if ($prac['practicum']['time'] < 1000) {
+                    $time = substr($prac['practicum']['time'], 0, 1) . ":" . substr($prac['practicum']['time'], 1, 2).' - ';
+                } else {
+                    $time = substr($prac['practicum']['time'], 0, 2) . ":" . substr($prac['practicum']['time'], 2, 3).' - ' ;
+                }
+                $endTime = $prac['practicum']['time'] + ($prac['practicum']['subject']['duration']*100);
+                if($endTime < 1000){
+                    $time .= substr($endTime, 0, 1) . ":" . substr($endTime, 1, 2);
+                }else{
+                    $time .= substr($endTime, 0, 2) . ":" . substr($endTime, 2, 3);
+                }
+                
                 if($prac['practicum']['day'] == 1){
-                    $temp['schedule'] = 'Monday,'.$prac['practicum']['time'].'-'.($prac['practicum']['time']+($prac['practicum']['subject']['duration']*100));
+                    $temp['schedule'] = 'Monday,'.$time;
                 }else if( $prac['practicum']['day'] == 2){
-                    $temp['schedule'] = 'Tuesday,'.$prac['practicum']['time'].'-'.($prac['practicum']['time']+($prac['practicum']['subject']['duration']*100));
+                    $temp['schedule'] = 'Tuesday,'.$time;
                 }else if( $prac['practicum']['day'] == 3){
-                    $temp['schedule'] = 'Wednesday,'.$prac['practicum']['time'].'-'.($prac['practicum']['time']+($prac['practicum']['subject']['duration']*100));
+                    $temp['schedule'] = 'Wednesday,'.$time;
                 }else if( $prac['practicum']['day'] == 4){
-                    $temp['schedule'] = 'Thursday,'.$prac['practicum']['time'].'-'.($prac['practicum']['time']+($prac['practicum']['subject']['duration']*100));
+                    $temp['schedule'] = 'Thursday,'.$time;
                 }else if( $prac['practicum']['day'] == 5){
-                    $temp['schedule'] = 'Friday,'.$prac['practicum']['time'].'-'.($prac['practicum']['time']+($prac['practicum']['subject']['duration']*100));
+                    $temp['schedule'] = 'Friday,'.$time;
                 }else if( $prac['practicum']['day'] == 6){
-                    $temp['schedule'] = 'Saturday,'.$prac['practicum']['time'].'-'.($prac['practicum']['time']+($prac['practicum']['subject']['duration']*100));
+                    $temp['schedule'] = 'Saturday,'.$time;
                 }
                 if($prac['accepted'] == 1 or $prac['accepted'] == 3){
                     $temp['status'] = 'accepted';
