@@ -94,6 +94,7 @@ Route::put('students/{student}', [StudentController::class, 'update'])->middlewa
 Route::patch('students/{student}', [StudentController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::get('students/{student}/available-schedules/{event_id}',[StudentController::class, 'getAvailableSchedule'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::post('students-bulk',[StudentController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+Route::get('students-accepted/{student_id}',[StudentPracticumController::class,'getAcceptedByStudent'])->middleware(['auth:sanctum','ability:admin,super-admin']);
 
 // Student Practicums
 Route::apiResource('student-practicums', StudentPracticumController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
