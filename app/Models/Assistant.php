@@ -54,7 +54,7 @@ class Assistant extends Model
     {
         return [
             'user_id' => 'required|uuid|exists:users,id|unique:assistants,user_id',
-            'room_id' => 'uuid|exists:rooms,id',
+            'room_id' => 'nullable|uuid|exists:rooms,id',
             'description' => 'string',
         ];
     }

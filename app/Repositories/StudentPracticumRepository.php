@@ -130,4 +130,14 @@ class StudentPracticumRepository extends BaseRepository
         ->get()
         ->count() > 0;
     }
+
+    public function getAcceptedByStudent($student_id)
+    {
+        return $this->model
+        ->select(['practicum_id','accepted','student_id','id'])
+        ->with(['practicum:id,subject_id,code,name,day,time,room_id','practicum.subject:id,duration','practicum.room:id,name,code'])
+        ->where('accepted','=',1,'or','accepted','=',3)
+        ->where('student_id',$student_id)
+        ->get();
+    }
 }

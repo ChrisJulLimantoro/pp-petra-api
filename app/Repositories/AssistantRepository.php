@@ -17,4 +17,25 @@ class AssistantRepository extends BaseRepository
         OR
         Override existing repository here...
     */
+
+    public function updatePartial($assistant,$data){
+        foreach ($data as $key => $value) {
+            if($value == "") $value = null;
+            $assistant->{$key} = $value;
+        }
+
+        $assistant->save();
+
+        return $assistant->refresh();
+    }
+    public function update($assistant,$data){
+        foreach ($data as $key => $value) {
+            if($value == "") $value = null;
+            $assistant->{$key} = $value;
+        }
+
+        $assistant->save();
+
+        return $assistant->refresh();
+    }
 }

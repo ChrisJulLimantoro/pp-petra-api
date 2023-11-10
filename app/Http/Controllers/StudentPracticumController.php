@@ -157,4 +157,16 @@ class StudentPracticumController extends BaseController
     {
         return $this->success($this->service->getLimit($limit));
     }
+
+    public function getAcceptedByStudent($student_id)
+    {
+        $valid = Validator::make(['student_id' => $student_id],[ 'student_id' => 'required|exists:students,user_id'],[
+            'student_id.required' => 'Student ID is required',
+            'student_id.exists' => 'Student ID is not exists'
+        ]);
+        if($valid->fails()){
+            return $this->error($valid->errors()->first(),400);
+        }
+        return $this->success($this->service->getAcceptedByStudent($student_id));
+    }
 }  
