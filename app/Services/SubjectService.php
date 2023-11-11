@@ -54,7 +54,7 @@ class SubjectService extends BaseService
             // count all the student have prs the subject that has practicum
             $count = 0;
             foreach($prs as $p){
-                $p = json_decode($p['prs'], true);
+                $p = json_decode($p['prs'], true); 
                 $code = array_column($p,'code');
                 if(in_array($sub['code'],$code)){
                     $count++;

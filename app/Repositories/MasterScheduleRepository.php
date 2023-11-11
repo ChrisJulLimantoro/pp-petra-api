@@ -17,4 +17,8 @@ class MasterScheduleRepository extends BaseRepository
         OR
         Override existing repository here...
     */
+    public function exist($code,$class)
+    {
+        return $this->model->where('code',$code)->where('class',$class)->get()->count() > 0;
+    }
 }

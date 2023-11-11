@@ -44,7 +44,7 @@ class PracticumService extends BaseService
     {
         // get practicum by id and event held on its studentPracticum
         $prac = $this->repository->getBySubjectEvent($subject_id,$event_id);
-
+        // dd($prac);
         // split by code
         $data = [];
         foreach($prac as $prac){

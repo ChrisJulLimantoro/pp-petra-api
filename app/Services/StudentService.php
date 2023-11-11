@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\MasterSchedule;
 use App\Models\Student;
 use App\Models\StudentPracticum;
 use App\Models\Subject;
@@ -12,11 +13,13 @@ class StudentService extends BaseService
 {
     private $SubjectService;
     private $studentPracticum;
+    private $masterSchedule;
     public function __construct(Student $model)
     {
         parent::__construct($model);
         $this->SubjectService = new SubjectService(new Subject());
         $this->studentPracticum = new StudentPracticum();
+        $this->masterSchedule = new MasterSchedule();
     }
 
     /*
@@ -31,6 +34,23 @@ class StudentService extends BaseService
         $student = $this->getById($id);
         $prs = json_decode($student->prs,true);
 
+        // get schedule from Master Schedule Database
+        foreach ($prs as $key => $value){
+            $master = $this->masterSchedule->repository()->getSelectedColumn(['*'],['code'=>$prs[$key]['code'],'class' => $prs[$key]['class']])->toArray();
+            if($master == []){
+                // for random data in this development
+                $prs[$key]['day'] = rand(1,6);
+                $prs[$key]['time'] = rand(7,18).'30';
+                $prs[$key]['duration'] = rand(2,3);
+                continue;
+            }else{
+                $prs[$key]['day'] = $master[0]['day'];
+                $prs[$key]['time'] = $master[0]['time'];
+                $prs[$key]['duration'] = $master[0]['duration'];
+            }
+        }
+
+        dd($prs);
         // get all the Subject Code
         $subjectCode = $this->SubjectService->getCodes();
 
