@@ -4,6 +4,7 @@ use App\Http\Controllers\AssistantController;
 use App\Http\Controllers\AssistantPracticumController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\MasterScheduleController;
 use App\Http\Controllers\PracticumController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentPracticumController;
@@ -116,3 +117,9 @@ Route::post('unvalidate/{student_id}/event/{event_id}',[ValidateController::clas
 
 // Mail
 Route::post('mails-result/{event_id}',[MailController::class,'sendingResult'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+
+// Master Schedule
+Route::apiResource('master-schedules', MasterScheduleController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::put('master-schedules/{master_schedule}', [MasterScheduleController::class,'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::patch('master-schedules/{master_schedule}',[MasterScheduleController::class,'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::post('master-schedules-bulk',[MasterScheduleController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:admin,super-admin']);
