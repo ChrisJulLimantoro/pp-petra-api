@@ -200,7 +200,7 @@ class UserController extends Controller {
         foreach($user['roles'] as $ur){
             foreach($ur['role_routes'] as $rr){
                 if($rr['method'] == 'GET'){
-                    if(!(str_contains($rr['route'],'{') || $rr['route'] == '/' || $rr['route'] == '/processLogin')){
+                    if(!(str_contains($rr['route'],'{') || $rr['route'] == '/' || $rr['route'] == 'processLogin')){
                         $name = explode('.',$rr['name']);
                         if(count($name) > 1){
                             if(!in_array($name[0],array_keys($routes))){
