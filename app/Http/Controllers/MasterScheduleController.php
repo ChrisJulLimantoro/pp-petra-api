@@ -57,7 +57,7 @@ class MasterScheduleController extends BaseController
             }
 
             if($this->model->repository()->exist($d['code'],$d['class'])){
-                $master = $this->model->repository()->getSelectedColumn(['*'],['code' => $d['code'],'class' => $d['class']]);
+                $master = $this->model->repository()->getSelectedColumn(['*'],['code' => $d['code'],'class' => $d['class']])->first();
                 $this->service->update($master->id,$d);
             }else{
                 $this->service->create($d);
