@@ -203,7 +203,7 @@ class UserController extends Controller {
                     if(!(str_contains($rr['route'],'{') || $rr['route'] == '/' || $rr['route'] == '/processLogin')){
                         $name = explode('.',$rr['name']);
                         if(count($name) > 1){
-                            if(!in_array($name[0],$routes)){
+                            if(!in_array($name[0],array_keys($routes))){
                                 // $routes[] = $name[0];
                                 $routes[$name[0]] = [$name[1]];
                             }else{
