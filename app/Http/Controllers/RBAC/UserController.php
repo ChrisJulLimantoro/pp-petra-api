@@ -205,10 +205,10 @@ class UserController extends Controller {
                         if(count($name) > 1){
                             if(!in_array($name[0],array_keys($routes))){
                                 // $routes[] = $name[0];
-                                $routes[$name[0]] = [$name[1]];
+                                $routes[$name[0]] = [$rr['name']];
                             }else{
-                                if(!in_array($name[1],$routes[$name[0]])){
-                                    $routes[$name[0]][] = $name[1];
+                                if(!in_array($rr['name'],$routes[$name[0]])){
+                                    $routes[$name[0]][] = $rr['name'];
                                 }
                             }
                         }else{
