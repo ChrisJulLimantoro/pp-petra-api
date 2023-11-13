@@ -127,3 +127,4 @@ Route::post('master-schedules-bulk',[MasterScheduleController::class,'bulkInsert
 
 // rbac -- middleware
 Route::post('rbac/cek-role',[RoleRoutesController::class,'check'])->middleware('auth:sanctum');
+Route::get('rbac/get-routes/{user_id}',[UserController::class,'getRoutes'])->middleware('auth:sanctum');

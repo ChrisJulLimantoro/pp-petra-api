@@ -187,13 +187,25 @@ class UserController extends Controller {
         return $this->success(['message' => 'User '.$name.' Deleted'], HttpResponseCode::HTTP_OK);
     }
 
-    /**
-     * Return Auth user
-     *
-     * @param  Request  $request
-     * @return mixed
-     */
-    public function me(Request $request) {
-        return $request->user();
+    public function getRoutes($user_id)
+    {
+        $user = User::with('roles.roleRoutes')
+        ->whereHas('roles',function($query){
+            $query->whereHas('roleRoutes',function($query2){
+                $query2->where('method','GET');
+            });
+        })->find($user_id)->toArray();
+        // dd($user);
+        $routes = [];
+        foreach($user['roles'] as $ur){
+            foreach($ur['role_routes'] as $rr){
+                if($rr['method'] == 'GET'){
+                    if(!(str_contains($rr['route'],'{') || $rr['route'] == '/')){
+                        if(!in_array($rr['name'],$routes)) $routes[] = $rr['name'];
+                    }
+                }
+            }
+        }
+        return $this->success($routes, HttpResponseCode::HTTP_OK);
     }
 }
