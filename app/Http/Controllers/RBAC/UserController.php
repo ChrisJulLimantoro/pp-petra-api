@@ -200,12 +200,13 @@ class UserController extends Controller {
         foreach($user['roles'] as $ur){
             foreach($ur['role_routes'] as $rr){
                 if($rr['method'] == 'GET'){
-                    if(!(str_contains($rr['route'],'{') || $rr['route'] == '/' || $rr['route'] == '/processLogin')){
+                    if(!(str_contains($rr['route'],'{') || $rr['route'] == '/' || $rr['route'] == 'processLogin')){
                         if(!in_array($rr['name'],$routes)) $routes[] = $rr['name'];
                     }
                 }
             }
         }
+        array_multisort($routes, SORT_ASC);
         return $this->success($routes, HttpResponseCode::HTTP_OK);
     }
 }
