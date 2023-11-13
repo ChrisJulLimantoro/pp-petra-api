@@ -201,11 +201,27 @@ class UserController extends Controller {
             foreach($ur['role_routes'] as $rr){
                 if($rr['method'] == 'GET'){
                     if(!(str_contains($rr['route'],'{') || $rr['route'] == '/' || $rr['route'] == '/processLogin')){
-                        if(!in_array($rr['name'],$routes)) $routes[] = $rr['name'];
+                        $name = explode('.',$rr['name']);
+                        if(count($name) > 1){
+                            if(!in_array($name[0],$routes)){
+                                // $routes[] = $name[0];
+                                $routes[$name[0]] = [$name[1]];
+                            }else{
+                                if(!in_array($name[1],$routes[$name[0]])){
+                                    $routes[$name[0]][] = $name[1];
+                                }
+                            }
+                        }else{
+                            if(!in_array($rr['name'],$routes)){
+                                // $routes[] = $rr['name'];
+                                $routes[$rr['name']] = [];
+                            }
+                        }
                     }
                 }
             }
         }
+        dd($routes);
         return $this->success($routes, HttpResponseCode::HTTP_OK);
     }
 }
