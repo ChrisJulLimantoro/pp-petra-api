@@ -58,6 +58,10 @@ class StudentController extends BaseController
         return $this->success($data);
     }
 
+    public function getPrs($student_id){
+        return $this->success($this->service->getPrs($student_id));
+    }
+
     public function bulkInsert(Request $request)
     {
         $data = $request->data;

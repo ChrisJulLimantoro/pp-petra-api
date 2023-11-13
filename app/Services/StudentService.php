@@ -50,7 +50,6 @@ class StudentService extends BaseService
             }
         }
 
-        dd($prs);
         // get all the Subject Code
         $subjectCode = $this->SubjectService->getCodes();
 
@@ -90,5 +89,29 @@ class StudentService extends BaseService
         }
         return $availableSubject;
         
+    }
+
+    public function getPrs($student_id)
+    {
+        $res = $this->repository->getSelectedColumn(['user_id','prs'],['user_id' => $student_id],['user'])->toArray();
+        $prs = json_decode($res[0]['prs'],true);
+        foreach ($prs as $key => $value){
+            $master = $this->masterSchedule->repository()->getSelectedColumn(['*'],['code'=>$prs[$key]['code'],'class' => $prs[$key]['class']])->toArray();
+            if($master == []){
+                // for random data in this development
+                $prs[$key]['day'] = rand(1,6);
+                $prs[$key]['time'] = rand(7,18).'30';
+                $prs[$key]['duration'] = rand(2,3);
+                $prs[$key]['name'] = 'dummy';
+                continue;
+            }else{
+                $prs[$key]['day'] = $master[0]['day'];
+                $prs[$key]['time'] = $master[0]['time'];
+                $prs[$key]['duration'] = $master[0]['duration'];
+                $prs[$key]['name'] = $master[0]['name'];
+            }
+        }
+        $data = ['name' => $res[0]['user']['name'],'prs' => $prs,'nrp' => substr($res[0]['user']['email'],0,9)];
+        return $data;
     }
 }
