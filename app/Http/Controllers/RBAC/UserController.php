@@ -214,14 +214,14 @@ class UserController extends Controller {
                         }else{
                             if(!in_array($rr['name'],$routes)){
                                 // $routes[] = $rr['name'];
-                                $routes[$rr['name']] = [];
+                                $routes[$rr['name']] = $rr['name'];
                             }
                         }
                     }
                 }
             }
         }
-        dd($routes);
+        ksort($routes);
         return $this->success($routes, HttpResponseCode::HTTP_OK);
     }
 }

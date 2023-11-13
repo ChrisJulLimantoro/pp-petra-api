@@ -40,9 +40,15 @@ class RoleRoutesController extends Controller
             'name.required' => 'Name is required'
         ]);
         foreach ($validate->errors()->all() as $error) {
+            // dd($erro)
             return $this->error($error, HttpResponseCode::HTTP_UNPROCESSABLE_ENTITY);
         }
-        if(RoleRoutes::where('role_id', $data['role_id'])->where('route', $data['route'])->where('method', $data['method'])->first()){
+        if(RoleRoutes::where([
+            'role_id' => $data['role_id'],
+            // 'route' => $data['route'],
+            'method' => $data['method'],
+            'name' => $data['name']
+        ])->first()){
             return $this->error('Role already has this route and method', HttpResponseCode::HTTP_CONFLICT);
         }
         $roleRoute = RoleRoutes::create($data);
