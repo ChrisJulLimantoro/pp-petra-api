@@ -123,3 +123,6 @@ Route::apiResource('master-schedules', MasterScheduleController::class)->except(
 Route::put('master-schedules/{master_schedule}', [MasterScheduleController::class,'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('master-schedules/{master_schedule}',[MasterScheduleController::class,'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::post('master-schedules-bulk',[MasterScheduleController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+
+// rbac -- middleware
+Route::post('rbac/cek-role',[RoleRoutesController::class,'check'])->middleware('auth:sanctum');

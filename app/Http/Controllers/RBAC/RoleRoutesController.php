@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\RBAC;
 
 use App\Models\RoleRoutes;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Utils\HttpResponse;
@@ -93,5 +94,24 @@ class RoleRoutesController extends Controller
         $name = $role_route->name;
         $role_route->delete();
         return $this->success(['message' => 'RoleRoutes '.$name.' Deleted!'], HttpResponseCode::HTTP_OK);
+    }
+
+    public function check(Request $request)
+    {
+        $route = $request->route;
+        $method = $request->method;
+        $user_id = $request->user_id;
+
+        $user_pool = RoleRoutes::with(['role.users'])->where(['route'=>$route,'method'=>$method])->get()->pluck('role')->pluck('users')->toArray();
+        $users = [];
+        foreach($user_pool as $up){
+            foreach($up as $p){
+                if(!in_array($p['id'],$users)) $users[] = $p['id'];
+            }
+        }
+        if(in_array($user_id,$users)){
+            return $this->success(true);
+        }
+        return $this->success(false);
     }
 }
