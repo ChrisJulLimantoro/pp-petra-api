@@ -54,25 +54,25 @@ Route::apiResource('role-routes', RoleRoutesController::class)->except(['create'
 Route::match(['put','post','patch'],'role-routes/{role_route}', [RoleRoutesController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 
 // Rooms
-Route::apiResource('rooms', RoomController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::put('rooms/{room}', [RoomController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::patch('rooms/{room}', [RoomController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::get('rooms-practicums',[RoomController::class,'getPracticum'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::post('rooms-bulk',[RoomController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+Route::apiResource('rooms', RoomController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
+Route::put('rooms/{room}', [RoomController::class, 'update'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
+Route::patch('rooms/{room}', [RoomController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
+Route::get('rooms-practicums',[RoomController::class,'getPracticum'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
+Route::post('rooms-bulk',[RoomController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:astap,admin,super-admin']);
 
 // Subjects
-Route::apiResource('subjects', SubjectController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::put('subjects/{subject}', [SubjectController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::patch('subjects/{subject}', [SubjectController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::get('subjects-get-condition',[SubjectController::class, 'getCondition'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::get('subjects-get-detailed-report/{subject}/{event}', [SubjectController::class, 'getDetailedReport'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::post('subjects-bulk',[SubjectController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+Route::apiResource('subjects', SubjectController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
+Route::put('subjects/{subject}', [SubjectController::class, 'update'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
+Route::patch('subjects/{subject}', [SubjectController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
+Route::get('subjects-get-condition',[SubjectController::class, 'getCondition'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
+Route::get('subjects-get-detailed-report/{subject}/{event}', [SubjectController::class, 'getDetailedReport'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
+Route::post('subjects-bulk',[SubjectController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:astap,admin,super-admin']);
 
 // Practicums
 Route::apiResource('practicums', PracticumController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::put('practicums/{practicum}', [PracticumController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('practicums/{practicum}', [PracticumController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::get('practicums-generate-result/{subject}/event/{event}', [PracticumController::class,'generateResult'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+Route::get('practicums-generate-result/{subject}/event/{event}', [PracticumController::class,'generateResult'])->middleware(['auth:sanctum','ability:astap,admin,super-admin']);
 Route::get('practicums/{practicum}/get-result', [PracticumController::class,'getResult'])->middleware(['auth:sanctum','ability:admin,super-admin']);
 Route::post('practicums-bulk',[PracticumController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:admin,super-admin']);
 Route::get('practicum-karen',[PracticumController::class,'getKaren'])->middleware(['auth:sanctum','ability:admin,super-admin']);
