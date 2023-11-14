@@ -36,7 +36,7 @@ class UsersSeeder extends Seeder {
             ]);
             UserRole::create([
                 'user_id' => $user->id,
-                'role_id' => Role::where('slug', 'admin')->first()->id,
+                'role_id' => Role::where('slug', 'super-admin')->first()->id,
             ]);
         }
 
