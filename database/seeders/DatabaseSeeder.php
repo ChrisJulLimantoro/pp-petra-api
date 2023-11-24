@@ -27,7 +27,8 @@ class DatabaseSeeder extends Seeder {
             AssistantSeeder::class,
             StudentSeeder::class,
             AssistantPracticumSeeder::class,
-            StudentPracticumSeeder::class
+            StudentPracticumSeeder::class,
+            ValidateSeeder::class,
         ]);
     }
 }

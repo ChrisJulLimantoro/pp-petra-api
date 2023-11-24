@@ -23,6 +23,11 @@ class StudentPracticumService extends BaseService
         return $this->repository->getByStudentId($student_id)->toArray();
     }
 
+    public function getByEvent($event_id)
+    {
+        return $this->repository->getByEvent($event_id)->toArray();
+    }
+
     public function getLimit($limit)
     {
         return $this->repository->getLimit($limit);

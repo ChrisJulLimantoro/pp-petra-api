@@ -126,6 +126,21 @@ class StudentPracticumController extends BaseController
         return $this->success($this->service->getByStudentId($student_id));
     }
 
+    public function getByEvent($event_id) 
+    {
+        $valid = Validator::make(['event_id' => $event_id], [
+            'event_id' => 'required|exists:events,id',
+        ],[
+            'event_id.required' => 'Event ID is required',
+            'event_id.exists' => 'Event ID is not exists',
+        ]);
+
+        if ($valid->fails()) {
+            return $this->error($valid->errors()->first(), 400);
+        }
+        return $this->success($this->service->getByEvent($event_id));
+    }
+
     public function bulkInsert(Request $request)
     {
         $data = $request->data;
