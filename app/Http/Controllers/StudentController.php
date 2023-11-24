@@ -62,6 +62,12 @@ class StudentController extends BaseController
         return $this->success($this->service->getPrs($student_id));
     }
 
+    public function getByNrp($nrp){
+        $nrp = strtolower($nrp);
+        // dd($nrp);
+        return $this->success($this->service->getByNrp($nrp));
+    }
+
     public function bulkInsert(Request $request)
     {
         $data = $request->data;

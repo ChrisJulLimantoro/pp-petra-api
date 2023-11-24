@@ -8,18 +8,21 @@ use App\Models\StudentPracticum;
 use App\Models\Subject;
 use App\Services\BaseService;
 use App\Services\SubjectService;
+use App\Models\User;
 
 class StudentService extends BaseService
 {
     private $SubjectService;
     private $studentPracticum;
     private $masterSchedule;
+    private $user;
     public function __construct(Student $model)
     {
         parent::__construct($model);
         $this->SubjectService = new SubjectService(new Subject());
         $this->studentPracticum = new StudentPracticum();
         $this->masterSchedule = new MasterSchedule();
+        $this->user = new User();
     }
 
     /*
@@ -113,5 +116,13 @@ class StudentService extends BaseService
         }
         $data = ['name' => $res[0]['user']['name'],'prs' => $prs,'nrp' => substr($res[0]['user']['email'],0,9)];
         return $data;
+    }
+
+    public function getByNrp($nrp)
+    {
+        $email = $nrp.'@john.petra.ac.id';
+        $user_id = $this->user->where(['email'=>$email])->first()->id;
+        // dd($user_id);
+        return $this->repository->getSelectedColumn(['user_id','program','semester'],['user_id'=>$user_id],['user:id,name,email']);
     }
 }
