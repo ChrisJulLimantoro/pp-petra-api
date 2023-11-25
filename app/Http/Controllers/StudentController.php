@@ -123,6 +123,6 @@ class StudentController extends BaseController
             }
             
         }
-        return $this->success('Successfully bulk inserted',200);
+    return $this->success('Successfully bulk inserted',200);
     }
 }

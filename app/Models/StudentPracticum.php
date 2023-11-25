@@ -51,7 +51,7 @@ class StudentPracticum extends Model
             'practicum_id' => 'required|uuid|exists:practicums,id',
             'event_id' => 'required|uuid|exists:events,id',
             'choice' => 'required|integer',
-            'accepted' => 'integer|in:0,1,2',
+            'accepted' => 'integer|in:0,1,2,3,4',
             'rejected_reason' => 'string',
         ];
     }
@@ -77,7 +77,7 @@ class StudentPracticum extends Model
             'choice.integer' => 'Choice must be integer!',
             'accepted.required' => 'Accepted is required!',
             'accepted.integer' => 'Accepted must be integer!',
-            'accepted.in' => 'Accepted must be 0, 1, or 2!',
+            'accepted.in' => 'Accepted must be 0 - 4!',
             'rejected_reason.string' => 'Rejected reason must be string!',
         ];
     }

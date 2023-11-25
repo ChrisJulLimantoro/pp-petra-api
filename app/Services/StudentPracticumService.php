@@ -3,13 +3,16 @@
 namespace App\Services;
 
 use App\Models\StudentPracticum;
+use App\Models\Practicum;
 use App\Services\BaseService;
 
 class StudentPracticumService extends BaseService
 {
+    private $practicum;
     public function __construct(StudentPracticum $model)
     {
         parent::__construct($model);
+        $this->practicum = new Practicum();
     }
 
     /*
@@ -71,5 +74,20 @@ class StudentPracticumService extends BaseService
             ];
         }
         return $data;
+    }
+
+    public function assignManual($data)
+    {
+        $prac = $this->practicum->repository()->getSelectedColumn(['*'],['id' => $data['practicum_id']])->toArray();
+        $otherPrac = $this->repository->getByStudentId($data['student_id'])->toArray();
+        // $data = [];
+        foreach($otherPrac as $op){
+            if($op['practicum']['subject_id'] != $prac[0]['subject_id']) continue;
+            if($op['accepted'] == 1)
+                $this->repository->updatePartial($this->repository->getById($op['id']),['accepted' => 2]);
+            else if ($op['accepted'] == 3)
+                $this->repository->updatePartial($this->repository->getById($op['id']),['accepted' => 4]);
+        }
+        return $this->repository->assignManual($data) != null;
     }
 }

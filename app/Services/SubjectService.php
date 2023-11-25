@@ -153,7 +153,7 @@ class SubjectService extends BaseService
             $s['nrp'] = substr($s['user']['email'], 0, 9);
             $s['nama'] = $s['user']['name'];
             $s['program'] = $s['program'] === 'i' ? 'Infor' : ($s['program'] === 's' ? 'SIB' : "DSA");
-            $s['semester'] = $s['semester'];
+            // $s['semester'] = $s['semester'];
             unset($s['user']);
 
             if ($choice1) $applied[] = $s;

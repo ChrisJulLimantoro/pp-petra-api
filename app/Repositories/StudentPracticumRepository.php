@@ -148,4 +148,16 @@ class StudentPracticumRepository extends BaseRepository
         ->where('student_id',$student_id)
         ->get();
     }
+
+    public function assignManual($data)
+    {
+        $this->model->create([
+            'student_id' => $data['student_id'],
+            'practicum_id' => $data['practicum_id'],
+            'event_id' => null,
+            'choice' => 0,
+            'accepted' => 1,
+        ]);
+        return true;
+    }
 }

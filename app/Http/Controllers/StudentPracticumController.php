@@ -184,4 +184,22 @@ class StudentPracticumController extends BaseController
         }
         return $this->success($this->service->getAcceptedByStudent($student_id));
     }
+
+    public function assignManual(Request $request)
+    {
+        $data = $request->only(['student_id','practicum_id']);
+        $valid = Validator::make($data,[
+            'student_id' => 'required|exists:students,user_id',
+            'practicum_id' => 'required|exists:practicums,id',
+        ],[
+            'student_id.required' => 'Student ID is required',
+            'student_id.exists' => 'Student ID is not exists',
+            'practicum_id.required' => 'Practicum ID is required',
+            'practicum_id.exists' => 'Practicum ID is not exists',
+        ]);
+        if($valid->fails()){
+            return $this->error($valid->errors()->first(),400);
+        }
+        return $this->success($this->service->assignManual($data));
+    }
 }  
