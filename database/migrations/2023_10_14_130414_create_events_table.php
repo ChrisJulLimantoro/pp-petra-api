@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid("id")->primary();
             $table->string("name");
             $table->integer("status")->default(1)->comment('0: inactive, 1: active. For manual');
+            $table->integer("generated")->default(0)->comment('0: not generated, 1: generated. For manual');
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();

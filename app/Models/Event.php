@@ -24,6 +24,7 @@ class Event extends Model
     protected $fillable=[
         'name',
         'status',
+        'generated',
         'start_date',
         'end_date',
     ]; 
@@ -45,6 +46,7 @@ class Event extends Model
         return [
             'name'=> 'required|string',
             'status'=> 'integer',
+            'generated'=> 'integer',
             'start_date'=> 'required|date',
             'end_date'=> 'required|date',
         ];
@@ -61,6 +63,7 @@ class Event extends Model
             'name.required'=> 'Name is required!',
             'name.string'=> 'Name must be string!',
             'status.integer'=> 'Status must be integer!',
+            'generated.integer'=> 'Generated must be integer!',
             'start_date.required'=> 'Start date is required!',
             'start_date.date'=> 'Start date must be date!',
             'end_date.required'=> 'End date is required!',
@@ -78,6 +81,7 @@ class Event extends Model
         return ModelUtils::filterNullValues([
             'name'=> $request->name,
             'status'=> $request->status,
+            'generated'=> $request->generated,
             'start_date'=> $request->start_date,
             'end_date'=> $request->end_date
         ]);
