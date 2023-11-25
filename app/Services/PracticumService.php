@@ -58,6 +58,7 @@ class PracticumService extends BaseService
                 'choice' => $prac->choice
             ];
         }
+        // dd($data);
         $accepted = [];
         $unvalidate = [];
         $validate= false;
@@ -87,25 +88,30 @@ class PracticumService extends BaseService
             }
             $d['filled'] = $count;
         }
-        // process every second first
+        // dd($data);
+        // process every second choice
         foreach($data as $dt){
             $count = 0;
-            if($student['choice'] == 2){
-                if(in_array($student['student_id'],$unvalidate)){
-                    continue;
+            foreach($d['students'] as $student){
+                if($student['choice'] == 2){
+                    if(in_array($student['student_id'],$unvalidate)){
+                        // dd('unvalidate');
+                        continue;
+                    }
+                    if(!$this->validate->repository()->exist($student['student_id'],$event_id)){
+                        // dd('checking');
+                        $unvalidate[] = $student['student_id'];
+                        continue;
+                    }
+                    if($count < ($dt['quota']-$dt['filled']) && !in_array($student['student_id'],$accepted)){
+                        $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 3]);
+                        $accepted[] = $student['student_id'];   
+                        $count++;
+                    }else{
+                        $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 4]);
+                    }
+                    $validate = true;
                 }
-                if(!$this->validate->repository()->exist($student['student_id'],$event_id)){
-                    $unvalidate[] = $student['student_id'];
-                    continue;
-                }
-                if($count < ($dt['quota']-$dt['filled']) && !in_array($student['student_id'],$accepted)){
-                    $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 3]);
-                    $accepted[] = $student['student_id'];   
-                    $count++;
-                }else{
-                    $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 4]);
-                }
-                $validate = true;
             }
         }
         if(!$validate){
