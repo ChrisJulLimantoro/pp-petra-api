@@ -69,13 +69,14 @@ class PracticumService extends BaseService
             foreach($d['students'] as $student){
                 if($student['choice'] == 1){
                     if(in_array($student['student_id'],$unvalidate)){
+                        $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 6]);
                         continue;
                     }
                     if(!$this->validate->repository()->exist($student['student_id'],$event_id)){
+                        $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 6]);
                         $unvalidate[] = $student['student_id'];
                         continue;
                     }
-
                     if($count < $d['quota']){
                         $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 1]);
                         $accepted[] = $student['student_id'];
@@ -95,11 +96,11 @@ class PracticumService extends BaseService
             foreach($d['students'] as $student){
                 if($student['choice'] == 2){
                     if(in_array($student['student_id'],$unvalidate)){
-                        // dd('unvalidate');
+                        $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 6]);
                         continue;
                     }
                     if(!$this->validate->repository()->exist($student['student_id'],$event_id)){
-                        // dd('checking');
+                        $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 6]);
                         $unvalidate[] = $student['student_id'];
                         continue;
                     }
