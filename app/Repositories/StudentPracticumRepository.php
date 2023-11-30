@@ -57,6 +57,7 @@ class StudentPracticumRepository extends BaseRepository
         return $this->model
         ->with(['practicum:id,name,code,subject_id', 'student:user_id', 'student.user:id,name,email'])
         ->where('event_id', $event_id)
+        ->orWhere('event_id', null)
         ->get();
     }
 
