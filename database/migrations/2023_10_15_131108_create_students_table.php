@@ -18,6 +18,7 @@ return new class extends Migration
             $table->json('prs')->nullable();
             $table->decimal('ipk')->default(0);
             $table->decimal('ips')->default(0);
+            $table->string('last_periode')->comment('last_periode of Input');
             $table->timestamps();
             $table->softDeletes();
 

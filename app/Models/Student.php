@@ -37,7 +37,8 @@ class Student extends Model
         'semester',
         'prs',
         'ipk',
-        'ips'
+        'ips',
+        'last_periode'
     ]; 
 
     /**
@@ -61,6 +62,7 @@ class Student extends Model
             'prs' => 'json',
             'ipk' => 'numeric',
             'ips' => 'numeric',
+            'last_periode' => 'string'
         ];
     }
 
@@ -83,6 +85,7 @@ class Student extends Model
             'prs.json' => 'Prs must be json!',
             'ipk.numeric' => 'Ipk must be numeric!',
             'ips.numeric' => 'Ips must be numeric!',
+            'last_periode' => 'Last Periode must be string!'
         ];
     }
 

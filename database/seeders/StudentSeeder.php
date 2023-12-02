@@ -27,11 +27,11 @@ class StudentSeeder extends Seeder
         ];
         
         $students = [
-            ['user_id' => User::where('email','c14210073@john.petra.ac.id')->first()->id,'ipk'=>3.88,'ips'=>'3.78','program'=>'i','semester'=>5,'prs'=>json_encode(array_slice($prs,rand(0,2)))],
-            ['user_id' => User::where('email','c14210025@john.petra.ac.id')->first()->id,'ipk'=>3.88,'ips'=>'3.78','program'=>'s','semester'=>5,'prs'=>json_encode(array_slice($prs,rand(0,2)))],
-            ['user_id' => User::where('email','c14210017@john.petra.ac.id')->first()->id,'ipk'=>3.88,'ips'=>'3.78','program'=>'i','semester'=>5,'prs'=>json_encode(array_slice($prs,rand(0,2)))],
-            ['user_id' => User::where('email','c14210206@john.petra.ac.id')->first()->id,'ipk'=>3.88,'ips'=>'3.78','program'=>'d','semester'=>5,'prs'=>json_encode(array_slice($prs,rand(0,2)))],
-            ['user_id' => User::where('email','c14210099@john.petra.ac.id')->first()->id,'ipk'=>3.88,'ips'=>'3.78','program'=>'d','semester'=>5,'prs'=>json_encode(array_slice($prs,rand(0,2)))],
+            ['user_id' => User::where('email','c14210073@john.petra.ac.id')->first()->id,'ipk'=>3.88,'ips'=>'3.78','program'=>'i','semester'=>5,'prs'=>json_encode(array_slice($prs,rand(0,2))),'last_periode' => '2022s1'],
+            ['user_id' => User::where('email','c14210017@john.petra.ac.id')->first()->id,'ipk'=>3.88,'ips'=>'3.78','program'=>'i','semester'=>5,'prs'=>json_encode(array_slice($prs,rand(0,2))),'last_periode' => '2022s1'],
+            ['user_id' => User::where('email','c14210206@john.petra.ac.id')->first()->id,'ipk'=>3.88,'ips'=>'3.78','program'=>'d','semester'=>5,'prs'=>json_encode(array_slice($prs,rand(0,2))),'last_periode' => '2022s1'],
+            ['user_id' => User::where('email','c14210099@john.petra.ac.id')->first()->id,'ipk'=>3.88,'ips'=>'3.78','program'=>'d','semester'=>5,'prs'=>json_encode(array_slice($prs,rand(0,2))),'last_periode' => '2022s1'],
+            ['user_id' => User::where('email','c14210025@john.petra.ac.id')->first()->id,'ipk'=>3.88,'ips'=>'3.78','program'=>'s','semester'=>5,'prs'=>json_encode(array_slice($prs,rand(0,2))),'last_periode' => '2022s1'],
         ];
         foreach($students as $student){
             Student::create($student);
