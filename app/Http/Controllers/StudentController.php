@@ -27,12 +27,12 @@ class StudentController extends BaseController
         // cek if user exist
         if($this->user->where('email',$data['email'])->get()->count() == 0){
             $user = User::create(['email' => $data['email'],'name' => $data['name']]);
-            UserRole::create(['user_id'=>$user->id,'role_id'=>Role::where('slug','user')->first()->id]);
+            UserRole::create(['user_id'=>$user->id,'role_id'=>Role::where('slug','student')->first()->id]);
         }else{
             $user = User::where('email',$data['email'])->first();
             // cek if role exist
-            if(UserRole::where('user_id',$user->id)->where('role_id',Role::where('slug','user')->first()->id)->get()->count() == 0){
-                UserRole::create(['user_id'=>$user->id,'role_id'=>Role::where('slug','user')->first()->id]);
+            if(UserRole::where('user_id',$user->id)->where('role_id',Role::where('slug','student')->first()->id)->get()->count() == 0){
+                UserRole::create(['user_id'=>$user->id,'role_id'=>Role::where('slug','student')->first()->id]);
             }
         }
 
@@ -100,7 +100,7 @@ class StudentController extends BaseController
             // cek if user exist
             if($this->user->where('email',$d['email'])->get()->count() == 0){
                 $user = User::create(['email' => $d['email'],'name' => $d['name']]);
-                UserRole::create(['user_id'=>$user->id,'role_id'=>Role::where('slug','user')->first()->id]);
+                UserRole::create(['user_id'=>$user->id,'role_id'=>Role::where('slug','student')->first()->id]);
             }else{
                 $user = User::where('email',$d['email'])->first();
             }

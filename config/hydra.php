@@ -25,7 +25,7 @@ return [
     |
     */
 
-    'default_user_role_slug' => env('DEFAULT_ROLE_SLUG', 'user'),
+    'default_user_role_slug' => env('DEFAULT_ROLE_SLUG', 'student'),
 
     /*
     |--------------------------------------------------------------------------

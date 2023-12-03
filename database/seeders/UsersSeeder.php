@@ -27,7 +27,8 @@ class UsersSeeder extends Seeder {
             ['email' => 'c14210025@john.petra.ac.id','name' => 'Darrel'],
             ['email' => 'c14210017@john.petra.ac.id','name' => 'Nico'],
             ['email' => 'c14210206@john.petra.ac.id','name' => 'Leo'],
-            ['email' => 'c14210099@john.petra.ac.id','name' => 'Nichgun']
+            ['email' => 'c14210099@john.petra.ac.id','name' => 'Nichgun'],
+            ['email' => 'c14210248@john.petra.ac.id','name' => 'Karen']
         ];
         foreach ($data as $userData) {
             $user = User::create([
