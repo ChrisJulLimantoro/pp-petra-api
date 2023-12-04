@@ -42,7 +42,7 @@ Route::match(['put','post','patch'],'users/{user}', [UserController::class, 'upd
 Route::post('login', [UserController::class, 'login']);
 
 // Roles
-Route::apiResource('roles', RoleController::class)->except(['create', 'edit'])->middleware(['auth:sanctum', 'ability:admin,super-admin,user,astap,asdos,dosen']);
+Route::apiResource('roles', RoleController::class)->except(['create', 'edit'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 
 // User Roles
 Route::apiResource('user-roles', UserRoleController::class)->except(['create','store' ,'edit', 'show', 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
@@ -61,11 +61,11 @@ Route::get('rooms-practicums',[RoomController::class,'getPracticum'])->middlewar
 Route::post('rooms-bulk',[RoomController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:astap,admin,super-admin']);
 
 // Subjects
-Route::apiResource('subjects', SubjectController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
+Route::apiResource('subjects', SubjectController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:student,asdos,astap,admin,super-admin']);
 Route::put('subjects/{subject}', [SubjectController::class, 'update'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
 Route::patch('subjects/{subject}', [SubjectController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
 Route::get('subjects-get-condition',[SubjectController::class, 'getCondition'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
-Route::get('subjects-get-detailed-report/{subject}/{event}', [SubjectController::class, 'getDetailedReport'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
+Route::get('subjects-get-detailed-report/{subject}/{event}', [SubjectController::class, 'getDetailedReport'])->middleware(['auth:sanctum', 'ability:asdos,astap,admin,super-admin']);
 Route::post('subjects-bulk',[SubjectController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:astap,admin,super-admin']);
 
 // Practicums
@@ -93,31 +93,31 @@ Route::post('assistants-practicums-bulk',[AssistantPracticumController::class,'b
 Route::apiResource('students', StudentController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::put('students/{student}', [StudentController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('students/{student}', [StudentController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::get('students/{student}/available-schedules/{event_id}',[StudentController::class, 'getAvailableSchedule'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::get('students/{student}/available-schedules/{event_id}',[StudentController::class, 'getAvailableSchedule'])->middleware(['auth:sanctum', 'ability:astap,asdos,student,admin,super-admin']);
 Route::post('students-bulk',[StudentController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:admin,super-admin']);
-Route::get('students-accepted/{student_id}',[StudentPracticumController::class,'getAcceptedByStudent'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+Route::get('students-accepted/{student_id}',[StudentPracticumController::class,'getAcceptedByStudent'])->middleware(['auth:sanctum','ability:astap,asdos,student,admin,super-admin']);
 Route::get('students/{student}/prs',[StudentController::class,'getPrs'])->middleware(['auth:sanctum','ability:admin,super-admin']);
 Route::get('students-nrp/{nrp}',[StudentController::class,'getByNrp'])->middleware(['auth:sanctum','ability:admin,super-admin,dosen']);
 
 // Student Practicums
-Route::apiResource('student-practicums', StudentPracticumController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::apiResource('student-practicums', StudentPracticumController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:astap,asdos,student,admin,super-admin']);
 Route::put('student-practicums/{student_practicum}', [StudentPracticumController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('student-practicums/{student_practicum}', [StudentPracticumController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::get('student-practicums/{student}/by-student',[StudentPracticumController::class, 'getByStudentId'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::post('student-practicums-bulk',[StudentPracticumController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:admin,super-admin']);
-Route::get('student-practicum-nico',[StudentPracticumController::class,'getLimit'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+Route::post('student-practicums-bulk',[StudentPracticumController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:astap,asdos,student,admin,super-admin']);
+Route::get('student-practicum-nico',[StudentPracticumController::class,'getLimit'])->middleware(['auth:sanctum','ability:asdos,astap,admin,super-admin']);
 Route::get('student-practicums/by-event/{event_id}',[StudentPracticumController::class,'getByEvent'])->middleware(['auth:sanctum','ability:admin,super-admin']);
-Route::post('student-practicums-manual',[StudentPracticumController::class,'assignManual'])->middleware(['auth:sanctum','ability:admin,super-admin,dosen']);
+Route::post('student-practicums-manual',[StudentPracticumController::class,'assignManual'])->middleware(['auth:sanctum','ability:admin,super-admin']);
 
 // Events
-Route::apiResource('events', EventController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::apiResource('events', EventController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:asdos,astap,admin,super-admin']);
 Route::put('events/{event}', [EventController::class,'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('events/{event}',[EventController::class,'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 
 // Validates
 Route::get('validates',[ValidateController::class,'index'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::post('validate/{student_id}/event/{event_id}',[ValidateController::class,'validating'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::post('unvalidate/{student_id}/event/{event_id}',[ValidateController::class,'unvalidate'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::post('validate/{student_id}/event/{event_id}',[ValidateController::class,'validating'])->middleware(['auth:sanctum', 'ability:astap,asdos,student,admin,super-admin']);
+Route::post('unvalidate/{student_id}/event/{event_id}',[ValidateController::class,'unvalidate'])->middleware(['auth:sanctum', 'ability:astap,asdos,student,admin,super-admin']);
 
 // Mail
 Route::post('mails-result/{event_id}',[MailController::class,'sendingResult'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
