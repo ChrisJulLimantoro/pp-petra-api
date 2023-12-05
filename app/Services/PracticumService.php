@@ -58,7 +58,7 @@ class PracticumService extends BaseService
                     'code' => $r['code'],
                     'assistants' => count($r['assistant_practicum']),
                     'quota' => ceil($r['quota']/8),
-                    'praciticum_id' => $r['id']
+                    'practicum_id' => $r['id']
                 ];
             }
         }
