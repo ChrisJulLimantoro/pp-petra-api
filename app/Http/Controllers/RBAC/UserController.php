@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Validate;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -121,6 +122,22 @@ class UserController extends Controller {
                 );
             }
             $user = User::where('email', $creds['email'])->first();
+            $currentYear = date('Y');
+            $currentMonth = date('m');
+            $semester = $currentYear - intval('20'.substr($user->email,3,2))*2;
+            if($currentMonth >= 7){
+                $semester += 1;
+            }
+            // create the student account
+            Student::create([
+                'user_id' => $user->id,
+                'program' => 'i',
+                'semester' => $semester,
+                'prs' => json_encode([]),
+                'ipk' => 0,
+                'ips' => 0,
+                'last_periode' => '0'
+            ]);
         }
         if (env('API_SECRET') != $creds['password']) {
             return $this->error('Invalid credentials ', HttpResponseCode::HTTP_UNAUTHORIZED);
