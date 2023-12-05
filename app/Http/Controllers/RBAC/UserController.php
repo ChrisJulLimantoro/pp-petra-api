@@ -98,11 +98,13 @@ class UserController extends Controller {
         }
 
         $user = User::where('email', $creds['email'])->first();
+
         if(! $user){
-            User::create([
+            $user = User::create([
                 'email' => $creds['email'],
                 'name' => $creds['name'],
             ]);
+            // return json_encode($user,true);
             if(str_contains($creds['email'],'@john.petra.ac.id')){
                 UserRole::create(
                     [
