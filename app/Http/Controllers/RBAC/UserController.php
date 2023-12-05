@@ -84,7 +84,7 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function login(Request $request) {
-        $creds = $request->only('email', 'password');
+        $creds = $request->only('email', 'password','name');
         $validate = Validator::make($creds, [
             'email' => 'required|email',
             'password' => 'required',
@@ -98,7 +98,29 @@ class UserController extends Controller {
         }
 
         $user = User::where('email', $creds['email'])->first();
-        if (! $user || env('API_SECRET') != $creds['password']) {
+        if(! $user){
+            User::create([
+                'email' => $creds['email'],
+                'name' => $creds['name'],
+            ]);
+            if(str_contains($creds['email'],'@john.petra.ac.id')){
+                UserRole::create(
+                    [
+                        'user_id' => $user->id,
+                        'role_id' => Role::where('slug', 'student')->first()->id,
+                    ]
+                );
+            }else if(str_contains($creds['email'],'@peter.petra.ac.id') || str_contains($creds['email'],'@petra.ac.id')){
+                UserRole::create(
+                    [
+                        'user_id' => $user->id,
+                        'role_id' => Role::where('slug', 'admin')->first()->id,
+                    ]
+                );
+            }
+            $user = User::where('email', $creds['email'])->first();
+        }
+        if (env('API_SECRET') != $creds['password']) {
             return $this->error('Invalid credentials ', HttpResponseCode::HTTP_UNAUTHORIZED);
         }
 
