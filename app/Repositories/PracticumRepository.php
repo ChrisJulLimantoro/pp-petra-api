@@ -20,7 +20,7 @@ class PracticumRepository extends BaseRepository
     */
     public function getKaren()
     {
-        return $this->model->with(['assistantPracticum:id,practicum_id','subject:id,name,duration'])
+        return $this->model->with(['assistantPracticum:id,practicum_id,assistant_id','subject:id,name,duration'])
         ->get();
     }
 

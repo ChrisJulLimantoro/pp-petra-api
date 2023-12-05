@@ -24,20 +24,45 @@ class PracticumService extends BaseService
         Override existing service here...
     */
 
-    public function getKaren()
+    public function getKaren($id)
     {
         $res = $this->repository->getKaren()->toArray();
-        $data = [];
+        $dataA = [];
+        $dataL = [];
         foreach($res as $r){
-            $data[] = [
-                'name' => $r['subject']['name'],
-                'day' => $r['day'],
-                'time' => $r['time'].'-'.($r['time']+($r['subject']['duration']*100)),
-                'code' => $r['code'],
-                'assistants' => count($r['assistant_practicum']),
-                'quota' => ceil($r['quota']/8)
-            ];
+            $ajar = false;
+            $ap = [];
+            foreach($r['assistant_practicum'] as $a){
+                if($a['assistant_id'] == $id){
+                    $ajar = true;
+                    $ap = $a;
+                    break;
+                }
+            }
+            if($ajar){
+                $dataA[] = [
+                    'name' => $r['subject']['name'],
+                    'day' => $r['day'],
+                    'time' => $r['time'].'-'.($r['time']+($r['subject']['duration']*100)),
+                    'code' => $r['code'],
+                    'assistants' => count($r['assistant_practicum']),
+                    'quota' => ceil($r['quota']/8),
+                    'assistant_practicum_id' => $ap['id'],
+                    'practicum_id' => $r['id']
+                ];
+            }else{
+                $dataL[] = [
+                    'name' => $r['subject']['name'],
+                    'day' => $r['day'],
+                    'time' => $r['time'].'-'.($r['time']+($r['subject']['duration']*100)),
+                    'code' => $r['code'],
+                    'assistants' => count($r['assistant_practicum']),
+                    'quota' => ceil($r['quota']/8),
+                    'praciticum_id' => $r['id']
+                ];
+            }
         }
+        $data = ['ajar' => $dataA, 'lowongan' => $dataL];
         return $data;
     }
     public function generateResult($subject_id,$event_id)
