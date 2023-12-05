@@ -21,10 +21,10 @@ class SubjectSeeder extends Seeder
         // Database Subject
         $subjects = [
             ['name' => 'Struktur Data','code'=>'TF4219','sks'=>3,'semester'=>3,'duration'=>3,'program'=>'isd'],
-            ['name' => 'Statistika Dasar','code'=>'TF4227','sks'=>3,'semester'=>2,'duration'=>3,'program'=>'isd'],
+            ['name' => 'Design dan Analisis Algoritma','code'=>'TF4270','sks'=>3,'semester'=>3,'duration'=>2,'program'=>'id'],
             ['name' => 'Basis Data','code'=>'TF4229','sks'=>3,'semester'=>2,'duration'=>3,'program'=>'isd'],
             ['name' => 'Basis Data Lanjutan','code'=>'TF4273','sks'=>3,'semester'=>3,'duration'=>3,'program'=>'s'],
-            ['name' => 'Sistem Operasi','code'=>'TF4243','sks'=>3,'semester'=>4,'duration'=>3,'program'=>'isd'],
+            ['name' => 'Sistem Operasi','code'=>'TF4243','sks'=>3,'semester'=>4,'duration'=>3,'program'=>'isd']
         ];
         foreach($subjects as $subject){
             Subject::create($subject);

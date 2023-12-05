@@ -32,7 +32,6 @@ class StudentPracticumSeeder extends Seeder
             ['student_id' => User::where('email','c14210099@john.petra.ac.id')->first()->id, 'practicum_id' => Practicum::where('name','Praktikum Struktur Data')->where('code','D')->first()->id, 'event_id' => Event::where('name','Pendaftaran Praktikum 1')->first()->id, 'choice' => 2],
             ['student_id' => User::where('email','c14210025@john.petra.ac.id')->first()->id, 'practicum_id' => Practicum::where('name','Praktikum Basis Data')->where('code','A')->first()->id, 'event_id' => Event::where('name','Pendaftaran Praktikum 1')->first()->id, 'choice' => 1],
             ['student_id' => User::where('email','c14210025@john.petra.ac.id')->first()->id, 'practicum_id' => Practicum::where('name','Praktikum Basis Data')->where('code','B')->first()->id, 'event_id' => Event::where('name','Pendaftaran Praktikum 1')->first()->id, 'choice' => 1],
-            ['student_id' => User::where('email','c14210025@john.petra.ac.id')->first()->id, 'practicum_id' => Practicum::where('name','Praktikum Statistika Dasar')->where('code','A')->first()->id, 'event_id' => Event::where('name','Pendaftaran Praktikum 1')->first()->id, 'choice' => 1],
     ];
         foreach($studPrac as $s){
             StudentPracticum::create($s);
