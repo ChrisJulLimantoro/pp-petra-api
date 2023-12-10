@@ -155,6 +155,7 @@ class StudentController extends BaseController
             }
             
         }
-    return $this->success('Successfully bulk inserted',200);
+        $res = $this->service->getAll();
+    return $this->success($res,200);
     }
 }
