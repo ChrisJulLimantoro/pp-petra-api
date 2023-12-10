@@ -27,7 +27,7 @@ class PracticumController extends BaseController
         ControllerUtils::validateRequest($this->model, $requestFillable);
 
         if(!$this->service->checkValid($requestFillable['subject_id'],$requestFillable['room_id'],$requestFillable['day'],intval($requestFillable['time']))){
-            return $this->error('There is a schedule in that time and Room!');
+            return $this->error('There is a schedule in that time and Room!',400);
         }
         $res = $this->service->create($requestFillable);
         return $this->success(
@@ -43,7 +43,7 @@ class PracticumController extends BaseController
         ControllerUtils::validateRequest($this->model, $requestFillable);
 
         if(!$this->service->checkValid($requestFillable['subject_id'],$requestFillable['room_id'],$requestFillable['day'],intval($requestFillable['time']))){
-            return $this->error('There is a schedule in that time and Room!');
+            return $this->error('There is a schedule in that time and Room!',400);
         }
 
         $res = $this->service->update(
@@ -71,7 +71,7 @@ class PracticumController extends BaseController
         );
 
         if(!$this->service->checkValid($requestFillable['subject_id'],$requestFillable['room_id'],$requestFillable['day'],$requestFillable['time'])){
-            return $this->error('There is a schedule in that time and Room!');
+            return $this->error('There is a schedule in that time and Room!',400);
         }
 
         $res = $this->service->updatePartial(
