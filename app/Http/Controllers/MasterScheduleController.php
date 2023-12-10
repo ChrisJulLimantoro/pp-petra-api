@@ -63,7 +63,7 @@ class MasterScheduleController extends BaseController
                 $this->service->create($d);
             }
         }
-        $res = $this->service->getAll();
-        return $this->success('Bulk Insert Master Schedule Successful');
+        $res = $this->service->getFormat();
+        return $this->success($res);
     }
 }
