@@ -125,4 +125,24 @@ class StudentService extends BaseService
         // dd($user_id);
         return $this->repository->getSelectedColumn(['user_id','program','semester'],['user_id'=>$user_id],['user:id,name,email']);
     }
+
+    public function getFormat()
+    {
+        $data = $this->repository->getAll();
+        $res = [];
+        foreach($data as $d){
+            $temp = [];
+            $temp['id_student'] = $d->user_id;
+            $temp['name'] = $d->user->name;
+            $temp['email'] = $d->user->email;
+            if($d->program == 'i') $temp['program'] = 'Informatika';
+            else if($d->program == 's') $temp['program'] = 'Sistem Informasi Bisnis';
+            else $temp['program'] = 'Data Science & Analytics';
+            $temp['semester'] = $d->semester;
+            $temp['ips'] = $d->ips;
+            $temp['ipk'] = $d->ipk;
+            $res[] = $temp;
+        }
+        return $res;
+    }
 }

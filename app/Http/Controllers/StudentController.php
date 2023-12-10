@@ -155,7 +155,7 @@ class StudentController extends BaseController
             }
             
         }
-        $res = $this->service->getAll();
+        $res = $this->service->getFormat();
     return $this->success($res,200);
     }
 }
