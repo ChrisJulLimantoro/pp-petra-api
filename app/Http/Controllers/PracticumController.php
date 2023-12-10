@@ -42,7 +42,7 @@ class PracticumController extends BaseController
 
         ControllerUtils::validateRequest($this->model, $requestFillable);
 
-        if(!$this->service->checkValid($requestFillable['subject_id'],$requestFillable['room_id'],$requestFillable['day'],intval($requestFillable['time']))){
+        if(!$this->service->checkValid($requestFillable['subject_id'],$requestFillable['room_id'],$requestFillable['day'],intval($requestFillable['time']),$id)){
             return $this->error('There is a schedule in that time and Room!',400);
         }
 
@@ -70,7 +70,7 @@ class PracticumController extends BaseController
             isPatch: true,
         );
 
-        if(!$this->service->checkValid($requestFillable['subject_id'],$requestFillable['room_id'],$requestFillable['day'],$requestFillable['time'])){
+        if(!$this->service->checkValid($requestFillable['subject_id'],$requestFillable['room_id'],$requestFillable['day'],intval($requestFillable['time']),$id)){
             return $this->error('There is a schedule in that time and Room!',400);
         }
 
