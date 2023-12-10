@@ -134,7 +134,7 @@ class StudentService extends BaseService
             $temp = [];
             $temp['id_student'] = $d->user_id;
             $temp['name'] = $d->user->name;
-            $temp['email'] = $d->user->email;
+            $temp['nrp'] = substr($d->user->email,0,9);
             if($d->program == 'i') $temp['program'] = 'Informatika';
             else if($d->program == 's') $temp['program'] = 'Sistem Informasi Bisnis';
             else $temp['program'] = 'Data Science & Analytics';
