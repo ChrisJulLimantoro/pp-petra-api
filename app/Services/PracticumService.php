@@ -5,16 +5,19 @@ namespace App\Services;
 use App\Models\Practicum;
 use App\Models\Validate;
 use App\Models\StudentPracticum;
+use App\Models\Subject;
 use App\Services\BaseService;
 
 class PracticumService extends BaseService
 {
     public $studentPracticum;
     private $validate;
+    private $subject;
     public function __construct(Practicum $model)
     {
         parent::__construct($model);
         $this->studentPracticum = new StudentPracticum();
+        $this->subject = new Subject();
         $this->validate = new Validate();
     }
 
@@ -152,5 +155,22 @@ class PracticumService extends BaseService
     public function getResult($practicum_id)
     {
         return $this->repository->getResult($practicum_id);
+    }
+
+    public function checkValid($subject_id,$room_id,$day,$time,$prac_id = null)
+    {
+        $duration_now = $this->subject->repository()->getById($subject_id)->duration;
+        $prac = $this->repository->getSelectedColumn(['*'],['room_id' => $room_id, 'day' => $day],['subject']);
+        foreach($prac as $p){
+            if($p->id == $prac_id) continue;
+            if($p->time < $time && $p->time + ($p->subject->duration*100) > $time){
+                return false;
+            }else if ($p->time == $time){
+                return false;
+            }else if($p->time > $time && $p->time < $time + ($duration_now*100)){
+                return false;
+            }
+        }
+        return true;
     }
 }

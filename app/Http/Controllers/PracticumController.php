@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\BaseController;
 use App\Models\Practicum;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PracticumController extends BaseController
 {
@@ -18,6 +20,67 @@ class PracticumController extends BaseController
         OR
         Override existing controller here...
     */
+
+    public function store(Request $request)
+    {
+        $requestFillable = $request->only($this->model->getFillable());
+        ControllerUtils::validateRequest($this->model, $requestFillable);
+
+        if(!$this->service->checkValid($requestFillable['subject_id'],$requestFillable['room_id'],$requestFillable['day'],intval($requestFillable['time']))){
+            return $this->error('There is a schedule in that time and Room!');
+        }
+        $res = $this->service->create($requestFillable);
+        return $this->success(
+            $res,
+            Response::HTTP_CREATED
+        );
+    }
+
+    public function update(Request $request, $id)
+    {
+        $requestFillable = $request->only($this->model->getFillable());
+
+        ControllerUtils::validateRequest($this->model, $requestFillable);
+
+        if(!$this->service->checkValid($requestFillable['subject_id'],$requestFillable['room_id'],$requestFillable['day'],intval($requestFillable['time']))){
+            return $this->error('There is a schedule in that time and Room!');
+        }
+
+        $res = $this->service->update(
+            $id,
+            $requestFillable,
+        );
+
+        return $this->success($res);
+    }
+    public function updatePartial(Request $request, $id)
+    {
+        $fillableKey = [];
+        foreach ($this->model->getFillable() as $field) {
+            if ($request->has($field)) {
+                $fillableKey[] = $field;
+            }
+        }
+
+        $requestFillable = $request->only($fillableKey);
+
+        ControllerUtils::validateRequest(
+            $this->model,
+            $requestFillable,
+            isPatch: true,
+        );
+
+        if(!$this->service->checkValid($requestFillable['subject_id'],$requestFillable['room_id'],$requestFillable['day'],$requestFillable['time'])){
+            return $this->error('There is a schedule in that time and Room!');
+        }
+
+        $res = $this->service->updatePartial(
+            $id,
+            $requestFillable,
+        );
+
+        return $this->success($res);
+    }
 
     public function generateResult($subject,$event)
     {
