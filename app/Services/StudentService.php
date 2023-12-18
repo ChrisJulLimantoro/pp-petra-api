@@ -145,4 +145,36 @@ class StudentService extends BaseService
         }
         return $res;
     }
+
+    public function insertPRS($data){
+        $student = $this->getById($data['student_id']);
+        $prs = json_decode($student->prs,true);
+        $prsNew = [];
+        foreach($prs as $p){
+            if($p['code'] == $data['code']){
+                $p['class'] = $data['class'];
+            }
+            $prsNew[] = $p;
+        }
+        // dd($prsNew);
+        $this->repository->updatePartial($this->repository->getById($data['student_id']),[
+            'prs' => json_encode($prsNew)
+        ]);
+    }
+
+    public function deletePRS($data){
+        $student = $this->getById($data['student_id']);
+        $prs = json_decode($student->prs,true);
+        $prsNew = [];
+        foreach($prs as $p){
+            if($p['code'] == $data['code'] && $p['class'] == $data['class']){
+                continue;
+            }
+            $prsNew[] = $p;
+        }
+        // dd($prsNew);
+        $this->repository->updatePartial($this->repository->getById($data['student_id']),[
+            'prs' => json_encode($prsNew)
+        ]);
+    }
 }

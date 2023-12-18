@@ -158,4 +158,42 @@ class StudentController extends BaseController
         $res = $this->service->getFormat();
     return $this->success($res,200);
     }
+
+    public function insertPRS(Request $request){
+        $data = $request->only(['student_id','code','class']);
+        $valid = Validator::make($data,[
+            'student_id' => 'required',
+            'code' => 'required|exists:master_schedules,code',
+            'class' => 'required|exists:master_schedules,class'
+        ],[
+            'student_id.required' => 'Student ID is required',
+            'code.required' => 'Code is required',
+            'code.exist' => 'Code is not exist',
+            'class.required' => 'Class is required',
+            'class.exist' => 'Class is not exist'
+        ]);
+        if($valid->fails()){
+            return $this->error($valid->errors(),400);
+        }
+        return $this->success($this->service->insertPRS($data));
+    }
+
+    public function deletePRS(Request $request){
+        $data = $request->only(['student_id','code','class']);
+        $valid = Validator::make($data,[
+            'student_id' => 'required',
+            'code' => 'required|exists:master_schedules,code',
+            'class' => 'required|exists:master_schedules,class'
+        ],[
+            'student_id.required' => 'Student ID is required',
+            'code.required' => 'Code is required',
+            'code.exist' => 'Code is not exist',
+            'class.required' => 'Class is required',
+            'class.exist' => 'Class is not exist'
+        ]);
+        if($valid->fails()){
+            return $this->error($valid->errors(),400);
+        }
+        return $this->success($this->service->deletePRS($data));
+    }
 }
