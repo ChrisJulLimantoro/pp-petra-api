@@ -123,4 +123,12 @@ class PracticumController extends BaseController
     {
         return $this->success($this->service->getKaren($id));
     }
+
+    public function deleteAll()
+    {
+        if ( $this->service->deleteAll() == null) {
+            return $this->error('Failed to delete', 500);
+        }
+        return $this->success(['message' => 'Deleted'],200);
+    }
 }

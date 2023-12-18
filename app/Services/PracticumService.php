@@ -175,4 +175,13 @@ class PracticumService extends BaseService
         }
         return true;
     }
+
+    public function deleteAll()
+    {
+        $prac = $this->repository->getSelectedColumn(['id']);
+        foreach($prac as $p){
+            $this->repository->delete($p);
+        }
+        return true;
+    }
 }

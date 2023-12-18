@@ -164,10 +164,6 @@ class StudentPracticumRepository extends BaseRepository
         return true;
     }
 
-    public function deleteAll(){
-        $this->model->truncate();
-    }
-
     public function getCountAccepted($practicum_id){
         // DB::enableQueryLog();
         $query =  $this->model

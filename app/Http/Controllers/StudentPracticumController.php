@@ -202,9 +202,4 @@ class StudentPracticumController extends BaseController
         }
         return $this->success($this->service->assignManual($data));
     }
-
-    public function deleteAll(Request $request){
-        $this->service->deleteAll();
-        return $this->success(['message' => 'All data deleted']);
-    }
 }  

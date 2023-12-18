@@ -96,7 +96,4 @@ class StudentPracticumService extends BaseService
         if(!$exist) $this->repository->assignManual($data);
     }
 
-    public function deleteAll(){
-        $this->repository->deleteAll();
-    }
 }
