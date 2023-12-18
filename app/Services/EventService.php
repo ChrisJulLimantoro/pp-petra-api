@@ -30,4 +30,25 @@ class EventService extends BaseService
             }
         }
     }
+
+    public function checkRegenerate()
+    {
+        $events = $this->repository->getAll();
+        $regenerate = [];
+        foreach($events as $e){
+            if($e->generated == 1){
+                $regenerate[] = $e->id;
+            }
+        }
+        return $regenerate;
+    }
+
+    public function deleteAll()
+    {
+        $events = $this->repository->getAll();
+        foreach ($events as $e){
+            $this->repository->delete($e);
+        }
+        return true;
+    }
 }

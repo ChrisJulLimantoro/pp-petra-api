@@ -92,6 +92,12 @@ class StudentPracticumService extends BaseService
                 $this->repository->updatePartial($this->repository->getById($op['id']),['accepted' => 2]);
             else if ($op['accepted'] == 3)
                 $this->repository->updatePartial($this->repository->getById($op['id']),['accepted' => 4]);
+            else if ($op['accepted'] == 0){
+                if($op['choice'] == 1)
+                    $this->repository->updatePartial($this->repository->getById($op['id']),['accepted' => 2]);
+                else if ($op['choice'] == 2)
+                    $this->repository->updatePartial($this->repository->getById($op['id']),['accepted' => 4]);
+            }
         }
         if(!$exist) $this->repository->assignManual($data);
     }

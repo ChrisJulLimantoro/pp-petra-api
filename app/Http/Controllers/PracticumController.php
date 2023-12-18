@@ -7,12 +7,15 @@ use App\Models\Practicum;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\Event;
 
 class PracticumController extends BaseController
 {
+    private $event;
     public function __construct(Practicum $model)
     {
         parent::__construct($model);
+        $this->event = new Event();
     }
 
     /*
@@ -79,6 +82,15 @@ class PracticumController extends BaseController
             $requestFillable,
         );
 
+        if($request->has('quota')){
+            if($this->service->lowerQuota($id,$request->quota)){
+                $regenerated = $this->event->service()->checkRegenerate();
+                foreach($regenerated as $r){
+                    $this->service->regenerate($r,$id);
+                }
+            }
+        }
+
         return $this->success($res);
     }
 
@@ -126,7 +138,13 @@ class PracticumController extends BaseController
 
     public function deleteAll()
     {
+        // delete all practicum and all it depedencies
         if ( $this->service->deleteAll() == null) {
+            return $this->error('Failed to delete', 500);
+        }
+
+        // delete all the event and validates
+        if($this->event->service()->deleteAll() == null) {
             return $this->error('Failed to delete', 500);
         }
         return $this->success(['message' => 'Deleted'],200);

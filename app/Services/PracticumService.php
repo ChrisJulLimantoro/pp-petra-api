@@ -7,18 +7,21 @@ use App\Models\Validate;
 use App\Models\StudentPracticum;
 use App\Models\Subject;
 use App\Services\BaseService;
+use App\Models\Event;
 
 class PracticumService extends BaseService
 {
     public $studentPracticum;
     private $validate;
     private $subject;
+    private $event;
     public function __construct(Practicum $model)
     {
         parent::__construct($model);
         $this->studentPracticum = new StudentPracticum();
         $this->subject = new Subject();
         $this->validate = new Validate();
+        $this->event = new Event();
     }
 
     /*
@@ -72,21 +75,21 @@ class PracticumService extends BaseService
     {
         // get practicum by id and event held on its studentPracticum
         $prac = $this->repository->getBySubjectEvent($subject_id,$event_id);
-        // dd($prac);
+        // dd($prac->toArray());
         // split by code
         $data = [];
-        foreach($prac as $prac){
-            if(!key_exists($prac->code,$data)){
-                $data[$prac->code]['id'] = $prac->id;
-                $data[$prac->code]['quota'] = $prac->quota;
+        foreach($prac as $p){
+            if(!key_exists($p->code,$data)){
+                $data[$p->code]['id'] = $p->id;
+                $data[$p->code]['quota'] = $p->quota;
+                $data[$p->code]['students'] = [];
             }
-            $data[$prac->code]['students'] = [];
-            if($prac->accepted != 0) continue;
-            $data[$prac->code]['students'][] = [
-                'student_practicum_id' => $prac->student_practicums_id,
-                'student_id' => $prac->student_id,
-                'choice' => $prac->choice,
-                'accepted' => $prac->accepted
+            if($p->accepted != 0) continue;
+            $data[$p->code]['students'][] = [
+                'student_practicum_id' => $p->student_practicums_id,
+                'student_id' => $p->student_id,
+                'choice' => $p->choice,
+                'accepted' => $p->accepted
             ];
         }
         $accepted = [];
@@ -183,5 +186,43 @@ class PracticumService extends BaseService
             $this->repository->delete($p);
         }
         return true;
+    }
+
+    public function lowerQuota($id,$quota)
+    {
+        $prac = $this->repository->getById($id);
+        if($prac->quota < $quota){
+            return false;
+        }
+        return true;
+    }
+
+    public function regenerate($event_id,$prac_id)
+    {
+        $subject = $this->repository->getById($prac_id)->subject_id;
+        $prac = $this->repository->getBySubjectEvent($subject,$event_id);
+        $data = [];
+        foreach($prac as $p){
+            if(!key_exists($p->student_id,$data)){
+                $data[$p->student_id]['id'] = $p->student_id;
+                $data[$p->student_id]['choices'] = [];
+            }
+            $data[$p->student_id]['choices'][] = [
+                'student_practicum_id' => $p->student_practicums_id,
+                'practicum_id' => $p->id,
+                'choice' => $p->choice,
+                'accepted' => $p->accepted
+            ];
+        }
+        foreach ($data as $d){
+            if($d['choices'][0]['choice'] == 0) continue;
+            else{
+                foreach ($d['choices'] as $dt){
+                    $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($dt['student_practicum_id']),['accepted' => 0]);
+                }
+            }
+        }
+        // after we reset all the correspodent now we can generate the rsult
+        return $this->generateResult($subject,$event_id);
     }
 }

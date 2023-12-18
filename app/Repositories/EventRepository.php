@@ -22,4 +22,8 @@ class EventRepository extends BaseRepository
     {
         return $this->model->where('status',1)->orderBy('start_date')->get();
     }
+    public function getAll($filterParams = [])
+    { 
+        return $this->model->orderBy('start_date')->get();
+    }
 }
