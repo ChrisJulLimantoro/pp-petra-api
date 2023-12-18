@@ -80,20 +80,22 @@ class PracticumService extends BaseService
                 $data[$prac->code]['id'] = $prac->id;
                 $data[$prac->code]['quota'] = $prac->quota;
             }
+            $data[$prac->code]['students'] = [];
+            if($prac->accepted != 0) continue;
             $data[$prac->code]['students'][] = [
                 'student_practicum_id' => $prac->student_practicums_id,
                 'student_id' => $prac->student_id,
-                'choice' => $prac->choice
+                'choice' => $prac->choice,
+                'accepted' => $prac->accepted
             ];
         }
-        // dd($data);
         $accepted = [];
         $unvalidate = [];
         $validate= false;
         // dd($data);
         // process the everyclass first choice first
         foreach($data as &$d){
-            $count = 0;
+            $count = $this->studentPracticum->repository()->getCountAccepted($d['id']);
             foreach($d['students'] as $student){
                 if($student['choice'] == 1){
                     if(in_array($student['student_id'],$unvalidate)){

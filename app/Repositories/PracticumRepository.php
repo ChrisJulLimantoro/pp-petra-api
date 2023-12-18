@@ -39,17 +39,19 @@ class PracticumRepository extends BaseRepository
 
     public function getBySubjectEvent($subject_id, $event_id)
     {
+        // DB::enableQueryLog();
         $results = DB::table('practicums')
-            ->select('practicums.id','practicums.room_id','practicums.name','practicums.code','practicums.quota','student_practicums.id as student_practicums_id','student_practicums.student_id','student_practicums.choice')
+            ->select('practicums.id','practicums.room_id','practicums.name','practicums.code','practicums.quota','student_practicums.id as student_practicums_id','student_practicums.student_id','student_practicums.choice','student_practicums.accepted')
             ->join('student_practicums', 'practicums.id', '=', 'student_practicums.practicum_id')
             ->join('students', 'student_practicums.student_id', '=', 'students.user_id')
-            ->where('practicums.subject_id', $subject_id)
-            ->where('student_practicums.event_id', $event_id)
+            ->where('practicums.subject_id','=', $subject_id)
+            ->where('student_practicums.event_id','=', $event_id)
+            ->orWhere('student_practicums.event_id', '=', null)
             ->orderBy('student_practicums.choice', 'asc')
             ->orderBy('students.ips', 'desc')
             ->orderBy('students.semester','asc')
             ->get();
-    
+        // dd(DB::getQueryLog());
         return $results;
     }
 

@@ -142,12 +142,14 @@ class StudentPracticumRepository extends BaseRepository
 
     public function getAcceptedByStudent($student_id)
     {
+        // DB::enableQueryLog();
         return $this->model
         ->select(['practicum_id','accepted','student_id','id'])
         ->with(['practicum:id,subject_id,code,name,day,time,room_id','practicum.subject:id,duration','practicum.room:id,name,code'])
         ->where('accepted','=',1,'or','accepted','=',3)
         ->where('student_id',$student_id)
         ->get();
+        // dd(DB::getQueryLog());
     }
 
     public function assignManual($data)
@@ -160,5 +162,21 @@ class StudentPracticumRepository extends BaseRepository
             'accepted' => 1,
         ]);
         return true;
+    }
+
+    public function deleteAll(){
+        $this->model->truncate();
+    }
+
+    public function getCountAccepted($practicum_id){
+        // DB::enableQueryLog();
+        $query =  $this->model
+        ->where('practicum_id','=',$practicum_id)
+        ->where('accepted','=',1)
+        ->orWhere('accepted','=',3)
+        ->get()
+        ->count();
+        // dd(DB::getQueryLog());
+        return $query;
     }
 }

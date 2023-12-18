@@ -108,6 +108,7 @@ Route::post('student-practicums-bulk',[StudentPracticumController::class,'bulkIn
 Route::get('student-practicum-nico',[StudentPracticumController::class,'getLimit'])->middleware(['auth:sanctum','ability:asdos,astap,admin,super-admin']);
 Route::get('student-practicums/by-event/{event_id}',[StudentPracticumController::class,'getByEvent'])->middleware(['auth:sanctum','ability:admin,super-admin']);
 Route::post('student-practicums-manual',[StudentPracticumController::class,'assignManual'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+Route::get('student-practicums-delete-all',[StudentPracticumController::class,'deleteAll'])->middleware(['auth:sanctum','ability:admin,super-admin']);
 
 // Events
 Route::apiResource('events', EventController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:asdos,astap,admin,super-admin']);
