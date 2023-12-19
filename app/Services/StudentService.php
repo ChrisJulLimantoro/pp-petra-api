@@ -150,11 +150,19 @@ class StudentService extends BaseService
         $student = $this->getById($data['student_id']);
         $prs = json_decode($student->prs,true);
         $prsNew = [];
+        $change = false;
         foreach($prs as $p){
             if($p['code'] == $data['code']){
                 $p['class'] = $data['class'];
+                $change = true;
             }
             $prsNew[] = $p;
+        }
+        if(!$change){
+            $prsNew[] = [
+                'code' => $data['code'],
+                'class' => $data['class']
+            ];
         }
         // dd($prsNew);
         $this->repository->updatePartial($this->repository->getById($data['student_id']),[

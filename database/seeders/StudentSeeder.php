@@ -20,10 +20,10 @@ class StudentSeeder extends Seeder
         DB::table('students')->truncate();
         Schema::enableForeignKeyConstraints();
         $prs = [
-            ['code'=>'TF4501','class' => 'A'],
-            ['code'=>'TF4502','class' => 'B'],
-            ['code'=>'TF4503','class' => 'A'],
-            ['code'=>'TF4504','class' => 'A'],
+            ['code'=>'TF4573','class' => 'A'],
+            ['code'=>'TF4219','class' => 'B'],
+            ['code'=>'TF4550','class' => 'A'],
+            ['code'=>'TF4533','class' => 'A'],
         ];
         
         $students = [
