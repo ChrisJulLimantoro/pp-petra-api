@@ -99,8 +99,8 @@ Route::post('students-bulk',[StudentController::class,'bulkInsert'])->middleware
 Route::get('students-accepted/{student_id}',[StudentPracticumController::class,'getAcceptedByStudent'])->middleware(['auth:sanctum','ability:astap,asdos,student,admin,super-admin']);
 Route::get('students/{student}/prs',[StudentController::class,'getPrs'])->middleware(['auth:sanctum','ability:admin,super-admin']);
 Route::get('students-nrp/{nrp}',[StudentController::class,'getByNrp'])->middleware(['auth:sanctum','ability:admin,super-admin']);
-Route::post('students-insert-prs',[StudentController::class,'insertPRS'])->middleware(['auth:sanctum','ability:admin,super-admin,student']);
-Route::post('students-delete-prs',[StudentController::class,'deletePRS'])->middleware(['auth:sanctum','ability:admin,super-admin,student']);
+Route::post('students-insert-prs',[StudentController::class,'insertPRS'])->middleware(['auth:sanctum','ability:admin,super-admin,student,astap,asdos']);
+Route::post('students-delete-prs',[StudentController::class,'deletePRS'])->middleware(['auth:sanctum','ability:admin,super-admin,student,astap,asdos']);
 
 // Student Practicums
 Route::apiResource('student-practicums', StudentPracticumController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:astap,asdos,student,admin,super-admin']);
@@ -130,6 +130,7 @@ Route::apiResource('master-schedules', MasterScheduleController::class)->except(
 Route::put('master-schedules/{master_schedule}', [MasterScheduleController::class,'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('master-schedules/{master_schedule}',[MasterScheduleController::class,'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::post('master-schedules-bulk',[MasterScheduleController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+Route::get('master-schedules-get-format',[MasterScheduleController::class,'getFormat'])->middleware(['auth:sanctum','ability:admin,super-admin,student,asdos,astap']);
 
 // rbac -- middleware
 Route::post('rbac/cek-role',[RoleRoutesController::class,'check'])->middleware('auth:sanctum');

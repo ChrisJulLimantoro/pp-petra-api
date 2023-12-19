@@ -126,7 +126,7 @@ class PracticumService extends BaseService
         // process every second choice
         foreach($data as $dt){
             $count = 0;
-            foreach($d['students'] as $student){
+            foreach($dt['students'] as $student){
                 if($student['choice'] == 2){
                     if(in_array($student['student_id'],$unvalidate)){
                         $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 6]);

@@ -66,4 +66,8 @@ class MasterScheduleController extends BaseController
         $res = $this->service->getFormat();
         return $this->success($res);
     }
+    public function getFormat()
+    {
+        return $this->success($this->service->getFormat());
+    }
 }
