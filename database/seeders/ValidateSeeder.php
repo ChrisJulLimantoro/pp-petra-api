@@ -21,6 +21,8 @@ class ValidateSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
         // Database Practicum
         $validates = [
+            ['student_id' => User::where('email','c14210206@john.petra.ac.id')->first()->id, 'event_id' => Event::where('name','Pendaftaran Praktikum 1')->first()->id, 'validate' => '1'],
+            ['student_id' => User::where('email','c14210017@john.petra.ac.id')->first()->id, 'event_id' => Event::where('name','Pendaftaran Praktikum 1')->first()->id, 'validate' => '1'],
             ['student_id' => User::where('email','c14210025@john.petra.ac.id')->first()->id, 'event_id' => Event::where('name','Pendaftaran Praktikum 1')->first()->id, 'validate' => '1'],
             ['student_id' => User::where('email','c14210073@john.petra.ac.id')->first()->id, 'event_id' => Event::where('name','Pendaftaran Praktikum 1')->first()->id, 'validate' => '1'],
             ['student_id' => User::where('email','c14210099@john.petra.ac.id')->first()->id, 'event_id' => Event::where('name','Pendaftaran Praktikum 1')->first()->id, 'validate' => '1']
