@@ -17,4 +17,8 @@ class AssistantPracticumService extends BaseService
         OR
         Override existing service here...
     */
+
+    public function exist($data){
+        return $this->model->where('assistant_id',$data['assistant_id'])->where('practicum_id',$data['practicum_id'])->exists();
+    }
 }
