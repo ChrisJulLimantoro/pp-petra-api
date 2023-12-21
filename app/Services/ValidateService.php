@@ -5,17 +5,20 @@ namespace App\Services;
 use App\Http\Controllers\MailController;
 use App\Models\StudentPracticum;
 use App\Models\Validate;
+use App\Models\Contact;
 use App\Services\BaseService;
 
 class ValidateService extends BaseService
 {
     private $studentPracticum;
     private $mailController;
+    private $contact;
     public function __construct(Validate $model)
     {
         parent::__construct($model);
         $this->studentPracticum = new StudentPracticum();
         $this->mailController = new MailController();
+        $this->contact = new Contact();
     }
 
     /*
@@ -42,6 +45,7 @@ class ValidateService extends BaseService
         ->getResultByStudent($student_id,$event_id)
         ->toArray();
         // dd($practicums);
+        $contact = $contact = $this->contact->service()->getAll();
         $data = ['to' => $practicums[0]['student']['user']['email'],'name' => $practicums[0]['student']['user']['name']];
         foreach($practicums as $pr){
             $jadwal = "";
@@ -67,7 +71,7 @@ class ValidateService extends BaseService
                 'jadwal' => $jadwal,
                 'choice' => $pr['choice'],
             ];
-
+            $data['contact'] = $contact;
         }
         $this->mailController->sendApply($data);
         return true;

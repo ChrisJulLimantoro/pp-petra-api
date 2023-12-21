@@ -8,12 +8,15 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Contact;
 
 class MailController extends Controller
 {
     private $student;
+    private $contact;
     public function __construct(){
         $this->student = new Student();
+        $this->contact = new Contact();
     }
     public function sendApply($data){
         $mail = new applyMail($data);
@@ -38,6 +41,7 @@ class MailController extends Controller
     public function sendingResult($event_id){
         $result = $this->student->repository()->getResultByStudent($event_id)->toArray();
         $data = [];
+        $contact = $this->contact->service()->getAll();
         foreach($result as $res){
             $arr = [];
             $arr['to'] = $res['user']['email'];
@@ -80,6 +84,7 @@ class MailController extends Controller
                 }
                 $arr['result'][] = $temp;
             }
+            $arr['contact'] = $contact;
             $data[] = $arr;
         }
         foreach($data as $d){

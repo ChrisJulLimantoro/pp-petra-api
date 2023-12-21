@@ -45,7 +45,11 @@
 @section('content')
     <div class="greetings">
         <p><b>Dear {{ $data['name'] }},</b></p><br>
-        <p>This is your application to Practicum : </p>
+        <p>
+            Note that you have already validate your choice,<br>
+            so there will no chance of changing your application!<br>
+            This is your choices :
+        </p>
     </div>
     <div class="table">
         <table>
@@ -86,14 +90,25 @@
                 @endphp
             </tbody>
             <tfoot>
-                <td colspan="5">This is your result of Practicum Application</td>
+                <td colspan="5">This is your Application Data</td>
             </tfoot>
         </table>
 
     </div>
     <div class="closer">
         <p>Please contact admin responsible, if there is any wrong data!</p><br>
-        <p>Contact: @chris_julius @leonick14</p>
+        <p>Contact: </p>
+        @foreach($data['contact'] as $c)
+            @if($c['type'] == 1)
+                <a href="https://wa.me/62{{ substr($c['phone'],1) }}">Whatsapp - {{ $c['phone'] }}</a>
+            @endif
+            @if($c['type'] == 2)
+                <p>Line - {{ $c['phone'] }}</p>
+            @endif
+            @if($c['type'] == 3)
+                <p>Instagram - {{ $c['phone'] }}</p>
+            @endif
+        @endforeach
         <p>Thank you,</p>
     </div>
 @endsection

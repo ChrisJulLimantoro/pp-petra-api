@@ -127,8 +127,11 @@
     <div class="content__container">
         <div class="content__header">
             <div class="content__header__logo">
-                <a href="http://bem.petra.ac.id/BEM/22_23/" target="_blank">
-                    <img src="https://bem.petra.ac.id/BEM/22_23/asset/bem_logo.png" alt="Badan Eksekutif Mahasiswa" class="header-bureau-logo" width="100px;">
+                <a href="https://petra.ac.id/" target="_blank">
+                    <img src="https://kemahasiswaan.petra.ac.id/img/logoPCU2.png" alt="Badan Eksekutif Mahasiswa" class="header-bureau-logo">
+                </a>
+                <a href="https://informatics.petra.ac.id/" target="_blank">
+                    <img src="https://informatics.petra.ac.id/wp-content/uploads/2023/07/cropped-LOGO-600px-FTI.png" alt="Fakultas Teknologi Informasi" class="header-faculty-logo" width="100px;">
                 </a>
             </div>
         </div>
