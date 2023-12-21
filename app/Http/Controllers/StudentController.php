@@ -59,6 +59,12 @@ class StudentController extends BaseController
     }
 
     public function getPrs($student_id){
+        // check if it is an student
+        try{
+            $student = $this->service->getbyId($student_id);
+        }catch(\Exception $e){
+            return $this->error('Student not found',404);
+        }
         return $this->success($this->service->getPrs($student_id));
     }
 

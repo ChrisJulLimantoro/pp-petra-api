@@ -98,7 +98,7 @@ Route::patch('students/{student}', [StudentController::class, 'updatePartial'])-
 Route::get('students/{student}/available-schedules/{event_id}',[StudentController::class, 'getAvailableSchedule'])->middleware(['auth:sanctum', 'ability:astap,asdos,student,admin,super-admin']);
 Route::post('students-bulk',[StudentController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:admin,super-admin']);
 Route::get('students-accepted/{student_id}',[StudentPracticumController::class,'getAcceptedByStudent'])->middleware(['auth:sanctum','ability:astap,asdos,student,admin,super-admin']);
-Route::get('students/{student}/prs',[StudentController::class,'getPrs'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+Route::get('students/{student}/prs',[StudentController::class,'getPrs'])->middleware(['auth:sanctum','ability:admin,super-admin,astap,asdos,student']);
 Route::get('students-nrp/{nrp}',[StudentController::class,'getByNrp'])->middleware(['auth:sanctum','ability:admin,super-admin']);
 Route::post('students-insert-prs',[StudentController::class,'insertPRS'])->middleware(['auth:sanctum','ability:admin,super-admin,student,astap,asdos']);
 Route::post('students-delete-prs',[StudentController::class,'deletePRS'])->middleware(['auth:sanctum','ability:admin,super-admin,student,astap,asdos']);
