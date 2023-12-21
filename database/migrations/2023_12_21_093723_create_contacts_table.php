@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('contacts', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('phone', 100)->nullable(false);
-            $table->integer('type')->nullable(false);
+            $table->integer('type')->nullable(false)->comment('1: Whatsapp, 2: Line, 3: Instagram');
             $table->timestamps();
         });
     }
