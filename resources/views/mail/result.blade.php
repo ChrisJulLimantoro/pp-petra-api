@@ -45,7 +45,10 @@
 @section('content')
     <div class="greetings">
         <p><b>Dear {{ $data['name'] }},</b></p><br>
-        <p>This is your result of Practicum Application : </p>
+        <p>
+            After a throughout process, we have selected the best suitable practicum for this application <br>
+            Please check your result below :
+        </p>
     </div>
     <div class="table">
         <table>
@@ -95,7 +98,18 @@
     </div>
     <div class="closer">
         <p>Please contact admin responsible, if there is any wrong data!</p><br>
-        <p>Contact: @chris_julius @leonick14</p>
+        <p>Contact: </p>
+        @foreach($data['contact'] as $c)
+            @if($c['type'] == 1)
+                <a href="https://wa.me/62{{ substr($c['phone'],1) }}">Whatsapp - {{ $c['phone'] }}</a>
+            @endif
+            @if($c['type'] == 2)
+                <p>Line - $c['phone']</p>
+            @endif
+            @if($c['type'] == 3)
+                <p>Instagram - $c['phone']</p>
+            @endif
+        @endforeach
         <p>Thank you,</p>
     </div>
 @endsection
