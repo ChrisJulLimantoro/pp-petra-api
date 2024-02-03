@@ -157,14 +157,14 @@ class UserController extends Controller
         // Get active event for the user
         $event = $this->eventService->getActiveEvent();
 
-        $is_validate = $this->validate->repository()->exist($user->id, $event->id);
+        $is_validate = $event ? $this->validate->repository()->exist($user->id, $event->id) : false;
 
         return $this->success([
             'token' => $plainTextToken,
             'id' => $user->id,
             'email' => $user->email,
-            'event_id' => $event->id,
-            'event_name' => $event->name,
+            'event_id' => $event ? $event->id : null,
+            'event_name' => $event ? $event->name : null,
             'is_validate' => $is_validate,
             'roles' => $roles,
         ], HttpResponseCode::HTTP_OK);
