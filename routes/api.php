@@ -142,3 +142,6 @@ Route::apiResource('contacts', ContactController::class)->except(['create', 'edi
 Route::put('contacts/{contact}', [ContactController::class,'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('contacts/{contact}',[ContactController::class,'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::post('contacts-bulk',[ContactController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+
+
+Route::post('testing', [MailController::class, 'testing']);
