@@ -7,6 +7,7 @@ use App\Models\StudentPracticum;
 use App\Models\Validate;
 use App\Models\Contact;
 use App\Services\BaseService;
+use Exception;
 
 class ValidateService extends BaseService
 {
@@ -73,7 +74,10 @@ class ValidateService extends BaseService
             ];
             $data['contact'] = $contact;
         }
-        $this->mailController->sendApply($data);
+        try {
+            $this->mailController->sendApply($data);
+        }
+        catch (Exception $e) {}
         return true;
     }
 
