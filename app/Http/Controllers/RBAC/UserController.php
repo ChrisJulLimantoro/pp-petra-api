@@ -17,7 +17,8 @@ use App\Services\EventService;
 use App\Utils\HttpResponse;
 use App\Utils\HttpResponseCode;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
     use HttpResponse;
 
     private $eventService;
@@ -33,7 +34,8 @@ class UserController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         return $this->success(User::all(), HttpResponseCode::HTTP_OK);
     }
 
@@ -43,12 +45,13 @@ class UserController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $creds = $request->only(['email', 'name']);
         $validate = Validator::make($creds, [
             'email' => 'required|email',
             'name' => 'required',
-        ],[
+        ], [
             'email.required' => 'Email is required',
             'email.email' => 'Email is not valid',
             'name.required' => 'Name is required',
@@ -84,12 +87,13 @@ class UserController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request) {
-        $creds = $request->only('email', 'password','name');
+    public function login(Request $request)
+    {
+        $creds = $request->only('email', 'password', 'name');
         $validate = Validator::make($creds, [
             'email' => 'required|email',
             'password' => 'required',
-        ],[
+        ], [
             'email.required' => 'Email is required',
             'email.email' => 'Email is not valid',
             'password.required' => 'Password is required',
@@ -100,20 +104,20 @@ class UserController extends Controller {
 
         $user = User::where('email', $creds['email'])->first();
 
-        if(! $user){
+        if (!$user) {
             $user = User::create([
                 'email' => $creds['email'],
                 'name' => $creds['name'],
             ]);
             // return json_encode($user,true);
-            if(str_contains($creds['email'],'@john.petra.ac.id')){
+            if (str_contains($creds['email'], '@john.petra.ac.id')) {
                 UserRole::create(
                     [
                         'user_id' => $user->id,
                         'role_id' => Role::where('slug', 'student')->first()->id,
                     ]
                 );
-            }else if(str_contains($creds['email'],'@peter.petra.ac.id') || str_contains($creds['email'],'@petra.ac.id')){
+            } else if (str_contains($creds['email'], '@peter.petra.ac.id') || str_contains($creds['email'], '@petra.ac.id')) {
                 UserRole::create(
                     [
                         'user_id' => $user->id,
@@ -124,8 +128,8 @@ class UserController extends Controller {
             $user = User::where('email', $creds['email'])->first();
             $currentYear = date('Y');
             $currentMonth = date('m');
-            $semester = $currentYear - intval('20'.substr($user->email,3,2))*2;
-            if($currentMonth >= 7){
+            $semester = $currentYear - intval('20' . substr($user->email, 3, 2)) * 2;
+            if ($currentMonth >= 7) {
                 $semester += 1;
             }
             // create the student account
@@ -153,14 +157,14 @@ class UserController extends Controller {
         // Get active event for the user
         $event = $this->eventService->getActiveEvent();
 
-        $is_validate = $this->validate->repository()->exist($user->id,$event->id);
+        $is_validate = $event ? $this->validate->repository()->exist($user->id, $event->id) : false;
 
         return $this->success([
             'token' => $plainTextToken,
             'id' => $user->id,
             'email' => $user->email,
-            'event_id' => $event->id,
-            'event_name' => $event->name,
+            'event_id' => $event ? $event->id : null,
+            'event_name' => $event ? $event->name : null,
             'is_validate' => $is_validate,
             'roles' => $roles,
         ], HttpResponseCode::HTTP_OK);
@@ -172,7 +176,8 @@ class UserController extends Controller {
      * @param  \App\Models\User  $user
      * @return \App\Models\User  $user
      */
-    public function show(User $user) {
+    public function show(User $user)
+    {
         return $this->success($user->load('roles'), HttpResponseCode::HTTP_OK);
     }
 
@@ -185,7 +190,8 @@ class UserController extends Controller {
      *
      * @throws MissingAbilityException
      */
-    public function update(Request $request, User $user) {
+    public function update(Request $request, User $user)
+    {
         $user->name = $request->name ?? $user->name;
         $user->email = $request->email ?? $user->email;
         $user->email_verified_at = $request->email_verified_at ?? $user->email_verified_at;
@@ -211,7 +217,8 @@ class UserController extends Controller {
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user) {
+    public function destroy(User $user)
+    {
         $adminRole = Role::where('slug', 'admin')->first();
         $userRoles = $user->roles;
 
@@ -225,35 +232,45 @@ class UserController extends Controller {
         $name = $user->name;
         $user->delete();
 
-        return $this->success(['message' => 'User '.$name.' Deleted'], HttpResponseCode::HTTP_OK);
+        return $this->success(['message' => 'User ' . $name . ' Deleted'], HttpResponseCode::HTTP_OK);
     }
 
     public function getRoutes($user_id)
     {
         $user = User::with('roles.roleRoutes')
-        ->whereHas('roles',function($query){
-            $query->whereHas('roleRoutes',function($query2){
-                $query2->where('method','GET');
-            });
-        })->find($user_id)->toArray();
-        // dd($user);
+            ->whereHas('roles', function ($query) {
+                $query->whereHas('roleRoutes', function ($query2) {
+                    $query2->where('method', 'GET');
+                });
+            })->find($user_id)->toArray();
         $routes = [];
-        foreach($user['roles'] as $ur){
-            foreach($ur['role_routes'] as $rr){
-                if($rr['method'] == 'GET'){
-                    if(!(str_contains($rr['route'],'{') || $rr['route'] == '/' || $rr['route'] == 'processLogin')){
-                        $name = explode('.',$rr['name']);
-                        if(count($name) > 1){
-                            if(!in_array($name[0],array_keys($routes))){
+
+        $excludedRoutes = [
+            '/processLogin',
+            '/asisten',
+            '/',
+            '/manage-asisten/getAssistantRoleId',
+            '/manage-asisten/getRooms',
+            '/download-template-jadwal',
+            '/download-template-prs'
+        ];
+
+        foreach ($user['roles'] as $ur) {
+            foreach ($ur['role_routes'] as $rr) {
+                if ($rr['method'] == 'GET') {
+                    if (!str_contains($rr['route'], '{') && !in_array($rr['route'], $excludedRoutes)) {
+                        $name = explode('.', $rr['name']);
+                        if (count($name) > 1) {
+                            if (!in_array($name[0], array_keys($routes))) {
                                 // $routes[] = $name[0];
                                 $routes[$name[0]] = [$rr['name']];
-                            }else{
-                                if(!in_array($rr['name'],$routes[$name[0]])){
+                            } else {
+                                if (!in_array($rr['name'], $routes[$name[0]])) {
                                     $routes[$name[0]][] = $rr['name'];
                                 }
                             }
-                        }else{
-                            if(!in_array($rr['name'],$routes)){
+                        } else {
+                            if (!in_array($rr['name'], $routes)) {
                                 // $routes[] = $rr['name'];
                                 $routes[$rr['name']] = $rr['name'];
                             }

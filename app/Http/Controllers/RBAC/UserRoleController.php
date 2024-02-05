@@ -11,18 +11,21 @@ use App\Utils\HttpResponse;
 use App\Utils\HttpResponseCode;
 use Illuminate\Support\Facades\Validator;
 
-class UserRoleController extends Controller {
+class UserRoleController extends Controller
+{
     use HttpResponse;
     /**
      * Display a listing of the resource.
      *
      * @return \App\Models\UserRole  $userRole
      */
-    public function index() {
-        return UserRole::with('role','user')->get();
+    public function index()
+    {
+        return UserRole::with('role', 'user')->get();
     }
 
-    public function getByUser(User $user) {
+    public function getByUser(User $user)
+    {
         return $user->load('roles');
     }
 
@@ -33,31 +36,39 @@ class UserRoleController extends Controller {
      * @param  \App\Models\User  $user
      * @return \App\Models\User  $user
      */
-    public function store(Request $request, User $user) {
+    public function store(Request $request, User $user)
+    {
         $data = $request->only(['role_id']);
-        $validate = Validator::make($data, 
-        [
-            'role_id' => 'required|uuid',
-        ],
-        [
-            'role_id.required' => 'Role is required',
-            'role_id.uuid' => 'Role is not valid',
-        ]);
+        $validate = Validator::make(
+            $data,
+            [
+                'role_id' => 'required|uuid',
+            ],
+            [
+                'role_id.required' => 'Role is required',
+                'role_id.uuid' => 'Role is not valid',
+            ]
+        );
 
         foreach ($validate->errors()->all() as $error) {
             return $this->error($error, HttpResponseCode::HTTP_UNPROCESSABLE_ENTITY);
         }
         $role = Role::find($data['role_id']);
-        if ($user->roles()->find($data['role_id'])) {
-            return $this->error('User already has this role', HttpResponseCode::HTTP_CONFLICT);
+
+        if ($role->slug == 'super-admin') {
+            return $this->error("You can't assign super admin role", HttpResponseCode::HTTP_UNAUTHORIZED);
+        } else {
+            if ($user->roles()->find($data['role_id'])) {
+                return $this->error('User already has this role', HttpResponseCode::HTTP_CONFLICT);
+            }
+            UserRole::create(
+                [
+                    'user_id' => $user->id,
+                    'role_id' => $role->id,
+                ]
+            );
+            return $this->success($user->load('roles'), HttpResponseCode::HTTP_CREATED);
         }
-        UserRole::create(
-            [
-                'user_id' => $user->id,
-                'role_id' => $role->id,
-            ]
-        );
-        return $this->success($user->load('roles'), HttpResponseCode::HTTP_CREATED);
     }
 
     /**
@@ -72,8 +83,9 @@ class UserRoleController extends Controller {
 
     //     return $this->success($user->load('roles'), HttpResponseCode::HTTP_OK);
     // }
-    public function destroy(UserRole $userRole) {
-        if(!$userRole){
+    public function destroy(UserRole $userRole)
+    {
+        if (!$userRole) {
             return $this->error('User Role not found', HttpResponseCode::HTTP_NOT_FOUND);
         }
 
@@ -82,7 +94,12 @@ class UserRoleController extends Controller {
         return $this->success(['message' => 'User Role Deleted!'], HttpResponseCode::HTTP_OK);
     }
 
-    public function unassignRole(User $user, Role $role) {
+    public function unassignRole(User $user, Role $role)
+    {
+        if ($role->slug == 'super-admin') {
+            return $this->error("You can't unassign super admin role", HttpResponseCode::HTTP_UNAUTHORIZED);
+        }
+
         $unassigned = $user->roles()->detach($role->id);
 
         if (!$unassigned) {
