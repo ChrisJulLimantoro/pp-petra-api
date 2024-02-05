@@ -57,6 +57,13 @@ class MailController extends Controller
                 ]
             ],
         ]);
+        $succ = Mail::to('c14210073@john.petra.ac.id')->send($mail);
+        dd($succ);
+        if($succ != null){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function sendingResult($event_id){
