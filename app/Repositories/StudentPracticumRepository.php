@@ -146,7 +146,8 @@ class StudentPracticumRepository extends BaseRepository
         return $this->model
         ->select(['practicum_id','accepted','student_id','id'])
         ->with(['practicum:id,subject_id,code,name,day,time,room_id','practicum.subject:id,duration','practicum.room:id,name,code'])
-        ->where('accepted','=',1,'or','accepted','=',3)
+        ->whereIn('accepted', [1, 3])
+        // ->where('accepted','=',1,'or','accepted','=',3)
         ->where('student_id',$student_id)
         ->get();
         // dd(DB::getQueryLog());
