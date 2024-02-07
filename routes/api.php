@@ -138,7 +138,10 @@ Route::post('rbac/cek-role', [RoleRoutesController::class, 'check'])->middleware
 Route::get('rbac/get-routes/{user_id}', [UserController::class, 'getRoutes'])->middleware('auth:sanctum');
 
 // Contact
-Route::apiResource('contacts', ContactController::class)->except(['create', 'edit', 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::put('contacts/{contact}', [ContactController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::patch('contacts/{contact}', [ContactController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
-Route::post('contacts-bulk', [ContactController::class, 'bulkInsert'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::apiResource('contacts', ContactController::class)->except(['create', 'edit','update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::put('contacts/{contact}', [ContactController::class,'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::patch('contacts/{contact}',[ContactController::class,'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
+Route::post('contacts-bulk',[ContactController::class,'bulkInsert'])->middleware(['auth:sanctum','ability:admin,super-admin']);
+
+
+Route::post('testing', [MailController::class, 'testing']);

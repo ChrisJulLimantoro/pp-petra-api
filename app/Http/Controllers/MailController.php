@@ -38,6 +38,34 @@ class MailController extends Controller
         }
     }
 
+    public function testing(){
+        $mail = new applyMail([
+            'to' => 'c14210073@john.petra.ac.id',
+            'name' => 'John Doe',
+            'apply' => [
+                [
+                    'practicum' => 'Pemrograman Web',
+                    'code' => 'IF184001',
+                    'jadwal' => 'Senin, 08:00 - 10:00',
+                    'choice' => 1
+                ],
+            ],
+            'contact' => [
+                [
+                    'type' => 1,
+                    'phone' => '081821921212'
+                ]
+            ],
+        ]);
+        $succ = Mail::to('c14210073@john.petra.ac.id')->send($mail);
+        dd($succ);
+        if($succ != null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public function sendingResult($event_id){
         $result = $this->student->repository()->getResultByStudent($event_id)->toArray();
         $data = [];
