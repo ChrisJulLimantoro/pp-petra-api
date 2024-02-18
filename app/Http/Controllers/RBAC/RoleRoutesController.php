@@ -108,7 +108,7 @@ class RoleRoutesController extends Controller
         $method = $request->method;
         $user_id = $request->user_id;
 
-        $user_pool = RoleRoutes::with(['role.users'])->where(['route'=>$route,'method'=>$method])->get()->pluck('role')->pluck('users')->toArray();
+        $user_pool = RoleRoutes::with(['role.users'])->where(['name'=>$route,'method'=>$method])->get()->pluck('role')->pluck('users')->toArray();
         $users = [];
         foreach($user_pool as $up){
             foreach($up as $p){
