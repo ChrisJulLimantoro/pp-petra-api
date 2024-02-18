@@ -248,11 +248,14 @@ class UserController extends Controller
         $excludedRoutes = [
             '/processLogin',
             '/asisten',
+            'asisten',
             '/',
             '/manage-asisten/getAssistantRoleId',
             '/manage-asisten/getRooms',
             '/download-template-jadwal',
-            '/download-template-prs'
+            '/download-template-prs',
+            'asisten/application-detail',
+            '/asisten/application-detail',
         ];
 
         foreach ($user['roles'] as $ur) {
@@ -280,6 +283,7 @@ class UserController extends Controller
             }
         }
         ksort($routes);
+        // dd($route)
         return $this->success($routes, HttpResponseCode::HTTP_OK);
     }
 }
