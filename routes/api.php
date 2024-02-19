@@ -114,7 +114,7 @@ Route::get('student-practicums/by-event/{event_id}', [StudentPracticumController
 Route::post('student-practicums-manual', [StudentPracticumController::class, 'assignManual'])->middleware(['auth:sanctum', 'ability:astap,admin,super-admin']);
 
 // Events
-Route::apiResource('events', EventController::class)->except(['create', 'edit', 'update'])->middleware(['auth:sanctum', 'ability:asdos,astap,admin,super-admin']);
+Route::apiResource('events', EventController::class)->except(['create', 'edit', 'update'])->middleware(['auth:sanctum', 'ability:student,asdos,astap,admin,super-admin']);
 Route::put('events/{event}', [EventController::class, 'update'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 Route::patch('events/{event}', [EventController::class, 'updatePartial'])->middleware(['auth:sanctum', 'ability:admin,super-admin']);
 
