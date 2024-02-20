@@ -110,6 +110,7 @@ class PracticumService extends BaseService
                         $unvalidate[] = $student['student_id'];
                         continue;
                     }
+                    // dd($count,$d);
                     if($count < $d['quota']){
                         $this->studentPracticum->repository()->updatePartial($this->studentPracticum->repository()->getById($student['student_practicum_id']), ['accepted' => 1]);
                         $accepted[] = $student['student_id'];

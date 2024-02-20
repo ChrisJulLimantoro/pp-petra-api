@@ -169,8 +169,7 @@ class StudentPracticumRepository extends BaseRepository
         // DB::enableQueryLog();
         $query =  $this->model
         ->where('practicum_id','=',$practicum_id)
-        ->where('accepted','=',1)
-        ->orWhere('accepted','=',3)
+        ->whereIn('accepted',[1,3])
         ->get()
         ->count();
         // dd(DB::getQueryLog());
