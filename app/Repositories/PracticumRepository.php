@@ -41,15 +41,17 @@ class PracticumRepository extends BaseRepository
     {
         // DB::enableQueryLog();
         $results = DB::table('practicums')
-            ->select('practicums.id','practicums.room_id','practicums.name','practicums.code','practicums.quota','student_practicums.id as student_practicums_id','student_practicums.student_id','student_practicums.choice','student_practicums.accepted')
+            ->select('practicums.id', 'practicums.room_id', 'practicums.name', 'practicums.code', 'practicums.quota', 'student_practicums.id as student_practicums_id', 'student_practicums.student_id', 'student_practicums.choice', 'student_practicums.accepted')
             ->join('student_practicums', 'practicums.id', '=', 'student_practicums.practicum_id')
             ->join('students', 'student_practicums.student_id', '=', 'students.user_id')
-            ->where('practicums.subject_id','=', $subject_id)
-            ->where('student_practicums.event_id','=', $event_id)
-            ->orWhere('student_practicums.event_id', '=', null)
+            ->where('practicums.subject_id', $subject_id)
+            ->where(function ($query) use ($event_id) {
+                $query->where('student_practicums.event_id', $event_id)
+                    ->orWhereNull('student_practicums.event_id');
+            })
             ->orderBy('student_practicums.choice', 'asc')
             ->orderBy('students.ips', 'desc')
-            ->orderBy('students.semester','asc')
+            ->orderBy('students.semester', 'asc')
             ->get();
         // dd(DB::getQueryLog());
         return $results;

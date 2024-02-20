@@ -92,6 +92,7 @@ class PracticumService extends BaseService
                 'accepted' => $p->accepted
             ];
         }
+        // dd($data);
         $accepted = [];
         $unvalidate = [];
         $validate= false;
